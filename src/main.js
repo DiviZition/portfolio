@@ -196,6 +196,14 @@ function openProjectModal(projectId) {
     });
   });
 
+  modalBody.querySelectorAll('.media-gallery-item').forEach((item, index) => {
+    if (index < (modalLinks.media || []).length) {
+      item.addEventListener('click', () => {
+        openLightbox(modalLinks.media[index]);
+      });
+    }
+  });
+
   resizeMediaGalleryItems();
 }
 
@@ -279,6 +287,18 @@ function closeLightbox() {
   lightbox.classList.add('hidden');
   content.innerHTML = '';
   document.body.style.overflow = '';
+}
+
+function setupGalleryClickHandlers(mediaList) {
+  const galleryItems = document.querySelectorAll('.media-gallery-item');
+  
+  galleryItems.forEach((item, index) => {
+    if (index < mediaList.length) {
+      item.addEventListener('click', () => {
+        openLightbox(mediaList[index]);
+      });
+    }
+  });
 }
 
 function closeModal() {
