@@ -622,8 +622,6 @@ body::after {
 
 .lightbox-content img,
 .lightbox-content video {
-  max-width: 75vw;
-  max-height: 75vh;
   object-fit: contain;
   border-radius: 8px;
 }

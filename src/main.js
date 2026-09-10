@@ -276,6 +276,44 @@ function openLightbox(mediaItem) {
     content.innerHTML = `<img src="${escapeHtml(mediaItem.src)}" alt="Media" />`;
   }
   
+  const mediaEl = content.querySelector('img, video');
+  if (mediaEl) {
+    function applySize() {
+      let naturalWidth, naturalHeight;
+      
+      if (mediaEl.tagName === 'VIDEO') {
+        naturalWidth = mediaEl.videoWidth || 16;
+        naturalHeight = mediaEl.videoHeight || 9;
+      } else {
+        naturalWidth = mediaEl.naturalWidth || 16;
+        naturalHeight = mediaEl.naturalHeight || 9;
+      }
+      
+      const aspectRatio = naturalWidth / naturalHeight;
+      const vw = window.innerWidth * 0.75;
+      const vh = window.innerHeight * 0.75;
+      
+      let width, height;
+      if (vw / vh > aspectRatio) {
+        height = vh;
+        width = vh * aspectRatio;
+      } else {
+        width = vw;
+        height = vw / aspectRatio;
+      }
+      
+      mediaEl.style.width = width + 'px';
+      mediaEl.style.height = height + 'px';
+    }
+    
+    if (mediaEl.complete && mediaEl.naturalWidth) {
+      applySize();
+    } else {
+      mediaEl.addEventListener('loadeddata', applySize);
+      mediaEl.addEventListener('load', applySize);
+    }
+  }
+  
   lightbox.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
