@@ -81,6 +81,11 @@ function renderRoadmap(projects) {
                 <span class="card-date">${formatDate(project.date)}</span>
               </div>
               <p class="card-description">${escapeHtml(project.shortDescription)}</p>
+              ${project.company ? `<div class="card-company-line">
+                <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
+                <span class="company-name">${escapeHtml(project.company.name)}</span>
+                ${project.details?.role ? `<span class="role-separator">|</span><span class="card-role">${escapeHtml(project.details.role)}</span>` : ''}
+              </div>` : ''}
               <div class="card-links">
                 ${storesHTML}${mediaLinksHTML}
               </div>
@@ -166,6 +171,16 @@ function openProjectModal(projectId) {
     metaHTML += `<span class="modal-meta-item"><strong>Tech:</strong> ${escapeHtml(details.techStack.join(', '))}</span>`;
   }
   
+  let companyHTML = '';
+  if (project.company) {
+    companyHTML = `
+      <div class="modal-company-line">
+        ${project.company.icon ? `<img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-modal" title="${escapeHtml(project.company.name)}" />` : ''}
+        ${project.company.name ? `<span class="company-name">${escapeHtml(project.company.name)}</span>` : ''}
+      </div>
+    `;
+  }
+  
   modalBody.innerHTML = `
     <div class="modal-top-section">
       <div class="modal-image-section">
@@ -173,6 +188,7 @@ function openProjectModal(projectId) {
       </div>
       <div class="modal-info-section">
         <h2 class="modal-name">${escapeHtml(project.name)}</h2>
+        ${companyHTML}
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
         <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
         <div class="card-links">

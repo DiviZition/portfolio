@@ -353,6 +353,49 @@ body::after {
   text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
+.card-company-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-glow);
+  margin-top: 0;
+}
+
+.company-icon-card {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.company-icon-card:hover {
+  opacity: 1;
+}
+
+.company-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 28px;
+}
+
+.role-separator {
+  margin: 0 4px;
+  color: var(--accent-purple);
+  line-height: 28px;
+}
+
+.card-role {
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  line-height: 28px;
+}
+
 .card-date {
   font-size: 0.85rem;
   color: var(--text-secondary);
@@ -515,6 +558,34 @@ body::after {
   font-weight: 700;
   color: var(--accent-cyan);
   text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.company-icon-modal {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.company-icon-modal:hover {
+  opacity: 1;
+}
+
+.modal-company-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-glow);
+}
+
+.modal-role {
+  color: var(--accent-cyan);
+  font-size: 0.95rem;
 }
 
 .modal-meta {
