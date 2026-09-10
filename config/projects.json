@@ -1,0 +1,100 @@
+[
+  {
+    "id": "project-1",
+    "name": "Cyber Adventure",
+    "shortDescription": "A cyberpunk action RPG with open world exploration.",
+    "image": "assets/projects/cyber-adventure.jpg",
+    "date": "2026-01-15",
+    "links": {
+      "stores": [
+        { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
+        { "type": "ios", "url": "", "disabled": true }
+      ],
+      "media": [
+        { "type": "image", "src": "assets/projects/cyber-adventure-1.jpg" },
+        { "type": "gif", "src": "assets/projects/cyber-adventure-gif.gif" },
+        { "type": "video", "src": "assets/projects/cyber-adventure-trailer.mp4" }
+      ]
+    },
+    "details": {
+      "fullDescription": "Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.",
+      "role": "Lead Developer",
+      "techStack": ["Unreal Engine 5", "C++", "Blueprints"],
+      "links": {
+        "stores": [
+          { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false }
+        ],
+        "media": [
+          { "type": "image", "src": "assets/projects/cyber-adventure-1.jpg" },
+          { "type": "image", "src": "assets/projects/cyber-adventure-2.jpg" },
+          { "type": "gif", "src": "assets/projects/cyber-adventure-gif.gif" },
+          { "type": "video", "src": "assets/projects/cyber-adventure-trailer.mp4" }
+        ]
+      }
+    }
+  },
+  {
+    "id": "project-2",
+    "name": "Puzzle Quest",
+    "shortDescription": "Mobile puzzle game with unique mechanics.",
+    "image": "assets/projects/puzzle-quest.jpg",
+    "date": "2025-11-20",
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
+        { "type": "app-store", "url": "", "disabled": true }
+      ],
+      "media": [
+        { "type": "image", "src": "assets/projects/puzzle-quest-1.jpg" },
+        { "type": "gif", "src": "assets/projects/puzzle-quest-gif.gif" }
+      ]
+    },
+    "details": {
+      "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#", "Android SDK"],
+      "links": {
+        "stores": [
+          { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false }
+        ],
+        "media": [
+          { "type": "image", "src": "assets/projects/puzzle-quest-1.jpg" },
+          { "type": "image", "src": "assets/projects/puzzle-quest-2.jpg" },
+          { "type": "gif", "src": "assets/projects/puzzle-quest-gif.gif" }
+        ]
+      }
+    }
+  },
+  {
+    "id": "project-3",
+    "name": "Space Explorers",
+    "shortDescription": "Co-op space exploration game.",
+    "image": "assets/projects/space-explorers.jpg",
+    "date": "2025-08-10",
+    "links": {
+      "stores": [
+        { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false },
+        { "type": "steam", "url": "", "disabled": false }
+      ],
+      "media": [
+        { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
+        { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
+      ]
+    },
+    "details": {
+      "fullDescription": "Space Explorers is a cooperative multiplayer game where players explore procedurally generated planets, gather resources, and build bases together.",
+      "role": "Co-Developer",
+      "techStack": ["Godot", "GDScript", "Multiplayer Netcode"],
+      "links": {
+        "stores": [
+          { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
+        ],
+        "media": [
+          { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
+          { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
+          { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
+        ]
+      }
+    }
+  }
+]

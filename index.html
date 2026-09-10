@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="/src/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="profile-section" class="section profile-section"></header>
+    <main id="projects-section" class="section projects-section">
+      <h2 class="section-title">Projects</h2>
+      <div id="roadmap-container" class="roadmap-container"></div>
+    </main>
+  </div>
+
+  <div id="project-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="media-lightbox" class="lightbox hidden">
+    <div class="lightbox-overlay"></div>
+    <div id="lightbox-content" class="lightbox-content"></div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

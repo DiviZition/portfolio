@@ -1,0 +1,12 @@
+{
+  "name": "Your Name",
+  "image": "assets/profile.jpg",
+  "tagline": "Game Developer & Designer",
+  "bio": "Passionate about creating immersive gaming experiences.",
+  "socials": [
+    { "platform": "linkedin", "url": "https://linkedin.com/in/yourprofile" },
+    { "platform": "github", "url": "https://github.com/yourprofile" },
+    { "platform": "steam", "url": "https://steamcommunity.com/id/yourprofile" },
+    { "platform": "telegram", "url": "https://t.me/yourprofile" }
+  ]
+}
