@@ -1,7 +1,7 @@
 {
-  "name": "Your Name",
-  "image": "assets/profile.jpg",
-  "tagline": "Game Developer & Designer",
+  "name": "Viktor Popov",
+  "image": "assets/projects/Placeholders/Хочу пицу.jpg",
+  "tagline": "Gamer, Game Developer, Game Designer",
   "bio": "Passionate about creating immersive gaming experiences.",
   "socials": [
     { "platform": "linkedin", "url": "https://linkedin.com/in/yourprofile" },

@@ -3,33 +3,29 @@
     "id": "project-1",
     "name": "Cyber Adventure",
     "shortDescription": "A cyberpunk action RPG with open world exploration.",
-    "image": "assets/projects/cyber-adventure.jpg",
+    "image": "assets/projects/Placeholders/Хочу пицу.jpg",
     "date": "2026-01-15",
     "links": {
       "stores": [
         { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
         { "type": "ios", "url": "", "disabled": true }
-      ],
-      "media": [
-        { "type": "image", "src": "assets/projects/cyber-adventure-1.jpg" },
-        { "type": "gif", "src": "assets/projects/cyber-adventure-gif.gif" },
-        { "type": "video", "src": "assets/projects/cyber-adventure-trailer.mp4" }
       ]
     },
     "details": {
-      "fullDescription": "Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.",
-      "role": "Lead Developer",
-      "techStack": ["Unreal Engine 5", "C++", "Blueprints"],
+      "fullDescription": "Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechaCyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, nics, and a branching narrative. Built with custom engine technology. Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.",
+      "role": "Lead Developer with huge hurt and a pussion for game development. He loves cookies, sweeties, and all the other good things are seems good to hem.",
+      "techStack": ["Unity 5", "C#", "GIT", "Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT"],
       "links": {
         "stores": [
-          { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false }
+        { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
+        { "type": "ios", "url": "", "disabled": true }
         ],
-        "media": [
-          { "type": "image", "src": "assets/projects/cyber-adventure-1.jpg" },
-          { "type": "image", "src": "assets/projects/cyber-adventure-2.jpg" },
-          { "type": "gif", "src": "assets/projects/cyber-adventure-gif.gif" },
-          { "type": "video", "src": "assets/projects/cyber-adventure-trailer.mp4" }
-        ]
+      "media": [
+        { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
+        { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
+        { "type": "gif", "src": "assets/projects/Placeholders/star-wars-internet-explorer.gif" },
+        { "type": "video", "src": "assets/projects/Placeholders/video_2023-09-06_18-23-28.mp4" }
+      ]
       }
     }
   },

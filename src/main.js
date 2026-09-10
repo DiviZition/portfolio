@@ -165,7 +165,7 @@ function openProjectModal(projectId) {
   }
   
   modalBody.innerHTML = `
-    <div class="modal-body">
+    <div class="modal-top-section">
       <div class="modal-image-section">
         <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="modal-image" />
       </div>
@@ -176,9 +176,9 @@ function openProjectModal(projectId) {
         <div class="card-links">
           ${storesHTML}
         </div>
-        ${mediaGalleryHTML}
       </div>
     </div>
+    ${mediaGalleryHTML}
   `;
   
   modal.classList.remove('hidden');

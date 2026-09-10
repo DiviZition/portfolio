@@ -444,9 +444,13 @@ body::after {
   max-width: 1000px;
   width: 100%;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 40px;
   animation: modalIn 0.3s ease-out;
+}
+
+.modal-body {
+  display: block;
 }
 
 @keyframes modalIn {
@@ -480,18 +484,19 @@ body::after {
 }
 
 /* Modal body layout */
-.modal-body {
+.modal-top-section {
   display: flex;
   gap: 30px;
 }
 
 .modal-image-section {
-  width: 350px;
+  width: 200px;
   flex-shrink: 0;
 }
 
 .modal-image {
   width: 100%;
+  height: 200px;
   border-radius: 12px;
   object-fit: cover;
   border: 1px solid var(--border-glow);
@@ -535,31 +540,34 @@ body::after {
 
 /* ===== Media Gallery ===== */
 .media-gallery {
+  width: 100%;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   overflow-x: auto;
-  padding: 15px 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-cyan) var(--bg-card);
+  padding: 5px 0;
+  margin-top: 20px;
 }
 
 .media-gallery::-webkit-scrollbar {
-  height: 6px;
+  height: 8px;
 }
 
 .media-gallery::-webkit-scrollbar-track {
   background: var(--bg-card);
-  border-radius: 3px;
+  border-radius: 6px;
+  margin: 0px 25px;
 }
 
 .media-gallery::-webkit-scrollbar-thumb {
   background: var(--accent-cyan);
-  border-radius: 3px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-card);
 }
 
 .media-gallery-item {
   flex-shrink: 0;
   height: 200px;
+  width: 300px;
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
@@ -576,14 +584,9 @@ body::after {
 .media-gallery-item img,
 .media-gallery-item video {
   height: 100%;
-  width: auto;
+  width: 100%;
   object-fit: contain;
   background: var(--bg-primary);
-}
-
-.media-gallery-item img:first-child,
-.media-gallery-item video:first-child {
-  max-width: 400px;
 }
 
 /* ===== Lightbox ===== */
@@ -669,7 +672,7 @@ body::after {
     border-bottom: 1px solid var(--border-glow);
   }
 
-  .modal-body {
+  .modal-top-section {
     flex-direction: column;
   }
 
@@ -688,7 +691,8 @@ body::after {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: transparent;
+  margin: 50px 0;
 }
 
 ::-webkit-scrollbar-thumb {
