@@ -164,11 +164,11 @@ function openProjectModal(projectId) {
   const mediaGalleryHTML = renderMediaGallery(modalLinks.media || [], true);
   
   let metaHTML = '';
-  if (details.role) {
-    metaHTML += `<span class="modal-meta-item"><strong>Role:</strong> ${escapeHtml(details.role)}</span>`;
-  }
   if (details.techStack && details.techStack.length > 0) {
     metaHTML += `<span class="modal-meta-item"><strong>Tech:</strong> ${escapeHtml(details.techStack.join(', '))}</span>`;
+  }
+  if (details.team && details.team.length > 0) {
+    metaHTML += `<span class="modal-meta-item"><strong>Team:</strong> ${escapeHtml(details.team.join(', '))}</span>`;
   }
   
   let companyHTML = '';
@@ -177,6 +177,7 @@ function openProjectModal(projectId) {
       <div class="modal-company-line">
         ${project.company.icon ? `<img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-modal" title="${escapeHtml(project.company.name)}" />` : ''}
         ${project.company.name ? `<span class="company-name">${escapeHtml(project.company.name)}</span>` : ''}
+        ${details.role ? `<span class="role-separator">|</span><span class="modal-role">${escapeHtml(details.role)}</span>` : ''}
       </div>
     `;
   }
@@ -185,15 +186,13 @@ function openProjectModal(projectId) {
     <div class="modal-top-section">
       <div class="modal-image-section">
         <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="modal-image" />
+        ${storesHTML ? `<div class="card-links">${storesHTML}</div>` : ''}
       </div>
       <div class="modal-info-section">
         <h2 class="modal-name">${escapeHtml(project.name)}</h2>
         ${companyHTML}
-        ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
         <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
-        <div class="card-links">
-          ${storesHTML}
-        </div>
+        ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
     </div>
     ${mediaGalleryHTML}

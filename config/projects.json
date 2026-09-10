@@ -8,6 +8,7 @@
     "links": {
       "stores": [
         { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
         { "type": "ios", "url": "", "disabled": true }
       ]
     },
@@ -16,12 +17,14 @@
       "icon": "assets/projects/Placeholders/star-wars-fight.gif"
     },
     "details": {
-      "fullDescription": "Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechaCyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, nics, and a branching narrative. Built with custom engine technology. Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.Cyber Adventure is a fully open-world cyberpunk RPG featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.",
+      "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, combat mechanics, and a branching narrative. Built with custom engine technology.",
       "role": "Lead Developer",
       "techStack": ["Unity 5", "C#", "GIT", "Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT"],
+      "team": ["Developer", "Artist", "Nice Guy"],
       "links": {
         "stores": [
         { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
         { "type": "ios", "url": "", "disabled": true }
         ],
       "media": [
