@@ -93,6 +93,8 @@ function renderRoadmap(projects) {
   
   container.innerHTML = html;
   
+  resizeMediaGalleryItems();
+  
   container.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('click', () => {
       const projectId = card.dataset.projectId;
@@ -192,6 +194,41 @@ function openProjectModal(projectId) {
         openLightbox(mediaList[mediaIndex]);
       }
     });
+  });
+
+  resizeMediaGalleryItems();
+}
+
+function resizeMediaGalleryItems() {
+  const galleryItems = document.querySelectorAll('.media-gallery-item');
+  
+  galleryItems.forEach(item => {
+    const mediaEl = item.querySelector('img, video');
+    if (!mediaEl) return;
+    
+    const targetHeight = 200;
+    
+    function applySize() {
+      let naturalWidth, naturalHeight;
+      
+      if (mediaEl.tagName === 'VIDEO') {
+        naturalWidth = mediaEl.videoWidth || 16;
+        naturalHeight = mediaEl.videoHeight || 9;
+      } else {
+        naturalWidth = mediaEl.naturalWidth || 16;
+        naturalHeight = mediaEl.naturalHeight || 9;
+      }
+      
+      const aspectRatio = naturalWidth / naturalHeight;
+      item.style.width = (targetHeight * aspectRatio) + 'px';
+    }
+    
+    if (mediaEl.complete && mediaEl.naturalWidth) {
+      applySize();
+    } else {
+      mediaEl.addEventListener('loadeddata', applySize);
+      mediaEl.addEventListener('load', applySize);
+    }
   });
 }
 

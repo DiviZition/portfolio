@@ -566,8 +566,7 @@ body::after {
 
 .media-gallery-item {
   flex-shrink: 0;
-  height: 200px;
-  width: 300px;
+  max-height: 200px;
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
@@ -585,7 +584,7 @@ body::after {
 .media-gallery-item video {
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background: var(--bg-primary);
 }
 
