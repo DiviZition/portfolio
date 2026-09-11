@@ -215,8 +215,8 @@ function openProjectModal(projectId) {
       <div class="modal-info-section">
         <h2 class="modal-name">${escapeHtml(project.name)}</h2>
         ${companyHTML}
-        <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
         <div class="modal-separator"></div>
+        <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
     </div>

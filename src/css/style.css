@@ -361,7 +361,6 @@ body::after {
   padding: 6px 0;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  border-top: 1px solid var(--border-glow);
   margin-top: 0;
 }
 
@@ -644,7 +643,6 @@ body::after {
   padding: 4px 0;
   font-size: 1rem;
   color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-glow);
 }
 
 .modal-role {
