@@ -408,12 +408,8 @@ body::after {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.card-separator {
-  width: 100%;
-  height: 1px;
-  background: var(--border-glow);
+  border-bottom: 1px solid var(--border-glow);
+  padding-bottom: 8px;
 }
 
 /* ===== Links ===== */
@@ -618,6 +614,8 @@ body::after {
   font-weight: 700;
   color: var(--accent-cyan);
   text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+  border-bottom: 1px solid var(--border-glow);
+  padding-bottom: 8px;
 }
 
 .company-icon-modal {
@@ -666,12 +664,6 @@ body::after {
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 1rem;
-}
-
-.modal-separator {
-  width: 100%;
-  height: 1px;
-  background: var(--border-glow);
 }
 
 /* ===== Media Gallery ===== */

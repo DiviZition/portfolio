@@ -81,7 +81,6 @@ function renderRoadmap(projects) {
                 <span class="card-date">${formatDate(project.date)}</span>
               </div>
               <p class="card-description">${escapeHtml(project.shortDescription)}</p>
-              <div class="card-separator"></div>
               ${project.company ? `<div class="card-company-line">
                 <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
                 <span class="company-name">${escapeHtml(project.company.name)}</span>
@@ -215,7 +214,6 @@ function openProjectModal(projectId) {
       <div class="modal-info-section">
         <h2 class="modal-name">${escapeHtml(project.name)}</h2>
         ${companyHTML}
-        <div class="modal-separator"></div>
         <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
