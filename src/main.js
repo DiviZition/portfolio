@@ -27,6 +27,21 @@ function getIconPath(platform) {
   return null;
 }
 
+function updateCardImageSizes() {
+  const isMobile = window.innerWidth <= 768;
+  document.querySelectorAll('.project-card').forEach(card => {
+    const img = card.querySelector('.card-image');
+    const content = card.querySelector('.card-content');
+    if (!img || !content) return;
+    
+    if (isMobile) return;
+    
+    const height = Math.min(content.offsetHeight, 400);
+    img.style.width = height + 'px';
+    img.style.height = height + 'px';
+  });
+}
+
 function renderProfile(config) {
   const section = document.getElementById('profile-section');
   
@@ -98,6 +113,7 @@ function renderRoadmap(projects) {
   
   container.innerHTML = html;
   
+  updateCardImageSizes();
   resizeMediaGalleryItems();
   
   container.querySelectorAll('.project-card').forEach(card => {
@@ -454,6 +470,10 @@ async function init() {
       video.addEventListener('mouseenter', () => video.play().catch(() => {}));
       video.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
     });
+  });
+  
+  window.addEventListener('resize', () => {
+    updateCardImageSizes();
   });
 }
 
