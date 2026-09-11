@@ -226,6 +226,7 @@ body::after {
   position: relative;
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards;
+  min-height: 250px;
 }
 
 .roadmap-stop:nth-child(odd) {
@@ -294,6 +295,7 @@ body::after {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
+  align-items: flex-start;
 }
 
 .project-card::before {

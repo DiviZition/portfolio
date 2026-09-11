@@ -27,18 +27,49 @@ function getIconPath(platform) {
   return null;
 }
 
+let cardSizesScheduled = false;
+
 function updateCardImageSizes() {
+  if (cardSizesScheduled) return;
+  cardSizesScheduled = true;
+
   const isMobile = window.innerWidth <= 768;
-  document.querySelectorAll('.project-card').forEach(card => {
-    const img = card.querySelector('.card-image');
-    const content = card.querySelector('.card-content');
-    if (!img || !content) return;
+  if (isMobile) {
+    cardSizesScheduled = false;
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.project-card').forEach(card => {
+      const img = card.querySelector('.card-image');
+      const content = card.querySelector('.card-content');
+      if (!img || !content) return;
+
+      let prevHeight = 0;
+      for (let iter = 0; iter < 5; iter++) {
+        const rect = content.getBoundingClientRect();
+        const naturalHeight = Math.max(Math.round(rect.height), 50);
+        const clampedHeight = Math.min(naturalHeight, 400);
+
+        if (Math.abs(clampedHeight - prevHeight) < 2) break;
+        prevHeight = clampedHeight;
+
+        img.style.width = clampedHeight + 'px';
+        img.style.height = clampedHeight + 'px';
+        
+        document.body.offsetHeight;
+      }
+
+      if (content.scrollHeight > 400) {
+        content.style.maxHeight = '400px';
+        content.style.overflowY = 'auto';
+      } else {
+        content.style.maxHeight = '';
+        content.style.overflowY = '';
+      }
+    });
     
-    if (isMobile) return;
-    
-    const height = Math.min(content.offsetHeight, 400);
-    img.style.width = height + 'px';
-    img.style.height = height + 'px';
+    cardSizesScheduled = false;
   });
 }
 
