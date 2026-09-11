@@ -4,9 +4,10 @@
   "tagline": "Gamer, Game Developer, Game Designer",
   "bio": "Passionate about creating immersive gaming experiences.",
   "socials": [
-    { "platform": "linkedin", "url": "https://linkedin.com/in/yourprofile" },
-    { "platform": "github", "url": "https://github.com/yourprofile" },
-    { "platform": "steam", "url": "https://steamcommunity.com/id/yourprofile" },
-    { "platform": "telegram", "url": "https://t.me/yourprofile" }
+    { "platform": "linkedin", "url": "https://www.linkedin.com/in/viktor-popov-unity/" },
+    { "platform": "github", "url": "https://github.com/DiviZition" },
+    { "platform": "steam", "url": "https://steamcommunity.com/id/DIVIZITION/" },
+    { "platform": "telegram", "url": "https://t.me/DiviZition" },
+    { "platform": "itch-io", "url": "https://divizition.itch.io/" }
   ]
 }

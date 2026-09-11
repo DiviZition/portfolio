@@ -294,6 +294,7 @@ body::after {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
+  max-height: 300px;
 }
 
 .project-card::before {
@@ -323,8 +324,8 @@ body::after {
 
 /* Card image */
 .card-image {
-  width: 280px;
-  min-height: 180px;
+  width: 200px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   flex-shrink: 0;
   border-right: 1px solid var(--border-glow);
@@ -357,7 +358,7 @@ body::after {
 .card-company-line {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 0.9rem;
   color: var(--text-secondary);
 }
@@ -368,12 +369,8 @@ body::after {
   flex-shrink: 0;
   border-radius: 6px;
   object-fit: contain;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
-}
-
-.company-icon-card:hover {
   opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 .company-name {
