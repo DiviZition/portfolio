@@ -407,10 +407,11 @@ body::after {
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
-  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  border-top: 1px solid var(--border-glow);
+  padding-top: 8px;
 }
 
 /* ===== Links ===== */
@@ -664,6 +665,8 @@ body::after {
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 1rem;
+  border-top: 1px solid var(--border-glow);
+  padding-top: 8px;
 }
 
 /* ===== Media Gallery ===== */
