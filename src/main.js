@@ -101,7 +101,27 @@ function renderRoadmap(projects) {
   resizeMediaGalleryItems();
   
   container.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      const storeLink = e.target.closest('.store-link[href]');
+      if (storeLink && !storeLink.classList.contains('store-link-disabled')) {
+        return;
+      }
+      
+      const mediaItem = e.target.closest('.media-link-item');
+      if (mediaItem && mediaItem.dataset.galleryType === 'card') {
+        e.preventDefault();
+        e.stopPropagation();
+        const projectId = card.dataset.projectId;
+        const project = projects.find(p => p.id === projectId);
+        if (!project) return;
+        const mediaList = project.links?.media || [];
+        const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+        if (mediaList[mediaIndex]) {
+          openLightbox(mediaList[mediaIndex]);
+        }
+        return;
+      }
+      
       const projectId = card.dataset.projectId;
       openProjectModal(projectId);
     });
@@ -117,8 +137,11 @@ function renderStoreLinks(stores) {
     if (!iconPath) continue;
     
     if (store.disabled) {
-      html += `<span class="store-link store-link-disabled" title="Unavailable">
-        <img src="${escapeHtml(iconPath)}" alt="${escapeHtml(store.type)}" />
+      html += `<span class="store-link-wrapper" data-store-type="${escapeHtml(store.type)}">
+        <span class="store-link store-link-disabled">
+          <img src="${escapeHtml(iconPath)}" alt="${escapeHtml(store.type)}" />
+        </span>
+        <span class="store-tooltip">The game was removed from this store 😿</span>
       </span>`;
     } else if (store.url) {
       html += `<a href="${escapeHtml(store.url)}" target="_blank" rel="noopener noreferrer" class="store-link" title="${escapeHtml(store.type)}">
@@ -394,7 +417,7 @@ async function init() {
       closeLightbox();
     }
   });
-  
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (!document.getElementById('media-lightbox').classList.contains('hidden')) {
