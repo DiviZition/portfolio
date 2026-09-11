@@ -412,18 +412,6 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-function setupGalleryClickHandlers(mediaList) {
-  const galleryItems = document.querySelectorAll('.media-gallery-item');
-  
-  galleryItems.forEach((item, index) => {
-    if (index < mediaList.length) {
-      item.addEventListener('click', () => {
-        openLightbox(mediaList[index]);
-      });
-    }
-  });
-}
-
 function closeModal() {
   const modal = document.getElementById('project-modal');
   modal.classList.add('hidden');
