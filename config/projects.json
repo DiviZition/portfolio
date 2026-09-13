@@ -15,7 +15,7 @@
     "company": {
       "name": "Cheburec games",
       "icon": "assets/projects/Placeholders/star-wars-fight.gif",
-      "color": "#00f0ff"
+      "color": "#FF4F00"
     },
     "details": {
       "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, coaanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat ng, combat aanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat mbat mechanics, and a branching narrative. Built with custom engine technology.",
@@ -45,12 +45,8 @@
     "date": "2025-11-20",
     "links": {
       "stores": [
-        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": true },
         { "type": "app-store", "url": "", "disabled": true }
-      ],
-      "media": [
-        { "type": "image", "src": "assets/projects/puzzle-quest-1.jpg" },
-        { "type": "gif", "src": "assets/projects/puzzle-quest-gif.gif" }
       ]
     },
     "details": {
@@ -62,7 +58,7 @@
           { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false }
         ],
         "media": [
-          { "type": "image", "src": "assets/projects/puzzle-quest-1.jpg" },
+          { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
           { "type": "image", "src": "assets/projects/puzzle-quest-2.jpg" },
           { "type": "gif", "src": "assets/projects/puzzle-quest-gif.gif" }
         ]

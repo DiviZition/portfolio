@@ -173,6 +173,58 @@ function renderRoadmap(projects) {
       openProjectModal(projectId);
     });
   });
+
+  setupGlobalTooltip();
+}
+
+function setupGlobalTooltip() {
+  const tooltip = document.getElementById('global-tooltip');
+  if (!tooltip) return;
+
+  function showTooltip(wrapper) {
+    const disabledLink = wrapper.querySelector('.store-link-disabled');
+    if (!disabledLink) return;
+
+    const rect = disabledLink.getBoundingClientRect();
+    
+    tooltip.textContent = 'The game was removed from this store 😿';
+    
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const tooltipWidth = tooltipRect.width || 200;
+    
+    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+    let top = rect.top - tooltipRect.height - 8;
+    
+    if (left < 10) left = 10;
+    if (left + tooltipWidth > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipWidth - 10;
+    }
+    if (top < 10) top = rect.bottom + 8;
+    
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.add('visible');
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+  }
+
+  document.addEventListener('mouseover', (e) => {
+    const wrapper = e.target.closest('.store-link-wrapper');
+    if (wrapper) {
+      showTooltip(wrapper);
+    } else if (!e.target.closest('#global-tooltip')) {
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const wrapper = e.target.closest('.store-link-wrapper');
+    if (wrapper) {
+      hideTooltip();
+    }
+  });
 }
 
 function renderStoreLinks(stores) {
@@ -188,7 +240,6 @@ function renderStoreLinks(stores) {
         <span class="store-link store-link-disabled">
           <img src="${escapeHtml(iconPath)}" alt="${escapeHtml(store.type)}" />
         </span>
-        <span class="store-tooltip">The game was removed from this store 😿</span>
       </span>`;
     } else if (store.url) {
       html += `<a href="${escapeHtml(store.url)}" target="_blank" rel="noopener noreferrer" class="store-link" title="${escapeHtml(store.type)}">
