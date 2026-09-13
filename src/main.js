@@ -129,7 +129,7 @@ function renderRoadmap(projects) {
               <p class="card-description">${escapeHtml(project.shortDescription)}</p>
               ${project.company ? `<div class="card-company-line">
                 <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
-                <span class="company-name">${escapeHtml(project.company.name)}</span>
+                <span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>
                 ${project.details?.role ? `<span class="role-separator">|</span><span class="card-role">${escapeHtml(project.details.role)}</span>` : ''}
               </div>` : ''}
               <div class="card-links">
@@ -246,7 +246,7 @@ function openProjectModal(projectId) {
     companyHTML = `
       <div class="modal-company-line">
         ${project.company.icon ? `<img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-modal" title="${escapeHtml(project.company.name)}" />` : ''}
-        ${project.company.name ? `<span class="company-name">${escapeHtml(project.company.name)}</span>` : ''}
+        ${project.company.name ? `<span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>` : ''}
         ${details.role ? `<span class="role-separator">|</span><span class="modal-role">${escapeHtml(details.role)}</span>` : ''}
       </div>
     `;

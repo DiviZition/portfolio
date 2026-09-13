@@ -14,7 +14,8 @@
     },
     "company": {
       "name": "Cheburec games",
-      "icon": "assets/projects/Placeholders/star-wars-fight.gif"
+      "icon": "assets/projects/Placeholders/star-wars-fight.gif",
+      "color": "#00f0ff"
     },
     "details": {
       "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, coaanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat ng, combat aanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat mbat mechanics, and a branching narrative. Built with custom engine technology.",
