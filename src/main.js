@@ -115,11 +115,12 @@ function renderRoadmap(projects) {
     const project = sortedProjects[i];
     const storesHTML = renderStoreLinks(project.links?.stores || []);
     const mediaLinksHTML = renderMediaLinks(project.links?.media || [], false);
+    const hasFooter = project.company || storesHTML || mediaLinksHTML;
     
     html += `
       <div class="roadmap-stop" style="animation-delay: ${i * 0.15}s">
         <div class="roadmap-card-wrapper">
-          <div class="project-card" data-project-id="${escapeHtml(project.id)}">
+          <div class="project-card${hasFooter ? ' has-footer' : ''}" data-project-id="${escapeHtml(project.id)}">
             <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="card-image" />
             <div class="card-content">
               <div class="card-header">

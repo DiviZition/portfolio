@@ -86,5 +86,32 @@
         ]
       }
     }
+  },
+  {
+    "id": "project-4",
+    "name": "Space Explorers",
+    "shortDescription": "Co-op space exploration game.",
+    "image": "assets/projects/space-explorers.jpg",
+    "date": "2025-08-10",
+    "company": {
+      "name": "Games, Games! GAMES!!!",
+      "icon": "assets/projects/Placeholders/(0.0).jpg",
+      "color": "#FF4F00"
+    },
+    "details": {
+      "fullDescription": "Space Explorers is a cooperative multiplayer game where players explore procedurally generated planets, gather resources, and build bases together.",
+      "role": "Co-Developer",
+      "techStack": ["Godot", "GDScript", "Multiplayer Netcode"],
+      "links": {
+        "stores": [
+          { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
+        ],
+        "media": [
+          { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
+          { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
+          { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
+        ]
+      }
+    }
   }
 ]

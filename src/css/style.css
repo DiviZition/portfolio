@@ -406,6 +406,11 @@ body::after {
   padding-bottom: 8px;
 }
 
+.project-card:not(.has-footer) .card-description {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 /* ===== Links ===== */
 .card-links {
   display: flex;
