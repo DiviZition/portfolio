@@ -1,4 +1,26 @@
 [
+    {
+    "id": "up-like-a-bullet",
+    "name": "Up Like A Bullet",
+    "shortDescription": "My beloved, first finished own game",
+    "image": "assets/projects/0_UpLikeABullet/UpLikeABullet-Icon.png",
+    "date": "2025-01-1",
+    "endDate": "2026-03-1",
+    "links": {
+      "stores": [
+        { "type": "itch-io", "url": "https://divizition.itch.io/up-like-a-bullet", "disabled": false }
+      ]
+    },
+    "details": {
+      "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#", "Android SDK"],
+      "links": {
+        "stores": []
+      },
+      "media": []
+    }
+  },
   {
     "id": "netflix-stories",
     "name": "Netflix Stories",
@@ -39,33 +61,6 @@
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_7.jfif" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_8.webp" }
       ]
-    }
-  },
-  {
-    "id": "project-2",
-    "name": "Puzzle Quest",
-    "shortDescription": "A cyberpunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a branchit Хочу",
-    "image": "assets/projects/Placeholders/star-wars-fight.gif",
-    "date": "2025-01-1",
-    "endDate": "2026-03-1",
-    "company": {
-      "name": "NLTDev",
-      "icon": "assets/projects/JungleNest/NLT-Icon.jfif",
-      "color": "#ffd83b"
-    },
-    "links": {
-      "stores": [],
-      "custom": []
-    },
-    "media": [],
-    "details": {
-      "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#", "Android SDK"],
-      "links": {
-        "stores": []
-      },
-      "media": []
     }
   },
   {

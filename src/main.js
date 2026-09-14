@@ -3,6 +3,8 @@ const ICONS_BASE = '/assets/icons/';
 let profileConfig;
 let projectsConfig;
 
+let lightboxState = { mediaList: [], currentIndex: 0 };
+
 const storeIcons = {
   'app-store': 'app-store.png',
   'ios': 'app-store.png',
@@ -167,9 +169,9 @@ function renderRoadmap(projects) {
           if (!project) return;
           const mediaList = project.media || [];
           const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
-        if (mediaList[mediaIndex]) {
-          openLightbox(mediaList[mediaIndex]);
-        }
+          if (mediaList[mediaIndex]) {
+            openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
+          }
         return;
       }
       
@@ -360,7 +362,7 @@ function openProjectModal(projectId) {
       const mediaIndex = parseInt(item.dataset.mediaIndex);
       const mediaList = project.details?.media || [];
       if (mediaList[mediaIndex]) {
-        openLightbox(mediaList[mediaIndex]);
+        openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
       }
     });
   });
@@ -368,7 +370,8 @@ function openProjectModal(projectId) {
   modalBody.querySelectorAll('.media-gallery-item').forEach((item, index) => {
     if (index < (project.details?.media || []).length) {
       item.addEventListener('click', () => {
-        openLightbox(project.details.media[index]);
+        const mediaList = project.details.media;
+        openLightbox(mediaList[index], mediaList, index);
       });
     }
   });
@@ -435,8 +438,48 @@ function renderMediaGallery(media, isInModal) {
   return html;
 }
 
-function openLightbox(mediaItem) {
+function openLightbox(mediaItem, mediaList, currentIndex) {
+  lightboxState.mediaList = mediaList || [mediaItem];
+  lightboxState.currentIndex = currentIndex || 0;
+  
+  renderLightboxContent(mediaItem);
+  renderThumbnails(lightboxState.mediaList);
+  updateLightboxNavVisibility(lightboxState.mediaList.length);
+  
   const lightbox = document.getElementById('media-lightbox');
+  lightbox.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('media-lightbox');
+  const content = document.getElementById('lightbox-content');
+  
+  lightbox.classList.add('hidden');
+  content.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+  if (lightboxState.mediaList.length <= 1) return;
+  
+  let newIndex = lightboxState.currentIndex + direction;
+  if (newIndex < 0) newIndex = lightboxState.mediaList.length - 1;
+  if (newIndex >= lightboxState.mediaList.length) newIndex = 0;
+  
+  renderLightboxContent(lightboxState.mediaList[newIndex]);
+  updateThumbnails(newIndex);
+  lightboxState.currentIndex = newIndex;
+}
+
+function switchToMedia(index) {
+  if (index === lightboxState.currentIndex) return;
+  renderLightboxContent(lightboxState.mediaList[index]);
+  updateThumbnails(index);
+  lightboxState.currentIndex = index;
+}
+
+function renderLightboxContent(mediaItem) {
   const content = document.getElementById('lightbox-content');
   
   if (mediaItem.type === 'video') {
@@ -482,18 +525,96 @@ function openLightbox(mediaItem) {
       mediaEl.addEventListener('load', applySize);
     }
   }
-  
-  lightbox.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox() {
-  const lightbox = document.getElementById('media-lightbox');
-  const content = document.getElementById('lightbox-content');
+function renderThumbnails(mediaList) {
+  const container = document.getElementById('lightbox-thumbnails');
+  if (!container) return;
   
-  lightbox.classList.add('hidden');
-  content.innerHTML = '';
-  document.body.style.overflow = '';
+  if (mediaList.length <= 1) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'flex';
+  
+  let html = '';
+  for (let i = 0; i < mediaList.length; i++) {
+    const item = mediaList[i];
+    const src = escapeHtml(item.src);
+    const activeClass = i === lightboxState.currentIndex ? ' active' : '';
+    
+    if (item.type === 'video') {
+      html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
+        <img src="${src}" alt="Thumbnail" />
+      </div>`;
+    } else {
+      html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
+        <img src="${src}" alt="Thumbnail" />
+      </div>`;
+    }
+  }
+  container.innerHTML = html;
+  
+  container.querySelectorAll('.lightbox-thumb').forEach((thumb, index) => {
+    thumb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      switchToMedia(index);
+    });
+  });
+}
+
+function updateThumbnails(activeIndex) {
+  const thumbs = document.querySelectorAll('.lightbox-thumb');
+  thumbs.forEach((thumb, index) => {
+    if (index === activeIndex) {
+      thumb.classList.add('active');
+    } else {
+      thumb.classList.remove('active');
+    }
+  });
+  
+  const activeThumb = thumbs[activeIndex];
+  if (activeThumb) {
+    activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+}
+
+function updateLightboxNavVisibility(mediaCount) {
+  const prevBtn = document.querySelector('.lightbox-prev');
+  const nextBtn = document.querySelector('.lightbox-next');
+  
+  if (prevBtn) {
+    prevBtn.style.display = mediaCount > 1 ? 'flex' : 'none';
+  }
+  if (nextBtn) {
+    nextBtn.style.display = mediaCount > 1 ? 'flex' : 'none';
+  }
+}
+
+function setupLightboxNavigation() {
+  const prevBtn = document.querySelector('.lightbox-prev');
+  const nextBtn = document.querySelector('.lightbox-next');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => navigateLightbox(-1));
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => navigateLightbox(1));
+  }
+  
+  document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('media-lightbox');
+    if (!lightbox || lightbox.classList.contains('hidden')) return;
+    
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      navigateLightbox(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      navigateLightbox(1);
+    }
+  });
 }
 
 function closeModal() {
@@ -611,6 +732,8 @@ async function init() {
       video.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
     });
   });
+  
+  setupLightboxNavigation();
   
   window.addEventListener('resize', () => {
     updateCardImageSizes();
