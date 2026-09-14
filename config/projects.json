@@ -1,68 +1,71 @@
 [
   {
-    "id": "project-1",
-    "name": "Cyber Adventure",
+    "id": "netflix-stories",
+    "name": "Netflix Stories",
     "shortDescription": "A cyber.jpgХочу пицу.jpgХочу пицу.jpgtion. ",
-    "image": "assets/projects/Placeholders/Хочу пицу.jpg",
-    "date": "2026-01-15",
+    "image": "assets/projects/8_Netflix-Stories/NetflixStories-Icon.jpg",
+    "date": "2023-07-1",
+    "endDate": "2025-02-1",
+    "downloads": {
+      "count": "Over 1 million downloads",
+      "color": "#ff00aa"
+      },
+    "company": {
+      "name": "N-iX Games",
+      "icon": "assets/projects/8_Netflix-Stories/N-iXGames-Icon.png",
+      "color": "#fe6902"
+    },
     "links": {
       "stores": [
-        { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
-        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
-        { "type": "ios", "url": "", "disabled": true }
+        { "type": "google-play", "url": "https://netflix.com/gamestore/81605827?fs=ps", "disabled": false },
+        { "type": "ios", "url": "https://apps.apple.com/us/app/netflix-stories/id6446507664", "disabled": false }
+      ],
+      "custom": [
+        { "label": "N-iX Games Portfolio Case", "url": "https://gamestudio.n-ix.com/case-study/netflix-stories/", "icon": "assets/projects/8_Netflix-Stories/N-iXGames-Icon.png" }
       ]
-    },
-    "company": {
-      "name": "Cheburec games",
-      "icon": "assets/projects/Placeholders/star-wars-fight.gif",
-      "color": "#FF4F00"
     },
     "details": {
-      "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, coaanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat ng, combat aanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat mbat mechanics, and a branching narrative. Built with custom engine technology.",
-      "role": "Lead Developer",
-      "techStack": ["Unity 5", "C#", "GIT", "Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT","Unity 5", "C#", "GIT"],
-      "team": ["Developer", "Artist", "Nice Guy"],
-      "links": {
-        "stores": [
-        { "type": "steam", "url": "https://store.steampowered.com/app/example", "disabled": false },
-        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false },
-        { "type": "ios", "url": "", "disabled": true }
-        ],
+      "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, coaanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat ng, combat aanics, and a branching narrative. featuring deep storytelling, combat mbat mechanics, and a branching narrative. Built with custom engine technology.",
+      "role": "Middle Unity Engineer",
+      "techStack": ["Unity 2D", "C#", "R3", "GitLab", "Editor Tools", "Addressables & Memory Management", "Zenject", "DOTween", "UniTask", "Animation", "Unity UI (uGUI)", 
+        "UnityWebRequest(REST API)", "Unity Test Framework", "Tech Art", "Firebase", "Jira/Scrum"],
       "media": [
-        { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
-        { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
-        { "type": "gif", "src": "assets/projects/Placeholders/star-wars-internet-explorer.gif" },
-        { "type": "video", "src": "assets/projects/Placeholders/video_2023-09-06_18-23-28.mp4" }
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_2.webp" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_3.jfif" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_4.jpg" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_5.webp" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_6.webp" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_7.jfif" },
+        { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_8.webp" }
       ]
-      }
     }
   },
   {
     "id": "project-2",
     "name": "Puzzle Quest",
-    "shortDescription": "A cyberpunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a branchit Хочу",
+    "shortDescription": "A cyberpunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a bunk acaaniRPG with od a branchit Хочу",
     "image": "assets/projects/Placeholders/star-wars-fight.gif",
-    "date": "2025-11-20",
-    "links": {
-      "stores": [
-        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": true },
-        { "type": "app-store", "url": "", "disabled": true }
-      ]
+    "date": "2025-01-1",
+    "endDate": "2026-03-1",
+    "company": {
+      "name": "NLTDev",
+      "icon": "assets/projects/JungleNest/NLT-Icon.jfif",
+      "color": "#ffd83b"
     },
+    "links": {
+      "stores": [],
+      "custom": []
+    },
+    "media": [],
     "details": {
       "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
       "role": "Solo Developer",
       "techStack": ["Unity", "C#", "Android SDK"],
       "links": {
-        "stores": [
-          { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.example.puzzle", "disabled": false }
-        ],
-        "media": [
-          { "type": "image", "src": "assets/projects/Placeholders/Quieres_Thumbnail.png" },
-          { "type": "image", "src": "assets/projects/puzzle-quest-2.jpg" },
-          { "type": "gif", "src": "assets/projects/puzzle-quest-gif.gif" }
-        ]
-      }
+        "stores": []
+      },
+      "media": []
     }
   },
   {
@@ -78,13 +81,13 @@
       "links": {
         "stores": [
           { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
-        ],
-        "media": [
-          { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
-          { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
-          { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
         ]
-      }
+      },
+      "media": [
+        { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
+        { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
+        { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
+      ]
     }
   },
   {
@@ -105,13 +108,13 @@
       "links": {
         "stores": [
           { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
-        ],
-        "media": [
-          { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
-          { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
-          { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
         ]
-      }
+      },
+      "media": [
+        { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
+        { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
+        { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
+      ]
     }
   }
 ]

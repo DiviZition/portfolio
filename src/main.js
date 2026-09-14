@@ -114,8 +114,10 @@ function renderRoadmap(projects) {
   for (let i = 0; i < sortedProjects.length; i++) {
     const project = sortedProjects[i];
     const storesHTML = renderStoreLinks(project.links?.stores || []);
-    const mediaLinksHTML = renderMediaLinks(project.links?.media || [], false);
-    const hasFooter = project.company || storesHTML || mediaLinksHTML;
+    const mediaLinksHTML = renderMediaLinks(project.media || [], false);
+    const customLinksHTML = renderCustomLinks(project.links?.custom || []);
+    const downloadsHTML = renderDownloads(project.downloads);
+    const hasFooter = project.company || storesHTML || mediaLinksHTML || customLinksHTML || downloadsHTML;
     
     html += `
       <div class="roadmap-stop" style="animation-delay: ${i * 0.15}s">
@@ -125,7 +127,7 @@ function renderRoadmap(projects) {
             <div class="card-content">
               <div class="card-header">
                 <h3 class="card-name">${escapeHtml(project.name)}</h3>
-                <span class="card-date">${formatDate(project.date)}</span>
+                <span class="card-date">${formatDateWithDuration(project.date, project.endDate)}</span>
               </div>
               <p class="card-description">${escapeHtml(project.shortDescription)}</p>
               ${project.company ? `<div class="card-company-line">
@@ -134,7 +136,8 @@ function renderRoadmap(projects) {
                 ${project.details?.role ? `<span class="role-separator">|</span><span class="card-role">${escapeHtml(project.details.role)}</span>` : ''}
               </div>` : ''}
               <div class="card-links">
-                ${storesHTML}${mediaLinksHTML}
+                ${storesHTML}${customLinksHTML}${mediaLinksHTML}
+                ${downloadsHTML}
               </div>
             </div>
           </div>
@@ -155,15 +158,15 @@ function renderRoadmap(projects) {
         return;
       }
       
-      const mediaItem = e.target.closest('.media-link-item');
-      if (mediaItem && mediaItem.dataset.galleryType === 'card') {
-        e.preventDefault();
-        e.stopPropagation();
-        const projectId = card.dataset.projectId;
-        const project = projects.find(p => p.id === projectId);
-        if (!project) return;
-        const mediaList = project.links?.media || [];
-        const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+        const mediaItem = e.target.closest('.media-link-item');
+        if (mediaItem && mediaItem.dataset.galleryType === 'card') {
+          e.preventDefault();
+          e.stopPropagation();
+          const projectId = card.dataset.projectId;
+          const project = projects.find(p => p.id === projectId);
+          if (!project) return;
+          const mediaList = project.media || [];
+          const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
         if (mediaList[mediaIndex]) {
           openLightbox(mediaList[mediaIndex]);
         }
@@ -251,6 +254,29 @@ function renderStoreLinks(stores) {
   return html;
 }
 
+function renderCustomLinks(links) {
+  if (!links || links.length === 0) return '';
+  
+  let html = '';
+  for (const link of links) {
+    const iconPath = escapeHtml(link.icon);
+    const href = escapeHtml(link.url);
+    const label = escapeHtml(link.label || '');
+    
+    html += `<a href="${href}" target="_blank" rel="noopener noreferrer" class="store-link custom-link" title="${label}">
+      <img src="${iconPath}" alt="${label}" />
+    </a>`;
+  }
+  return html;
+}
+
+function renderDownloads(downloads) {
+  if (!downloads || !downloads.count) return '';
+  
+  const colorStyle = downloads.color ? `style="color: ${escapeHtml(downloads.color)}"` : '';
+  return `<span class="card-downloads" ${colorStyle}>${escapeHtml(downloads.count)}</span>`;
+}
+
 function renderMediaLinks(media, isInModal) {
   if (!media || media.length === 0) return '';
   
@@ -283,7 +309,9 @@ function openProjectModal(projectId) {
   const details = project.details || {};
   const modalLinks = details.links || project.links || {};
   const storesHTML = renderStoreLinks(modalLinks.stores || []);
-  const mediaGalleryHTML = renderMediaGallery(modalLinks.media || [], true);
+  const mediaGalleryHTML = renderMediaGallery(project.details?.media || [], true);
+  const customLinksHTML = renderCustomLinks(project.links?.custom || []);
+  const downloadsHTML = renderDownloads(project.downloads);
   
   let metaHTML = '';
   if (details.techStack && details.techStack.length > 0) {
@@ -308,10 +336,14 @@ function openProjectModal(projectId) {
     <div class="modal-top-section">
       <div class="modal-image-section">
         <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="modal-image" />
-        ${storesHTML ? `<div class="card-links">${storesHTML}</div>` : ''}
+        ${storesHTML || customLinksHTML ? `<div class="card-links">${storesHTML}${customLinksHTML}</div>` : ''}
+        ${downloadsHTML}
       </div>
       <div class="modal-info-section">
-        <h2 class="modal-name">${escapeHtml(project.name)}</h2>
+        <div class="modal-info-header">
+          <h2 class="modal-name">${escapeHtml(project.name)}</h2>
+          ${project.date ? `<span class="modal-date">${formatDateWithDuration(project.date, project.endDate)}</span>` : ''}
+        </div>
         ${companyHTML}
         <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
@@ -326,7 +358,7 @@ function openProjectModal(projectId) {
   modalBody.querySelectorAll('.media-link-item').forEach(item => {
     item.addEventListener('click', () => {
       const mediaIndex = parseInt(item.dataset.mediaIndex);
-      const mediaList = modalLinks.media || [];
+      const mediaList = project.details?.media || [];
       if (mediaList[mediaIndex]) {
         openLightbox(mediaList[mediaIndex]);
       }
@@ -334,9 +366,9 @@ function openProjectModal(projectId) {
   });
 
   modalBody.querySelectorAll('.media-gallery-item').forEach((item, index) => {
-    if (index < (modalLinks.media || []).length) {
+    if (index < (project.details?.media || []).length) {
       item.addEventListener('click', () => {
-        openLightbox(modalLinks.media[index]);
+        openLightbox(project.details.media[index]);
       });
     }
   });
@@ -480,10 +512,47 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-function formatDate(dateStr) {
+function formatDateWithDuration(dateStr, endDate) {
   if (!dateStr) return '';
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  
+  const start = new Date(dateStr);
+  let result = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+  
+  if (endDate) {
+    const end = new Date(endDate);
+    const endFormatted = end.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    result += ' - ' + endFormatted;
+    
+    const duration = calculateDuration(dateStr, endDate);
+    if (duration) {
+      result += `: <span class="card-duration">${duration}</span>`;
+    }
+  }
+  
+  return result;
+}
+
+function calculateDuration(dateStr, endDate) {
+  if (!dateStr || !endDate) return '';
+  
+  const start = new Date(dateStr);
+  const end = new Date(endDate);
+  
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  
+  if (years === 0 && months === 0) return 'Less than a month';
+  
+  const parts = [];
+  if (years > 0) parts.push(years === 1 ? '1 year' : `${years} years`);
+  if (months > 0) parts.push(months === 1 ? '1 month' : `${months} months`);
+  
+  return parts.join(', ');
 }
 
 async function init() {

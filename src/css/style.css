@@ -345,7 +345,7 @@ body::after {
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 15px;
 }
 
@@ -393,9 +393,22 @@ body::after {
 }
 
 .card-date {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   white-space: nowrap;
+}
+
+.card-duration {
+  font-size: 0.85rem;
+  color: var(--accent-purple);
+}
+
+.card-downloads {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin-left: auto;
 }
 
 .card-description {
@@ -416,7 +429,7 @@ body::after {
   display: flex;
   gap: 12px;
   margin-top: auto;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .store-link {
@@ -639,13 +652,31 @@ body::after {
   gap: 8px;
 }
 
+.modal-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid var(--border-glow);
+  padding-bottom: 8px;
+}
+
+.modal-date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.modal-duration {
+  font-size: 0.85rem;
+  color: var(--accent-purple);
+}
+
 .modal-name {
   font-size: 2rem;
   font-weight: 700;
   color: var(--accent-cyan);
   text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-  border-bottom: 1px solid var(--border-glow);
-  padding-bottom: 8px;
 }
 
 .company-icon-modal {
@@ -694,6 +725,14 @@ body::after {
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 1rem;
+}
+
+.modal-downloads {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px 0;
 }
 
 /* ===== Media Gallery ===== */
