@@ -4,8 +4,7 @@
     "name": "Up Like A Bullet",
     "shortDescription": "My beloved, first finished own game",
     "image": "assets/projects/0_UpLikeABullet/UpLikeABullet-Icon.png",
-    "date": "2025-01-1",
-    "endDate": "2026-03-1",
+    "date": "2020-06-1",
     "links": {
       "stores": [
         { "type": "itch-io", "url": "https://divizition.itch.io/up-like-a-bullet", "disabled": false }
@@ -14,22 +13,208 @@
     "details": {
       "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
       "role": "Solo Developer",
-      "techStack": ["Unity", "C#", "Android SDK"],
-      "links": {
-        "stores": []
-      },
+      "techStack": ["Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK"],
+      "media": [
+        { "type": "video", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Gameplay.mp4" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_1.png" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_2.png" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_3.png" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_4.png" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_5.png" },
+        { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_6.png" }
+      ],
+      "team": ["My", "Myself", "I", "Dima"]
+    }
+  },
+  
+  {
+    "id": "jump-fish-jump",
+    "name": "Jump Fish Jump",
+    "shortDescription": "A fun arcade game.",
+    "image": "assets/projects/1_JumpFishJump/JumpFishJump-Icon.jfif",
+    "date": "2021-03-15",
+    "details": {
+      "fullDescription": "Jump Fish Jump is an addictive arcade game where you help a fish jump through obstacles.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_1.jfif" },
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_2.jpg" },
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_3.jpg" },
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_4.jpg" },
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_5.jpg" }
+      ]
+    }
+  },
+
+  {
+    "id": "toys-connect",
+    "name": "Toys Connect",
+    "shortDescription": "A puzzle game connecting toys.",
+    "image": "assets/projects/2_ToysConnect/ToysConnect-Icon.jfif",
+    "date": "2021-08-20",
+    "details": {
+      "fullDescription": "Toys Connect is a matching puzzle game where you connect toys to clear levels.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_1.jpg" },
+        { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_2.jpg" },
+        { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_3.jpg" },
+        { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_4.jpg" }
+      ]
+    }
+  },
+
+  {
+    "id": "block-king",
+    "name": "Block King",
+    "shortDescription": "Stack blocks to become king.",
+    "image": "assets/projects/3_BlockKing/BlockKing-Icon.webp",
+    "date": "2022-01-10",
+    "details": {
+      "fullDescription": "Block King is a casual stacking game where you build the tallest tower.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_2.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_3.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_4.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_5.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_6.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_7.webp" },
+        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_8.webp" }
+      ]
+    }
+  },
+
+  {
+    "id": "merge-defense",
+    "name": "Merge Defense",
+    "shortDescription": "Merge heroes to defend your base.",
+    "image": "assets/projects/4_MergeDefense/MergeDefense-Icon.jfif",
+    "date": "2022-06-15",
+    "details": {
+      "fullDescription": "Merge Defense combines merge mechanics with tower defense strategy.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_2.webp" },
+        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_3.webp" },
+        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_4.webp" },
+        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_5.webp" }
+      ]
+    }
+  },
+
+  {
+    "id": "arachnophobia",
+    "name": "Arachnophobia",
+    "shortDescription": "A horror puzzle game.",
+    "image": "assets/projects/5_Arachnophobia/Arachnophobia-Icon.png",
+    "date": "2023-01-20",
+    "details": {
+      "fullDescription": "Arachnophobia is a horror-themed puzzle game with 3-level gameplay.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "video", "src": "assets/projects/5_Arachnophobia/Arachnophobia-3LevelGameplay.mp4" },
+        { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_1.png" },
+        { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_2.png" },
+        { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_3.png" },
+        { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_4.png" },
+        { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_5.png" }
+      ]
+    }
+  },
+
+  {
+    "id": "card-match",
+    "name": "Card Match",
+    "shortDescription": "Classic card matching game.",
+    "image": "assets/projects/6_CardMatch/CardMatch-Icon.webp",
+    "date": "2023-04-10",
+    "details": {
+      "fullDescription": "Card Match is a classic memory card flipping game with multiple levels.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_2.png" },
+        { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_3.webp" },
+        { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_4.webp" },
+        { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_5.webp" }
+      ]
+    }
+  },
+
+  {
+    "id": "hidden-words-adventure",
+    "name": "Hidden Words Adventure",
+    "shortDescription": "Find hidden words in adventure scenes.",
+    "image": "assets/projects/7_HiddenWords/HiddenWordsAdventure-ICon.png",
+    "date": "2023-09-05",
+    "details": {
+      "fullDescription": "Hidden Words Adventure is a word search game set in beautiful adventure scenes.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_1.png" },
+        { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_2.png" },
+        { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_3.png" },
+        { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_4.png" }
+      ]
+    }
+  },
+
+  {
+    "id": "voodoo-test-task",
+    "name": "Voodoo Test Task",
+    "shortDescription": "A test task for Voodoo.",
+    "image": "assets/projects/10_Voodoo-TestTask/VooDoo-Icon.png",
+    "date": "2024-05-15",
+    "details": {
+      "fullDescription": "A test task completed for Voodoo studio.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
+      "media": [
+        { "type": "video", "src": "assets/projects/10_Voodoo-TestTask/My-Final-Result.mp4" },
+        { "type": "image", "src": "assets/projects/10_Voodoo-TestTask/VooDoo-BG_1.jfif" },
+        { "type": "image", "src": "assets/projects/10_Voodoo-TestTask/VooDoo-BG_2.png" }
+      ]
+    }
+  },
+
+  {
+    "id": "jungle-nest",
+    "name": "Jungle Nest",
+    "shortDescription": "A jungle themed game.",
+    "image": "assets/projects/9_JungleNest/NLT-Icon.jfif",
+    "date": "2024-11-20",
+    "company": {
+      "name": "NLTDev",
+      "icon": "assets/projects/9_JungleNest/NLT-Icon.jfif",
+      "color": "#ffd83b"
+    },
+    "details": {
+      "fullDescription": "Jungle Nest is a game developed with NLTDev.",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#"],
       "media": []
     }
   },
+
   {
     "id": "netflix-stories",
     "name": "Netflix Stories",
-    "shortDescription": "A cyber.jpgХочу пицу.jpgХочу пицу.jpgtion. ",
+    "shortDescription": "A cyberpunk puzzle game.",
     "image": "assets/projects/8_Netflix-Stories/NetflixStories-Icon.jpg",
     "date": "2023-07-1",
     "endDate": "2025-02-1",
     "downloads": {
-      "count": "Over 1 million downloads",
+      "count": "1M+ Downloads",
       "color": "#ff00aa"
       },
     "company": {
@@ -60,55 +245,6 @@
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_6.webp" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_7.jfif" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_8.webp" }
-      ]
-    }
-  },
-  {
-    "id": "project-3",
-    "name": "Space Explorers",
-    "shortDescription": "Co-op space exploration game.",
-    "image": "assets/projects/space-explorers.jpg",
-    "date": "2025-08-10",
-    "details": {
-      "fullDescription": "Space Explorers is a cooperative multiplayer game where players explore procedurally generated planets, gather resources, and build bases together.",
-      "role": "Co-Developer",
-      "techStack": ["Godot", "GDScript", "Multiplayer Netcode"],
-      "links": {
-        "stores": [
-          { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
-        ]
-      },
-      "media": [
-        { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
-        { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
-        { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
-      ]
-    }
-  },
-  {
-    "id": "project-4",
-    "name": "Space Explorers",
-    "shortDescription": "Co-op space exploration game.",
-    "image": "assets/projects/space-explorers.jpg",
-    "date": "2025-08-10",
-    "company": {
-      "name": "Games, Games! GAMES!!!",
-      "icon": "assets/projects/Placeholders/(0.0).jpg",
-      "color": "#FF4F00"
-    },
-    "details": {
-      "fullDescription": "Space Explorers is a cooperative multiplayer game where players explore procedurally generated planets, gather resources, and build bases together.",
-      "role": "Co-Developer",
-      "techStack": ["Godot", "GDScript", "Multiplayer Netcode"],
-      "links": {
-        "stores": [
-          { "type": "itch-io", "url": "https://yourname.itch.io/space-explorers", "disabled": false }
-        ]
-      },
-      "media": [
-        { "type": "image", "src": "assets/projects/space-explorers-1.jpg" },
-        { "type": "image", "src": "assets/projects/space-explorers-2.jpg" },
-        { "type": "video", "src": "assets/projects/space-explorers-trailer.mp4" }
       ]
     }
   }
