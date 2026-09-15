@@ -1,4 +1,4 @@
-const ICONS_BASE = '/assets/icons/';
+const ICONS_BASE = './assets/icons/';
 
 let profileConfig;
 let projectsConfig;
@@ -695,8 +695,19 @@ function calculateDuration(dateStr, endDate) {
 }
 
 async function init() {
-  profileConfig = await fetch('./config/profile.json').then(r => r.json());
-  projectsConfig = await fetch('./config/projects.json').then(r => r.json());
+  const profileData = await import('../config/profile.json');
+  const projectsData = await import('../config/projects.json');
+  
+  profileConfig = profileData.default;
+  projectsConfig = projectsData.default;
+  
+  // Inject favicon
+  if (profileConfig.favicon) {
+    const linkEl = document.createElement('link');
+    linkEl.rel = 'icon';
+    linkEl.href = profileConfig.favicon;
+    document.head.appendChild(linkEl);
+  }
   
   renderProfile(profileConfig);
   renderRoadmap(projectsConfig);
