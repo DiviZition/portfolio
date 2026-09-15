@@ -3,6 +3,8 @@ const ICONS_BASE = '/assets/icons/';
 let profileConfig;
 let projectsConfig;
 
+let lightboxState = { mediaList: [], currentIndex: 0 };
+
 const storeIcons = {
   'app-store': 'app-store.png',
   'ios': 'app-store.png',
@@ -25,6 +27,52 @@ function getIconPath(platform) {
   const iconFile = socialIcons[platform] || storeIcons[platform];
   if (iconFile) return `${ICONS_BASE}${iconFile}`;
   return null;
+}
+
+let cardSizesScheduled = false;
+
+function updateCardImageSizes() {
+  if (cardSizesScheduled) return;
+  cardSizesScheduled = true;
+
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    cardSizesScheduled = false;
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.project-card').forEach(card => {
+      const img = card.querySelector('.card-image');
+      const content = card.querySelector('.card-content');
+      if (!img || !content) return;
+
+      let prevHeight = 0;
+      for (let iter = 0; iter < 5; iter++) {
+        const rect = content.getBoundingClientRect();
+        const naturalHeight = Math.max(Math.round(rect.height), 50);
+        const clampedHeight = Math.min(naturalHeight, 400);
+
+        if (Math.abs(clampedHeight - prevHeight) < 2) break;
+        prevHeight = clampedHeight;
+
+        img.style.width = clampedHeight + 'px';
+        img.style.height = clampedHeight + 'px';
+        
+        document.body.offsetHeight;
+      }
+
+      if (content.scrollHeight > 400) {
+        content.style.maxHeight = '400px';
+        content.style.overflowY = 'auto';
+      } else {
+        content.style.maxHeight = '';
+        content.style.overflowY = '';
+      }
+    });
+    
+    cardSizesScheduled = false;
+  });
 }
 
 function renderProfile(config) {
@@ -68,26 +116,30 @@ function renderRoadmap(projects) {
   for (let i = 0; i < sortedProjects.length; i++) {
     const project = sortedProjects[i];
     const storesHTML = renderStoreLinks(project.links?.stores || []);
-    const mediaLinksHTML = renderMediaLinks(project.links?.media || [], false);
+    const mediaLinksHTML = renderMediaLinks(project.media || [], false);
+    const customLinksHTML = renderCustomLinks(project.links?.custom || []);
+    const downloadsHTML = renderDownloads(project.downloads);
+    const hasFooter = project.company || storesHTML || mediaLinksHTML || customLinksHTML || downloadsHTML;
     
     html += `
       <div class="roadmap-stop" style="animation-delay: ${i * 0.15}s">
         <div class="roadmap-card-wrapper">
-          <div class="project-card" data-project-id="${escapeHtml(project.id)}">
+          <div class="project-card${hasFooter ? ' has-footer' : ''}" data-project-id="${escapeHtml(project.id)}">
             <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="card-image" />
             <div class="card-content">
               <div class="card-header">
                 <h3 class="card-name">${escapeHtml(project.name)}</h3>
-                <span class="card-date">${formatDate(project.date)}</span>
+                <span class="card-date">${formatDateWithDuration(project.date, project.endDate)}</span>
               </div>
-              <p class="card-description">${escapeHtml(project.shortDescription)}</p>
+              <p class="card-description">${renderDescription(project.shortDescription)}</p>
               ${project.company ? `<div class="card-company-line">
                 <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
-                <span class="company-name">${escapeHtml(project.company.name)}</span>
+                <span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>
                 ${project.details?.role ? `<span class="role-separator">|</span><span class="card-role">${escapeHtml(project.details.role)}</span>` : ''}
               </div>` : ''}
               <div class="card-links">
-                ${storesHTML}${mediaLinksHTML}
+                ${storesHTML}${customLinksHTML}${mediaLinksHTML}
+                ${downloadsHTML}
               </div>
             </div>
           </div>
@@ -98,13 +150,86 @@ function renderRoadmap(projects) {
   
   container.innerHTML = html;
   
+  updateCardImageSizes();
   resizeMediaGalleryItems();
   
   container.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      const storeLink = e.target.closest('.store-link[href]');
+      if (storeLink && !storeLink.classList.contains('store-link-disabled')) {
+        return;
+      }
+      
+        const mediaItem = e.target.closest('.media-link-item');
+        if (mediaItem && mediaItem.dataset.galleryType === 'card') {
+          e.preventDefault();
+          e.stopPropagation();
+          const projectId = card.dataset.projectId;
+          const project = projects.find(p => p.id === projectId);
+          if (!project) return;
+          const mediaList = project.media || [];
+          const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+          if (mediaList[mediaIndex]) {
+            openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
+          }
+        return;
+      }
+      
       const projectId = card.dataset.projectId;
       openProjectModal(projectId);
     });
+  });
+
+  setupGlobalTooltip();
+}
+
+function setupGlobalTooltip() {
+  const tooltip = document.getElementById('global-tooltip');
+  if (!tooltip) return;
+
+  function showTooltip(wrapper) {
+    const disabledLink = wrapper.querySelector('.store-link-disabled');
+    if (!disabledLink) return;
+
+    const rect = disabledLink.getBoundingClientRect();
+    
+    tooltip.textContent = 'The game was removed from this store 😿';
+    
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const tooltipWidth = tooltipRect.width || 200;
+    
+    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+    let top = rect.top - tooltipRect.height - 8;
+    
+    if (left < 10) left = 10;
+    if (left + tooltipWidth > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipWidth - 10;
+    }
+    if (top < 10) top = rect.bottom + 8;
+    
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.add('visible');
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+  }
+
+  document.addEventListener('mouseover', (e) => {
+    const wrapper = e.target.closest('.store-link-wrapper');
+    if (wrapper) {
+      showTooltip(wrapper);
+    } else if (!e.target.closest('#global-tooltip')) {
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const wrapper = e.target.closest('.store-link-wrapper');
+    if (wrapper) {
+      hideTooltip();
+    }
   });
 }
 
@@ -117,8 +242,10 @@ function renderStoreLinks(stores) {
     if (!iconPath) continue;
     
     if (store.disabled) {
-      html += `<span class="store-link store-link-disabled" title="Unavailable">
-        <img src="${escapeHtml(iconPath)}" alt="${escapeHtml(store.type)}" />
+      html += `<span class="store-link-wrapper" data-store-type="${escapeHtml(store.type)}">
+        <span class="store-link store-link-disabled">
+          <img src="${escapeHtml(iconPath)}" alt="${escapeHtml(store.type)}" />
+        </span>
       </span>`;
     } else if (store.url) {
       html += `<a href="${escapeHtml(store.url)}" target="_blank" rel="noopener noreferrer" class="store-link" title="${escapeHtml(store.type)}">
@@ -127,6 +254,29 @@ function renderStoreLinks(stores) {
     }
   }
   return html;
+}
+
+function renderCustomLinks(links) {
+  if (!links || links.length === 0) return '';
+  
+  let html = '';
+  for (const link of links) {
+    const iconPath = escapeHtml(link.icon);
+    const href = escapeHtml(link.url);
+    const label = escapeHtml(link.label || '');
+    
+    html += `<a href="${href}" target="_blank" rel="noopener noreferrer" class="store-link custom-link" title="${label}">
+      <img src="${iconPath}" alt="${label}" />
+    </a>`;
+  }
+  return html;
+}
+
+function renderDownloads(downloads) {
+  if (!downloads || !downloads.count) return '';
+  
+  const colorStyle = downloads.color ? `style="color: ${escapeHtml(downloads.color)}"` : '';
+  return `<span class="card-downloads" ${colorStyle}>${escapeHtml(downloads.count)}</span>`;
 }
 
 function renderMediaLinks(media, isInModal) {
@@ -161,14 +311,16 @@ function openProjectModal(projectId) {
   const details = project.details || {};
   const modalLinks = details.links || project.links || {};
   const storesHTML = renderStoreLinks(modalLinks.stores || []);
-  const mediaGalleryHTML = renderMediaGallery(modalLinks.media || [], true);
+  const mediaGalleryHTML = renderMediaGallery(project.details?.media || [], true);
+  const customLinksHTML = renderCustomLinks(project.links?.custom || []);
+  const downloadsHTML = renderDownloads(project.downloads);
   
   let metaHTML = '';
-  if (details.role) {
-    metaHTML += `<span class="modal-meta-item"><strong>Role:</strong> ${escapeHtml(details.role)}</span>`;
-  }
   if (details.techStack && details.techStack.length > 0) {
     metaHTML += `<span class="modal-meta-item"><strong>Tech:</strong> ${escapeHtml(details.techStack.join(', '))}</span>`;
+  }
+  if (details.team && details.team.length > 0) {
+    metaHTML += `<span class="modal-meta-item"><strong>Team:</strong> ${escapeHtml(details.team.join(', '))}</span>`;
   }
   
   let companyHTML = '';
@@ -176,7 +328,8 @@ function openProjectModal(projectId) {
     companyHTML = `
       <div class="modal-company-line">
         ${project.company.icon ? `<img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-modal" title="${escapeHtml(project.company.name)}" />` : ''}
-        ${project.company.name ? `<span class="company-name">${escapeHtml(project.company.name)}</span>` : ''}
+        ${project.company.name ? `<span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>` : ''}
+        ${details.role ? `<span class="role-separator">|</span><span class="modal-role">${escapeHtml(details.role)}</span>` : ''}
       </div>
     `;
   }
@@ -185,15 +338,17 @@ function openProjectModal(projectId) {
     <div class="modal-top-section">
       <div class="modal-image-section">
         <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)}" class="modal-image" />
+        ${storesHTML || customLinksHTML ? `<div class="card-links">${storesHTML}${customLinksHTML}</div>` : ''}
+        ${downloadsHTML}
       </div>
       <div class="modal-info-section">
-        <h2 class="modal-name">${escapeHtml(project.name)}</h2>
-        ${companyHTML}
-        ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
-        <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
-        <div class="card-links">
-          ${storesHTML}
+        <div class="modal-info-header">
+          <h2 class="modal-name">${escapeHtml(project.name)}</h2>
+          ${project.date ? `<span class="modal-date">${formatDateWithDuration(project.date, project.endDate)}</span>` : ''}
         </div>
+        ${companyHTML}
+        <p class="modal-description">${renderDescription(details.fullDescription || project.shortDescription)}</p>
+        ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
     </div>
     ${mediaGalleryHTML}
@@ -205,17 +360,18 @@ function openProjectModal(projectId) {
   modalBody.querySelectorAll('.media-link-item').forEach(item => {
     item.addEventListener('click', () => {
       const mediaIndex = parseInt(item.dataset.mediaIndex);
-      const mediaList = modalLinks.media || [];
+      const mediaList = project.details?.media || [];
       if (mediaList[mediaIndex]) {
-        openLightbox(mediaList[mediaIndex]);
+        openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
       }
     });
   });
 
   modalBody.querySelectorAll('.media-gallery-item').forEach((item, index) => {
-    if (index < (modalLinks.media || []).length) {
+    if (index < (project.details?.media || []).length) {
       item.addEventListener('click', () => {
-        openLightbox(modalLinks.media[index]);
+        const mediaList = project.details.media;
+        openLightbox(mediaList[index], mediaList, index);
       });
     }
   });
@@ -267,6 +423,7 @@ function renderMediaGallery(media, isInModal) {
     if (item.type === 'video') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
         <video src="${src}" muted loop></video>
+        <div class="video-play-overlay">&#9654;</div>
       </div>`;
     } else if (item.type === 'gif') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
@@ -282,8 +439,48 @@ function renderMediaGallery(media, isInModal) {
   return html;
 }
 
-function openLightbox(mediaItem) {
+function openLightbox(mediaItem, mediaList, currentIndex) {
+  lightboxState.mediaList = mediaList || [mediaItem];
+  lightboxState.currentIndex = currentIndex || 0;
+  
+  renderLightboxContent(mediaItem);
+  renderThumbnails(lightboxState.mediaList);
+  updateLightboxNavVisibility(lightboxState.mediaList.length);
+  
   const lightbox = document.getElementById('media-lightbox');
+  lightbox.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('media-lightbox');
+  const content = document.getElementById('lightbox-content');
+  
+  lightbox.classList.add('hidden');
+  content.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+  if (lightboxState.mediaList.length <= 1) return;
+  
+  let newIndex = lightboxState.currentIndex + direction;
+  if (newIndex < 0) newIndex = lightboxState.mediaList.length - 1;
+  if (newIndex >= lightboxState.mediaList.length) newIndex = 0;
+  
+  renderLightboxContent(lightboxState.mediaList[newIndex]);
+  updateThumbnails(newIndex);
+  lightboxState.currentIndex = newIndex;
+}
+
+function switchToMedia(index) {
+  if (index === lightboxState.currentIndex) return;
+  renderLightboxContent(lightboxState.mediaList[index]);
+  updateThumbnails(index);
+  lightboxState.currentIndex = index;
+}
+
+function renderLightboxContent(mediaItem) {
   const content = document.getElementById('lightbox-content');
   
   if (mediaItem.type === 'video') {
@@ -329,28 +526,94 @@ function openLightbox(mediaItem) {
       mediaEl.addEventListener('load', applySize);
     }
   }
-  
-  lightbox.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox() {
-  const lightbox = document.getElementById('media-lightbox');
-  const content = document.getElementById('lightbox-content');
+function renderThumbnails(mediaList) {
+  const container = document.getElementById('lightbox-thumbnails');
+  if (!container) return;
   
-  lightbox.classList.add('hidden');
-  content.innerHTML = '';
-  document.body.style.overflow = '';
+  if (mediaList.length <= 1) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'flex';
+  
+  let html = '';
+  for (let i = 0; i < mediaList.length; i++) {
+    const item = mediaList[i];
+    const src = escapeHtml(item.src);
+    const activeClass = i === lightboxState.currentIndex ? ' active' : '';
+    
+    if (item.type === 'video') {
+      html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
+        <div class="video-thumbnail-placeholder">&#9654;</div>
+      </div>`;
+    } else {
+      html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
+        <img src="${src}" alt="Thumbnail" />
+      </div>`;
+    }
+  }
+  container.innerHTML = html;
+  
+  container.querySelectorAll('.lightbox-thumb').forEach((thumb, index) => {
+    thumb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      switchToMedia(index);
+    });
+  });
 }
 
-function setupGalleryClickHandlers(mediaList) {
-  const galleryItems = document.querySelectorAll('.media-gallery-item');
+function updateThumbnails(activeIndex) {
+  const thumbs = document.querySelectorAll('.lightbox-thumb');
+  thumbs.forEach((thumb, index) => {
+    if (index === activeIndex) {
+      thumb.classList.add('active');
+    } else {
+      thumb.classList.remove('active');
+    }
+  });
   
-  galleryItems.forEach((item, index) => {
-    if (index < mediaList.length) {
-      item.addEventListener('click', () => {
-        openLightbox(mediaList[index]);
-      });
+  const activeThumb = thumbs[activeIndex];
+  if (activeThumb) {
+    activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+}
+
+function updateLightboxNavVisibility(mediaCount) {
+  const prevBtn = document.querySelector('.lightbox-prev');
+  const nextBtn = document.querySelector('.lightbox-next');
+  
+  if (prevBtn) {
+    prevBtn.style.display = mediaCount > 1 ? 'flex' : 'none';
+  }
+  if (nextBtn) {
+    nextBtn.style.display = mediaCount > 1 ? 'flex' : 'none';
+  }
+}
+
+function setupLightboxNavigation() {
+  const prevBtn = document.querySelector('.lightbox-prev');
+  const nextBtn = document.querySelector('.lightbox-next');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => navigateLightbox(-1));
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => navigateLightbox(1));
+  }
+  
+  document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('media-lightbox');
+    if (!lightbox || lightbox.classList.contains('hidden')) return;
+    
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      navigateLightbox(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      navigateLightbox(1);
     }
   });
 }
@@ -371,10 +634,64 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-function formatDate(dateStr) {
+function renderDescription(text) {
+  if (!text) return '';
+  let result = escapeHtml(text).replace(/\n/g, '<br>');
+  
+  // Bold: **text**
+  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  
+  // Italic: *text* or _text_
+  result = result.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  result = result.replace(/_(.+?)_/g, '<em>$1</em>');
+  
+  // Colored text: {{#HEXCOLOR}}text{{/color}}
+  result = result.replace(/\{\{#([0-9A-Fa-f]{3,6})\}\}(.+?)\{\{\/color\}\}/g, '<span style="color:#$1">$2</span>');
+  
+  return result;
+}
+
+function formatDateWithDuration(dateStr, endDate) {
   if (!dateStr) return '';
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  
+  const start = new Date(dateStr);
+  let result = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+  
+  if (endDate) {
+    const end = new Date(endDate);
+    const endFormatted = end.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    result += ' - ' + endFormatted;
+    
+    const duration = calculateDuration(dateStr, endDate);
+    if (duration) {
+      result += `: <span class="card-duration">${duration}</span>`;
+    }
+  }
+  
+  return result;
+}
+
+function calculateDuration(dateStr, endDate) {
+  if (!dateStr || !endDate) return '';
+  
+  const start = new Date(dateStr);
+  const end = new Date(endDate);
+  
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  
+  if (years === 0 && months === 0) return 'Less than a month';
+  
+  const parts = [];
+  if (years > 0) parts.push(years === 1 ? '1 year' : `${years} years`);
+  if (months > 0) parts.push(months === 1 ? '1 month' : `${months} months`);
+  
+  return parts.join(', ');
 }
 
 async function init() {
@@ -395,7 +712,7 @@ async function init() {
       closeLightbox();
     }
   });
-  
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (!document.getElementById('media-lightbox').classList.contains('hidden')) {
@@ -432,6 +749,12 @@ async function init() {
       video.addEventListener('mouseenter', () => video.play().catch(() => {}));
       video.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
     });
+  });
+  
+  setupLightboxNavigation();
+  
+  window.addEventListener('resize', () => {
+    updateCardImageSizes();
   });
 }
 
