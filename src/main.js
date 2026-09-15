@@ -695,8 +695,8 @@ function calculateDuration(dateStr, endDate) {
 }
 
 async function init() {
-  profileConfig = await fetch('/config/profile.json').then(r => r.json());
-  projectsConfig = await fetch('/config/projects.json').then(r => r.json());
+  profileConfig = await fetch('./config/profile.json').then(r => r.json());
+  projectsConfig = await fetch('./config/projects.json').then(r => r.json());
   
   renderProfile(profileConfig);
   renderRoadmap(projectsConfig);
