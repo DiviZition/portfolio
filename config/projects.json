@@ -3,7 +3,7 @@
     "id": "up-like-a-bullet",
     "name": "Up Like A Bullet",
     "shortDescription": "My beloved, first finished own game",
-    "image": "assets/projects/0_UpLikeABullet/UpLikeABullet-Icon.png",
+    "image": "assets/projects/0_UpLikeABullet/UpLikeABullet-Icon.webp",
     "date": "2020-06-1",
     "links": {
       "stores": [
@@ -11,9 +11,10 @@
       ]
     },
     "details": {
-      "fullDescription": "Puzzle Quest is an innovative mobile puzzle game combining match-3 mechanics with RPG elements. Features over 200 levels and daily challenges.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK", "Unity", "C#", "Android SDK"],
+      "fullDescription": "**A simple platformer with its own story, buffs, enemies, and a speedrun concept.** \nIt was used for all of my university {{#ce9178}}Course papers{{/color}}, and as a {{#e72c2e}}Diploma project{{/color}} as well 😁 \n\nAll the code, art, tech-art, story, level design, and UI were created by me. \nFor the sounds I collaborated with my fellow bit-maker: {{#c93c85}}@FLEYGIK{{/color}}",
+      "role": "Indie Developer",
+      "techStack": ["Unity", "C#", "2D Sprits", "2D Art", "Tech Art", "Narrative Design", "Cinemachine", "Coroutines", "Animation", "Physics"],
+      "team": ["Developer(Me)", "Sound Designer / Sound Manager(FLEYGIK)"],
       "media": [
         { "type": "video", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Gameplay.mp4" },
         { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_1.png" },
@@ -22,23 +23,37 @@
         { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_4.png" },
         { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_5.png" },
         { "type": "image", "src": "assets/projects/0_UpLikeABullet/UpLikeABullet-Screenshot_6.png" }
-      ],
-      "team": ["My", "Myself", "I", "Dima"]
+      ]
     }
   },
   
   {
     "id": "jump-fish-jump",
-    "name": "Jump Fish Jump",
-    "shortDescription": "A fun arcade game.",
+    "name": "Jump, Fish, Jump",
+    "shortDescription": "Simple arcade about a fish jumping towards an aquarium.",
     "image": "assets/projects/1_JumpFishJump/JumpFishJump-Icon.jfif",
-    "date": "2021-03-15",
+    "date": "2020-10-1",
+    "downloads": {
+      "color": "#666685",
+      "count": "~5k Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "ios", "url": "", "disabled": true }
+      ]
+    },
     "details": {
-      "fullDescription": "Jump Fish Jump is an addictive arcade game where you help a fish jump through obstacles.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "**Help the fish to escape.** \nTap to Jump, hold the touch to increase jump strength. \nAvoid falling platforms.",
+      "role": "Junior Unity Developer/Trainee",
+      "techStack": ["Unity", "C#", "GitHub", "Unity UI (uGUI)", "Physics", "Trello/Kanban"],
+      "team": ["Unity Junior Dev(Me)", "Unity Middle Dev", "3D Artist", "PM", "QA"],
       "media": [
-        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_1.jfif" },
+        { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_1.jpg" },
         { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_2.jpg" },
         { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_3.jpg" },
         { "type": "image", "src": "assets/projects/1_JumpFishJump/JumpFishJump-Screenshot_4.jpg" },
@@ -50,13 +65,29 @@
   {
     "id": "toys-connect",
     "name": "Toys Connect",
-    "shortDescription": "A puzzle game connecting toys.",
+    "shortDescription": "A toy-building puzzle game",
     "image": "assets/projects/2_ToysConnect/ToysConnect-Icon.jfif",
-    "date": "2021-08-20",
+    "date": "2021-01-25",
+    "downloads": {
+      "color": "#666685",
+      "count": "~5k Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "", "disabled": true },
+        { "type": "ios", "url": "", "disabled": true }
+      ]
+    },
     "details": {
-      "fullDescription": "Toys Connect is a matching puzzle game where you connect toys to clear levels.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original game description:_ \nAssemble a wide variety of toy sets in this relaxing and satisfying game. \nConnect diferent toy parts in the correct places. \n There are many toys to construct",
+      "role": "Junior Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "Unity UI (uGUI)", "Physics", "Cinemachine", "Tech Art", "Firebase Analytics events setup", "Trello/Kanban"],
+      "team": ["Unity Junior Dev / Second 3D artist(Me)", "Unity Middle Dev", "3D Artist", "PM", "QA"],
       "media": [
         { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_1.jpg" },
         { "type": "image", "src": "assets/projects/2_ToysConnect/ToysConnect-Screenshot_2.jpg" },
@@ -67,44 +98,78 @@
   },
 
   {
-    "id": "block-king",
-    "name": "Block King",
-    "shortDescription": "Stack blocks to become king.",
-    "image": "assets/projects/3_BlockKing/BlockKing-Icon.webp",
-    "date": "2022-01-10",
+    "id": "merge-defense",
+    "name": "Merge Defense Adventures",
+    "shortDescription": "Turn-based tower defence, where 2 of the same towers may be merged to get one twice as strong.",
+    "image": "assets/projects/3_MergeDefense/MergeDefense-Icon.jfif",
+    "date": "2021-03-15",
+    "endDate": "2021-07-15",
+    "downloads": {
+      "color":"#e92751",
+      "count":"1M+ Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.mysterytag.md3adventures&pcampaignid=web_share", "disabled": false },
+        { "type": "ios", "url": "https://apps.apple.com/ua/app/merge-defense-adventure/id1571311151", "disabled": false }
+      ]
+    },
     "details": {
-      "fullDescription": "Block King is a casual stacking game where you build the tallest tower.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original game description:_ \nMerge Defense Adventure is an easy to learn, hard to master Tower Defense game. Simple controls, turn based gameplay, and tactical depth makes this game best time killer game for a daring mind.",
+      "role": "Junior Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "UniTask", "Addressables", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Physics", "Firebase", "Jira/Scrum"],
+      "team": ["Unity Junior Dev(Me)", "Unity Lead Dev", "Unity Middle Dev", "Dedicated GD", "3D Artist", "UI/UX Artist", "PM", "2 QA"],
       "media": [
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_1.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_2.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_3.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_4.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_5.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_6.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_7.webp" },
-        { "type": "image", "src": "assets/projects/3_BlockKing/BlockKing-Screenshot_8.webp" }
+        { "type": "image", "src": "assets/projects/3_MergeDefense/MergeDefense-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/3_MergeDefense/MergeDefense-Screenshot_2.webp" },
+        { "type": "image", "src": "assets/projects/3_MergeDefense/MergeDefense-Screenshot_3.webp" },
+        { "type": "image", "src": "assets/projects/3_MergeDefense/MergeDefense-Screenshot_4.webp" },
+        { "type": "image", "src": "assets/projects/3_MergeDefense/MergeDefense-Screenshot_5.webp" }
       ]
     }
   },
 
   {
-    "id": "merge-defense",
-    "name": "Merge Defense",
-    "shortDescription": "Merge heroes to defend your base.",
-    "image": "assets/projects/4_MergeDefense/MergeDefense-Icon.jfif",
-    "date": "2022-06-15",
+    "id": "block-king",
+    "name": "Block King",
+    "shortDescription": "A puzzle game with two modes: column sorting and shape construction.",
+    "image": "assets/projects/4_BlockKing/BlockKing-Icon.webp",
+    "date": "2021-07-15",
+    "endDate": "2021-10-1",
+    "downloads": {
+      "color":"#ff00aa",
+      "count":"2M+ Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.tatemgames.blockking&pcampaignid=web_share", "disabled": false },
+        { "type": "ios", "url": "https://apps.apple.com/ua/app/block-king-puzzle/id1593856268", "disabled": false }
+      ]
+    },
     "details": {
-      "fullDescription": "Merge Defense combines merge mechanics with tower defense strategy.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original game description:_ \nAn addictive puzzle amusement that awakens the brain!\nBlock king is a sorting game where you have to manipulate simple shaped figures to win. \nComplete the mission with no time limit for all types of players! \nTry Brain puzzle with classic gameplay so it will help you relax in your free time. \nBlock puzzle king has several modes",
+      "role": "Middle Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Jira/Scrum"],
+      "team": ["Unity Middle Dev(Me)", "Unity Lead Dev", "GD", "2D Artist", "UI/UX Artist", "PM", "QA"],
       "media": [
-        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_1.webp" },
-        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_2.webp" },
-        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_3.webp" },
-        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_4.webp" },
-        { "type": "image", "src": "assets/projects/4_MergeDefense/MergeDefense-Screenshot_5.webp" }
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_1.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_2.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_3.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_4.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_5.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_6.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_7.webp" },
+        { "type": "image", "src": "assets/projects/4_BlockKing/BlockKing-Screenshot_8.webp" }
       ]
     }
   },
@@ -112,13 +177,29 @@
   {
     "id": "arachnophobia",
     "name": "Arachnophobia",
-    "shortDescription": "A horror puzzle game.",
+    "shortDescription": "A game where you need to find and hit all the spiders. Any item in the room can be used as a weapon.",
     "image": "assets/projects/5_Arachnophobia/Arachnophobia-Icon.png",
-    "date": "2023-01-20",
+    "date": "2021-12-1",
+    "downloads": {
+      "color": "#447ac2",
+      "count": "10k+ Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "", "disabled": true },
+        { "type": "ios", "url": "", "disabled": true }
+      ]
+    },
     "details": {
-      "fullDescription": "Arachnophobia is a horror-themed puzzle game with 3-level gameplay.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original game description:_ \nSo, are you ready to meet them?\nTo conquest spiders you must deed their one softness: WEAPON. Or explosions, throwing shurikens, gettin’ smushed by stuff... pretty much anything, really. \nBut that doesn’t mean it’ll be easy - first you’ve gotta find the spiders. ",
+      "role": "Middle Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "Unity Nav Mesh", "Animation", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
+      "team": ["Unity Middle Dev(Me)", "3D Artist", "GD", "PM", "QA"],
       "media": [
         { "type": "video", "src": "assets/projects/5_Arachnophobia/Arachnophobia-3LevelGameplay.mp4" },
         { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_1.png" },
@@ -133,13 +214,29 @@
   {
     "id": "card-match",
     "name": "Card Match",
-    "shortDescription": "Classic card matching game.",
+    "shortDescription": "A Solitaire TriPeaks + Mahjong puzzle game — a reworked version of an older Tatem Games title.",
     "image": "assets/projects/6_CardMatch/CardMatch-Icon.webp",
-    "date": "2023-04-10",
+    "date": "2022-09-1",
+    "downloads": {
+      "color": "#db9232",
+      "count": "500k+ Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.tatem.card.match.puzzle&pcampaignid=web_share", "disabled": false },
+        { "type": "ios", "url": "https://apps.apple.com/ua/app/card-match-matching-puzzle/id6474034692", "disabled": false }
+      ]
+    },
     "details": {
-      "fullDescription": "Card Match is a classic memory card flipping game with multiple levels.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original game description:_ \nCard Match is a challenging and original matching game! Don't get scared away. It's very easy to learn how to play for everyone! \nSo get ready for a new, original and challenging Card-match game is a combination of the world's most popular games - TriPeaks Solitaire and Mahjong! \nFans and card game fans will love the games also known as Tri Towers, Triple Peaks, Solitaire Tri Peaks, Solitaire Blitz,Castle Solitaire-tripeaks, Solitaire Cube, Farm Adventure, Solitaire Cruise, Tiki Solitaire, harvest Solitaire or Three Peaks.Can you complete all 1000+ levels? Install Now!",
+      "role": "Middle Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "Unity Nav Mesh", "Animation", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
+      "team": ["Unity Middle Dev(Me)", "Unity Junior Dev", "2D Artist", "GD", "PM", "QA"],
       "media": [
         { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_1.webp" },
         { "type": "image", "src": "assets/projects/6_CardMatch/CardMatch-Screenshot_2.png" },
@@ -153,13 +250,29 @@
   {
     "id": "hidden-words-adventure",
     "name": "Hidden Words Adventure",
-    "shortDescription": "Find hidden words in adventure scenes.",
+    "shortDescription": "A spot-the-word puzzle game.",
     "image": "assets/projects/7_HiddenWords/HiddenWordsAdventure-ICon.png",
-    "date": "2023-09-05",
+    "date": "2022-10-1",
+    "downloads": {
+      "color": "#666685",
+      "count": "~5k Downloads"
+    },
+    "company": {
+      "name": "Tatem Games",
+      "icon": "assets/projects/Shared/TatemGamesLogo.webp",
+      "color": "#fe6902"
+    },
+    "links": {
+      "stores": [
+        { "type": "google-play", "url": "https://play.google.com/store/apps/details?id=com.tatem.card.match.puzzle&pcampaignid=web_share", "disabled": false },
+        { "type": "ios", "url": "https://apps.apple.com/ua/app/card-match-matching-puzzle/id6474034692", "disabled": false }
+      ]
+    },
     "details": {
-      "fullDescription": "Hidden Words Adventure is a word search game set in beautiful adventure scenes.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
+      "fullDescription": "_Original(almost) game description:_ \nLearn new words and train your brain. \n🌷BEAUTIFUL ILLUSTRATIONS FOR EACH PUZZLE \n• There will be an awesome picture as a clue for each puzzle \n• Try to guess the correct words as many as possible \n🧩CREATIVE WORD SEARCH PUZZLES",
+      "role": "Middle Unity Developer",
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "DOTween", "Zenject", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
+      "team": ["Unity Middle Dev(Me)", "Unity Middle Dev", "GD", "PM", "QA"],
       "media": [
         { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_1.png" },
         { "type": "image", "src": "assets/projects/7_HiddenWords/HiddenWordsAdventure-Screenshot_2.png" },
@@ -170,52 +283,15 @@
   },
 
   {
-    "id": "voodoo-test-task",
-    "name": "Voodoo Test Task",
-    "shortDescription": "A test task for Voodoo.",
-    "image": "assets/projects/10_Voodoo-TestTask/VooDoo-Icon.png",
-    "date": "2024-05-15",
-    "details": {
-      "fullDescription": "A test task completed for Voodoo studio.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
-      "media": [
-        { "type": "video", "src": "assets/projects/10_Voodoo-TestTask/My-Final-Result.mp4" },
-        { "type": "image", "src": "assets/projects/10_Voodoo-TestTask/VooDoo-BG_1.jfif" },
-        { "type": "image", "src": "assets/projects/10_Voodoo-TestTask/VooDoo-BG_2.png" }
-      ]
-    }
-  },
-
-  {
-    "id": "jungle-nest",
-    "name": "Jungle Nest",
-    "shortDescription": "A jungle themed game.",
-    "image": "assets/projects/9_JungleNest/NLT-Icon.jfif",
-    "date": "2024-11-20",
-    "company": {
-      "name": "NLTDev",
-      "icon": "assets/projects/9_JungleNest/NLT-Icon.jfif",
-      "color": "#ffd83b"
-    },
-    "details": {
-      "fullDescription": "Jungle Nest is a game developed with NLTDev.",
-      "role": "Solo Developer",
-      "techStack": ["Unity", "C#"],
-      "media": []
-    }
-  },
-
-  {
     "id": "netflix-stories",
     "name": "Netflix Stories",
-    "shortDescription": "A cyberpunk puzzle game.",
+    "shortDescription": "A hub with a collection of 9 choice-driven narrative games based on popular Netflix series",
     "image": "assets/projects/8_Netflix-Stories/NetflixStories-Icon.jpg",
     "date": "2023-07-1",
     "endDate": "2025-02-1",
     "downloads": {
       "count": "1M+ Downloads",
-      "color": "#ff00aa"
+      "color": "#e92751"
       },
     "company": {
       "name": "N-iX Games",
@@ -232,10 +308,11 @@
       ]
     },
     "details": {
-      "fullDescription": "Cyber Adven Cyis aanics, and a branching narrative. featuring deep storytelling, coaanics, and a branching narrative. featuring deep storytelling, combat aanics, and a branching narrative. featuring deep storytelling, combat ng, combat aanics, and a branching narrative. featuring deep storytelling, combat mbat mechanics, and a branching narrative. Built with custom engine technology.",
+      "fullDescription": "That was all about creating and improving our _{{#ff8736}}editor tools{{/color}}_, and constructing the _{{#ca6e6e}}chapters{{/color}}_ based on our _{{#06c6ff}}novel constructor{{/color}}_, the _{{#5edd56}}given scripts{{/color}}_, and our _{{#b952bc}}art{{/color}}_.",
       "role": "Middle Unity Engineer",
       "techStack": ["Unity 2D", "C#", "R3", "GitLab", "Editor Tools", "Addressables & Memory Management", "Zenject", "DOTween", "UniTask", "Animation", "Unity UI (uGUI)", 
         "UnityWebRequest(REST API)", "Unity Test Framework", "Tech Art", "Firebase", "Jira/Scrum"],
+      "team": ["Unity Middle Dev(Me)", "Unity Middle Dev", "CTO", "PM", "Art Department", "QA Department"],
       "media": [
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_1.webp" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_2.webp" },
@@ -245,6 +322,59 @@
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_6.webp" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_7.jfif" },
         { "type": "image", "src": "assets/projects/8_Netflix-Stories/NetflixStories-Screenshot_8.webp" }
+      ]
+    }
+  },
+
+  {
+    "id": "jungle-nest",
+    "name": "Jungle Nest",
+    "shortDescription": "Jungle-themed casual property tycoon featuring Tamagotchi mechanics and home renovation, for mobile and web.",
+    "image": "assets/projects/9_JungleNest/NLT-Icon.jfif",
+    "date": "2025-01-1",
+    "endDate": "2026-03-1",
+    "company": {
+      "name": "NLTDev",
+      "icon": "assets/projects/9_JungleNest/NLT-Icon.jfif",
+      "color": "#ffd83b"
+    },
+    "details": {
+      "fullDescription": "This game was created at the NLTDev client's request. \n_It's mostly under NDA, so there's no media..._ \n\n{{#f46e00}}That was my first leading experience!{{/color}} \n\nAnd even though my team was small and the customer was loyal, it was hard. \nThere were many things I hadn’t known about, and I made a bunch of mistakes that I should have avoided. \n**{{#ce42e5}}Next time I’ll be more prepared{{/color}}.**",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#", "GitHub", "Zenject", "UniTask", "R3", "Feel", "Odin", "PrimeTween", "Unity Playables", "Cinemachiene", "Particle System VFX", "Shader Graph", "Tech Art", "Unity Nav Mesh", "Physics", "Addressables & Memory Management", "Unity UI (uGUI)", "Profiling & Optimization", "UnityWebRequest(REST API)", "Unity Test Framework", "Firebase Analytics", "Unity Level Play"],
+      "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "Web Front-End Dev", "Back-End Dev"],
+      "media": []
+    }
+  },
+
+  {
+    "id": "voodoo-test-task",
+    "name": "Voodoo Test Task",
+    "shortDescription": "A test task for Voodoo Marketing Developer role.",
+    "image": "assets/projects/10_Voodoo-TestTask/GameIcon.jpg",
+    "date": "2026-08-15",
+    "downloads": {
+      "color": "#666685",
+      "count": "They liked my technical skills 😁"
+    },
+    "company": {
+      "name": "Voodoo",
+      "icon": "assets/projects/10_Voodoo-TestTask/VooDoo-Icon.png",
+      "color": "#fff"
+    },
+    "links": {
+      "custom": [
+        { "label": "GitHub", "url": "https://github.com/DiviZition/Mob-Control-Creative-Test-Task", "icon": "assets/icons/github.png" }  
+      ]
+    },
+    "details": {
+      "fullDescription": "As a reference for this test task, I was given an ad creative video for the game *{{#1c74d6}}Mob Control{{/color}}*. **{{#f46e00}}The task was divided into three parts:{{/color}}**\n1. Recreate the provided video as closely as possible _using only Unity Recorder (no After Effects or other post-production)_. I had to build similar gameplay and record a matching sequence.\n2. Analyze the market and find ways to improve the creative.\n3. Improve the creative again _using only Unity_ — {{#df5dff}}adding features{{/color}}, {{#7fd40d}}graphics{{/color}}, {{#ffe75d}}effects{{/color}}, etc.\n\n**{{#ff3636}}The deadline was 5 days.{{/color}}**\n\nIt was an interesting task, but {{#927f78}}I failed on the creative side{{/color}}. My final version wasn’t addictive enough for the market. I think I could have done better.\n\n**{{#00f8ff}}Media:{{/color}}**\n1st video – original reference\n2nd video – my replica of the reference\n3rd video – my final creative",
+      "role": "Solo Developer",
+      "techStack": ["Unity", "C#", "Unity Recorder", "Unity Nav Mesh", "Particle System VFX"],
+      "media": [
+        { "type": "video", "src": "assets/projects/10_Voodoo-TestTask/Initial-Video-Reference_HandBraked.mp4" },
+        { "type": "video", "src": "assets/projects/10_Voodoo-TestTask/My-Reference-Recap_HandBraked.mp4" },
+        { "type": "video", "src": "assets/projects/10_Voodoo-TestTask/My-Final-Result_Handbraked.mp4" }
       ]
     }
   }

@@ -131,7 +131,7 @@ function renderRoadmap(projects) {
                 <h3 class="card-name">${escapeHtml(project.name)}</h3>
                 <span class="card-date">${formatDateWithDuration(project.date, project.endDate)}</span>
               </div>
-              <p class="card-description">${escapeHtml(project.shortDescription)}</p>
+              <p class="card-description">${renderDescription(project.shortDescription)}</p>
               ${project.company ? `<div class="card-company-line">
                 <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
                 <span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>
@@ -347,7 +347,7 @@ function openProjectModal(projectId) {
           ${project.date ? `<span class="modal-date">${formatDateWithDuration(project.date, project.endDate)}</span>` : ''}
         </div>
         ${companyHTML}
-        <p class="modal-description">${escapeHtml(details.fullDescription || project.shortDescription)}</p>
+        <p class="modal-description">${renderDescription(details.fullDescription || project.shortDescription)}</p>
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
     </div>
@@ -423,6 +423,7 @@ function renderMediaGallery(media, isInModal) {
     if (item.type === 'video') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
         <video src="${src}" muted loop></video>
+        <div class="video-play-overlay">&#9654;</div>
       </div>`;
     } else if (item.type === 'gif') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
@@ -546,7 +547,7 @@ function renderThumbnails(mediaList) {
     
     if (item.type === 'video') {
       html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
-        <img src="${src}" alt="Thumbnail" />
+        <div class="video-thumbnail-placeholder">&#9654;</div>
       </div>`;
     } else {
       html += `<div class="lightbox-thumb${activeClass}" data-index="${i}">
@@ -631,6 +632,23 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+function renderDescription(text) {
+  if (!text) return '';
+  let result = escapeHtml(text).replace(/\n/g, '<br>');
+  
+  // Bold: **text**
+  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  
+  // Italic: *text* or _text_
+  result = result.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  result = result.replace(/_(.+?)_/g, '<em>$1</em>');
+  
+  // Colored text: {{#HEXCOLOR}}text{{/color}}
+  result = result.replace(/\{\{#([0-9A-Fa-f]{3,6})\}\}(.+?)\{\{\/color\}\}/g, '<span style="color:#$1">$2</span>');
+  
+  return result;
 }
 
 function formatDateWithDuration(dateStr, endDate) {
