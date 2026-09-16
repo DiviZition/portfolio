@@ -1,9 +1,9 @@
 {
   "name": "Viktor Popov",
   "image": "assets/myPicture/RedTShort_1.jpg",
-  "favicon": "assets/icons/favicon.png",
-  "tagline": "Gamer, Game Developer, Game Designer",
-  "bio": "Passionate about creating immersive gaming experiences.",
+  "favicon": "assets/icons/favicon2.png",
+  "tagline": "I Love Games!",
+  "bio": "With over 5 years of experience, I’ve realized it’s only the beginning",
   "socials": [
     { "platform": "linkedin", "url": "https://www.linkedin.com/in/viktor-popov-unity/" },
     { "platform": "github", "url": "https://github.com/DiviZition" },
