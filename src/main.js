@@ -1,5 +1,12 @@
 const ICONS_BASE = './assets/icons/';
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
+import firebaseConfig from '../config/firebase.json';
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 let profileConfig;
 let projectsConfig;
 
@@ -105,6 +112,16 @@ function renderProfile(config) {
       ${socialLinksHTML}
     </div>
   `;
+
+  section.addEventListener('click', (e) => {
+    const socialLink = e.target.closest('.social-link[href]');
+    if (socialLink) {
+      e.preventDefault();
+      const platform = socialLink.title || 'unknown';
+      trackEvent('click_social', { platform });
+      window.open(socialLink.href, '_blank', 'noopener,noreferrer');
+    }
+  });
 }
 
 function renderRoadmap(projects) {
@@ -155,27 +172,39 @@ function renderRoadmap(projects) {
   
   container.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('click', (e) => {
+      const projectId = card.dataset.projectId;
+      const project = projects.find(p => p.id === projectId);
+
       const storeLink = e.target.closest('.store-link[href]');
       if (storeLink && !storeLink.classList.contains('store-link-disabled')) {
+        const storeType = storeLink.title || 'unknown';
+        trackEvent('click_project_link', { link_label: storeType, project_id: projectId });
+        window.open(storeLink.href, '_blank', 'noopener,noreferrer');
         return;
       }
       
-        const mediaItem = e.target.closest('.media-link-item');
-        if (mediaItem && mediaItem.dataset.galleryType === 'card') {
-          e.preventDefault();
-          e.stopPropagation();
-          const projectId = card.dataset.projectId;
-          const project = projects.find(p => p.id === projectId);
-          if (!project) return;
-          const mediaList = project.media || [];
-          const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
-          if (mediaList[mediaIndex]) {
-            openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
-          }
+      const customLink = e.target.closest('.custom-link');
+      if (customLink) {
+        trackEvent('click_project_link', { link_label: customLink.title, project_id: projectId });
+        window.open(customLink.href, '_blank', 'noopener,noreferrer');
         return;
       }
       
-      const projectId = card.dataset.projectId;
+      const mediaItem = e.target.closest('.media-link-item');
+      if (mediaItem && mediaItem.dataset.galleryType === 'card') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!project) return;
+        const mediaList = project.media || [];
+        const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+        if (mediaList[mediaIndex]) {
+          trackEvent('open_media', { media_type: mediaList[mediaIndex].type, project_id: projectId, media_index: mediaIndex });
+          openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
+        }
+        return;
+      }
+      
+      trackEvent('view_project', { project_id: projectId });
       openProjectModal(projectId);
     });
   });
@@ -358,6 +387,23 @@ function openProjectModal(projectId) {
   document.body.style.overflow = 'hidden';
   
   modalBody.addEventListener('click', (e) => {
+    const storeLink = e.target.closest('.store-link[href]');
+    if (storeLink && !storeLink.classList.contains('store-link-disabled')) {
+      e.preventDefault();
+      const storeType = storeLink.title || 'unknown';
+      trackEvent('click_project_link', { link_label: storeType, project_id: project.id });
+      window.open(storeLink.href, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    
+    const customLink = e.target.closest('.custom-link');
+    if (customLink) {
+      e.preventDefault();
+      trackEvent('click_project_link', { link_label: customLink.title, project_id: project.id });
+      window.open(customLink.href, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    
     const mediaLinkItem = e.target.closest('.media-link-item');
     if (mediaLinkItem) {
       e.preventDefault();
@@ -365,6 +411,7 @@ function openProjectModal(projectId) {
       const mediaIndex = parseInt(mediaLinkItem.dataset.mediaIndex);
       const mediaList = project.details?.media || [];
       if (mediaList[mediaIndex]) {
+        trackEvent('open_media', { media_type: mediaList[mediaIndex].type, project_id: project.id, media_index: mediaIndex });
         openLightbox(mediaList[mediaIndex], mediaList, mediaIndex);
       }
       return;
@@ -375,6 +422,7 @@ function openProjectModal(projectId) {
       const index = parseInt(mediaGalleryItem.dataset.mediaIndex);
       const mediaList = project.details?.media || [];
       if (mediaList[index]) {
+        trackEvent('open_media', { media_type: mediaList[index].type, project_id: project.id, media_index: index });
         openLightbox(mediaList[index], mediaList, index);
       }
     }
@@ -465,9 +513,10 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-function navigateLightbox(direction) {
+async function navigateLightbox(direction) {
   if (lightboxState.mediaList.length <= 1) return;
   
+  const fromIndex = lightboxState.currentIndex;
   let newIndex = lightboxState.currentIndex + direction;
   if (newIndex < 0) newIndex = lightboxState.mediaList.length - 1;
   if (newIndex >= lightboxState.mediaList.length) newIndex = 0;
@@ -475,6 +524,8 @@ function navigateLightbox(direction) {
   renderLightboxContent(lightboxState.mediaList[newIndex]);
   updateThumbnails(newIndex);
   lightboxState.currentIndex = newIndex;
+  
+  trackEvent('navigate_lightbox', { direction: direction > 0 ? 'next' : 'prev', from_index: fromIndex, to_index: newIndex });
 }
 
 function switchToMedia(index) {
@@ -565,7 +616,10 @@ function renderThumbnails(mediaList) {
     const thumb = e.target.closest('.lightbox-thumb');
     if (thumb) {
       e.stopPropagation();
-      switchToMedia(parseInt(thumb.dataset.index));
+      const fromIndex = lightboxState.currentIndex;
+      const toIndex = parseInt(thumb.dataset.index);
+      switchToMedia(toIndex);
+      trackEvent('navigate_lightbox', { direction: toIndex > fromIndex ? 'next' : 'prev', from_index: fromIndex, to_index: toIndex });
     }
   });
 }
@@ -699,12 +753,23 @@ function calculateDuration(dateStr, endDate) {
   return parts.join(', ');
 }
 
+function trackEvent(eventName, params = {}) {
+  logEvent(analytics, eventName, params);
+  if (import.meta.env.DEV) {
+    console.log(`[Firebase] ${eventName}`, params);
+  }
+}
+
+let scrollThresholds = new Set();
+
 async function init() {
   const profileData = await import('../config/profile.json');
   const projectsData = await import('../config/projects.json');
   
   profileConfig = profileData.default;
   projectsConfig = projectsData.default;
+
+  trackEvent('portfolio_visit');
   
   // Inject favicon
   if (profileConfig.favicon) {
@@ -778,6 +843,38 @@ async function init() {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(updateCardImageSizes, 200);
+  });
+
+  scrollThresholds = new Set();
+  let scrollThrottleTimer = null;
+  const SCROLL_THROTTLE_MS = 100;
+
+  window.addEventListener('scroll', () => {
+    if (scrollThrottleTimer) return;
+    scrollThrottleTimer = setTimeout(() => {
+      scrollThrottleTimer = null;
+      
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      
+      if (scrollPercent >= 25 && !scrollThresholds.has(25)) {
+        scrollThresholds.add(25);
+        trackEvent('scroll_25');
+      }
+      if (scrollPercent >= 50 && !scrollThresholds.has(50)) {
+        scrollThresholds.add(50);
+        trackEvent('scroll_50');
+      }
+      if (scrollPercent >= 75 && !scrollThresholds.has(75)) {
+        scrollThresholds.add(75);
+        trackEvent('scroll_75');
+      }
+      if (scrollPercent >= 95 && !scrollThresholds.has(100)) {
+        scrollThresholds.add(100);
+        trackEvent('scroll_bottom');
+      }
+    }, SCROLL_THROTTLE_MS);
   });
 }
 
