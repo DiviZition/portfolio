@@ -101,6 +101,14 @@ function renderProfile(config) {
     socialLinksHTML += '</div>';
   }
 
+  let actionButtonsHTML = '';
+  if (config.skills && config.skills.length > 0) {
+    actionButtonsHTML += `<button class="action-btn" id="skills-btn">Skills</button>`;
+  }
+  if (config.cvPath) {
+    actionButtonsHTML += `<button class="action-btn" id="cv-download-btn">Download CV</button>`;
+  }
+
   section.innerHTML = `
     <div class="profile-container">
       <div class="profile-image-wrapper">
@@ -110,6 +118,7 @@ function renderProfile(config) {
       ${config.tagline ? `<p class="profile-tagline">${formatText(config.tagline)}</p>` : ''}
       ${config.bio ? `<p class="profile-bio">${formatText(config.bio)}</p>` : ''}
       ${socialLinksHTML}
+      ${actionButtonsHTML ? `<div class="action-buttons">${actionButtonsHTML}</div>` : ''}
     </div>
   `;
 
@@ -122,6 +131,16 @@ function renderProfile(config) {
       window.open(socialLink.href, '_blank', 'noopener,noreferrer');
     }
   });
+
+  const skillsBtn = document.getElementById('skills-btn');
+  if (skillsBtn) {
+    skillsBtn.addEventListener('click', () => openSkillsModal(config.skills));
+  }
+
+  const cvBtn = document.getElementById('cv-download-btn');
+  if (cvBtn && config.cvPath) {
+    cvBtn.addEventListener('click', () => downloadCV(config.cvPath));
+  }
 }
 
 function renderRoadmap(projects) {
@@ -787,7 +806,16 @@ async function init() {
       closeModal();
     }
   });
-  
+
+  const skillsModal = document.getElementById('skills-modal');
+  if (skillsModal) {
+    skillsModal.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
+        closeSkillsModal();
+      }
+    });
+  }
+
   document.getElementById('media-lightbox').addEventListener('click', (e) => {
     if (e.target.classList.contains('lightbox-overlay')) {
       closeLightbox();
@@ -798,6 +826,8 @@ async function init() {
     if (e.key === 'Escape') {
       if (!document.getElementById('media-lightbox').classList.contains('hidden')) {
         closeLightbox();
+      } else if (!document.getElementById('skills-modal').classList.contains('hidden')) {
+        closeSkillsModal();
       } else if (!document.getElementById('project-modal').classList.contains('hidden')) {
         closeModal();
       }
@@ -876,6 +906,75 @@ async function init() {
       }
     }, SCROLL_THROTTLE_MS);
   });
+
+  const backToTopBtn = document.getElementById('back-to-top');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      
+      if (scrollPercent >= 50) {
+        backToTopBtn.classList.remove('hidden');
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+        backToTopBtn.classList.add('hidden');
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+}
+
+function openSkillsModal(skills) {
+  const modal = document.getElementById('skills-modal');
+  const skillsBody = document.getElementById('skills-body');
+  
+  if (!modal || !skillsBody) return;
+  
+  let html = '';
+  for (let i = 0; i < skills.length; i++) {
+    const section = skills[i];
+    html += `<div class="skill-section">`;
+    html += `<h3 class="skill-section-title">${escapeHtml(section.title)}</h3>`;
+    html += `<div class="skill-divider"></div>`;
+    html += `<div class="skill-items">`;
+    for (const item of section.items) {
+      html += `<span class="skill-item">${formatText(item)}</span>`;
+    }
+    html += `</div></div>`;
+    if (i < skills.length - 1) {
+      html += `<div class="skill-divider"></div>`;
+    }
+  }
+  
+  skillsBody.innerHTML = html;
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  
+  trackEvent('view_skills');
+}
+
+function closeSkillsModal() {
+  const modal = document.getElementById('skills-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
+function downloadCV(cvPath) {
+  trackEvent('click_cv_download', { cv_path: cvPath });
+  
+  const a = document.createElement('a');
+  a.href = cvPath;
+  a.download = cvPath.split('/').pop();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 init();

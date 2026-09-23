@@ -3,7 +3,22 @@
   "image": "assets/myPicture/SkiPicture.png",
   "favicon": "assets/icons/favicon2.png",
   "tagline": "_I Love Games!_",
-  "bio": "**With** [#fff]over 5 years of experience,[/color] I've realized it's only the beginning",
+  "bio": "**With** [#fff]over 5 years of experience,[/color] I've realized it's only the beginning [#ce9178]Course papers[/color]",
+  "cvPath": "assets/cv/Viktor_Popov_Unity_CV.pdf",
+  "skills": [
+    {
+      "title": "Game Engines",
+      "items": ["**Unity** — primary engine for all projects", "_Unreal Engine_ for specific projects"]
+    },
+    {
+      "title": "Programming Languages",
+      "items": ["C#", "JavaScript / TypeScript", "Python", "Lua"]
+    },
+    {
+      "title": "Tools & Frameworks",
+      "items": ["Zenject (DI)", "DOTween", "R3 (Reactive Extensions)", "UniTask", "GitLab", "Jira/Scrum"]
+    }
+  ],
   "socials": [
     { "platform": "linkedin", "url": "https://www.linkedin.com/in/viktor-popov-unity/" },
     { "platform": "github", "url": "https://github.com/DiviZition" },
