@@ -11,7 +11,7 @@
       ]
     },
     "details": {
-      "fullDescription": "**A simple platformer with its own story, buffs, enemies, and a speedrun concept.** \nIt was used for all of my university {{#ce9178}}Course papers{{/color}}, and as a {{#e72c2e}}Diploma project{{/color}} as well 😁 \n\nAll the code, art, tech-art, story, level design, and UI were created by me. \nFor the sounds I collaborated with my fellow bit-maker: {{#c93c85}}@FLEYGIK{{/color}}",
+      "fullDescription": "**A simple platformer with its own story, buffs, enemies, and a speedrun concept.** \nIt was used for all of my university [#ce9178]Course papers[/color], and as a [#e72c2e]Diploma project[/color] as well 😁 \n\nAll the code, art, tech-art, story, level design, and UI were created by me. \nFor the sounds I collaborated with my fellow bit-maker: [#c93c85]@FLEYGIK[/color]",
       "role": "Indie Developer",
       "techStack": ["Unity", "C#", "2D Sprits", "2D Art", "Tech Art", "Narrative Design", "Cinemachine", "Coroutines", "Animation", "Physics"],
       "team": ["Developer(Me)", "Sound Designer / Sound Manager(FLEYGIK)"],
@@ -308,7 +308,7 @@
       ]
     },
     "details": {
-      "fullDescription": "That was all about creating and improving our _{{#ff8736}}editor tools{{/color}}_, and constructing the _{{#ca6e6e}}chapters{{/color}}_ based on our _{{#06c6ff}}novel constructor{{/color}}_, the _{{#5edd56}}given scripts{{/color}}_, and our _{{#b952bc}}art{{/color}}_.",
+      "fullDescription": "That was all about creating and improving our _[#ff8736]editor tools[/color]_, and constructing the _[#ca6e6e]chapters[/color]_ based on our _[#06c6ff]novel constructor[/color]_, the _[#5edd56]given scripts[/color]_, and our _[#b952bc]art[/color]_.",
       "role": "Middle Unity Engineer",
       "techStack": ["Unity 2D", "C#", "R3", "GitLab", "Editor Tools", "Addressables & Memory Management", "Zenject", "DOTween", "UniTask", "Animation", "Unity UI (uGUI)", 
         "UnityWebRequest(REST API)", "Unity Test Framework", "Tech Art", "Firebase", "Jira/Scrum"],
@@ -339,7 +339,7 @@
       "color": "#ffd83b"
     },
     "details": {
-      "fullDescription": "This game was created at the NLTDev client's request. \n_It's mostly under NDA, so there's no media..._ \n\n{{#f46e00}}That was my first leading experience!{{/color}} \n\nAnd even though my team was small and the customer was loyal, it was hard. \nThere were many things I hadn’t known about, and I made a bunch of mistakes that I should have avoided. \n**{{#ce42e5}}Next time I’ll be more prepared{{/color}}.**",
+      "fullDescription": "This game was created at the NLTDev client's request. \n_It's mostly under NDA, so there's no media..._ \n\n[#f46e00]That was my first leading experience![/color] \n\nAnd even though my team was small and the customer was loyal, it was hard. \nThere were many things I hadn’t known about, and I made a bunch of mistakes that I should have avoided. \n**[#ce42e5]Next time I’ll be more prepared[/color].**",
       "role": "Solo Developer",
       "techStack": ["Unity", "C#", "GitHub", "Zenject", "UniTask", "R3", "Feel", "Odin", "PrimeTween", "Unity Playables", "Cinemachiene", "Particle System VFX", "Shader Graph", "Tech Art", "Unity Nav Mesh", "Physics", "Addressables & Memory Management", "Unity UI (uGUI)", "Profiling & Optimization", "UnityWebRequest(REST API)", "Unity Test Framework", "Firebase Analytics", "Unity Level Play"],
       "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "Web Front-End Dev", "Back-End Dev"],
@@ -368,7 +368,7 @@
       ]
     },
     "details": {
-      "fullDescription": "As a reference for this test task, I was given an ad creative video for the game *{{#1c74d6}}Mob Control{{/color}}*. \n**{{#f46e00}}The task was divided into three parts:{{/color}}**\n1. Recreate the provided video as closely as possible _using only Unity Recorder (no After Effects or other post-production)_. I had to build similar gameplay and record a matching sequence.\n2. Analyze the market and find ways to improve the creative.\n3. Improve the creative again _using only Unity_ — {{#df5dff}}adding features{{/color}}, {{#7fd40d}}graphics{{/color}}, {{#ffe75d}}effects{{/color}}, etc.\n\n**{{#ff3636}}The deadline was 5 days.{{/color}}**\n\nIt was an interesting task, but {{#927f78}}I failed on the creative side{{/color}}. My final version wasn’t addictive enough for the market. I think I could have done better.\n\n**{{#00f8ff}}Media:{{/color}}**\n1st video – original reference\n2nd video – my replica of the reference\n3rd video – my final creative",
+      "fullDescription": "As a reference for this test task, I was given an ad creative video for the game *[#1c74d6]Mob Control[/color]*. \n**[#f46e00]The task was divided into three parts:[/color]**\n1. Recreate the provided video as closely as possible _using only Unity Recorder (no After Effects or other post-production)_. I had to build similar gameplay and record a matching sequence.\n2. Analyze the market and find ways to improve the creative.\n3. Improve the creative again _using only Unity_ — [#df5dff]adding features[/color], [#7fd40d]graphics[/color], [#ffe75d]effects[/color], etc.\n\n**[#ff3636]The deadline was 5 days.[/color]**\n\nIt was an interesting task, but [#927f78]I failed on the creative side[/color]. My final version wasn’t addictive enough for the market. I think I could have done better.\n\n**[#00f8ff]Media:[/color]**\n1st video – original reference\n2nd video – my replica of the reference\n3rd video – my final creative",
       "role": "Solo Developer",
       "techStack": ["Unity", "C#", "Unity Recorder", "Unity Nav Mesh", "Particle System VFX"],
       "media": [

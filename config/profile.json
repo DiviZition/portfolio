@@ -2,8 +2,8 @@
   "name": "Viktor Popov",
   "image": "assets/myPicture/SkiPicture.png",
   "favicon": "assets/icons/favicon2.png",
-  "tagline": "I Love Games!",
-  "bio": "With over 5 years of experience, I’ve realized it’s only the beginning",
+  "tagline": "_I Love Games!_",
+  "bio": "**With** [#fff]over 5 years of experience,[/color] I've realized it's only the beginning",
   "socials": [
     { "platform": "linkedin", "url": "https://www.linkedin.com/in/viktor-popov-unity/" },
     { "platform": "github", "url": "https://github.com/DiviZition" },

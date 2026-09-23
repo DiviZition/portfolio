@@ -107,8 +107,8 @@ function renderProfile(config) {
         <img src="${escapeHtml(config.image)}" alt="${escapeHtml(config.name)}" class="profile-image" />
       </div>
       <h1 class="profile-name">${escapeHtml(config.name)}</h1>
-      ${config.tagline ? `<p class="profile-tagline">${escapeHtml(config.tagline)}</p>` : ''}
-      ${config.bio ? `<p class="profile-bio">${escapeHtml(config.bio)}</p>` : ''}
+      ${config.tagline ? `<p class="profile-tagline">${formatText(config.tagline)}</p>` : ''}
+      ${config.bio ? `<p class="profile-bio">${formatText(config.bio)}</p>` : ''}
       ${socialLinksHTML}
     </div>
   `;
@@ -148,7 +148,7 @@ function renderRoadmap(projects) {
                 <h3 class="card-name">${escapeHtml(project.name)}</h3>
                 <span class="card-date">${formatDateWithDuration(project.date, project.endDate)}</span>
               </div>
-              <p class="card-description">${renderDescription(project.shortDescription)}</p>
+              <p class="card-description">${formatText(project.shortDescription)}</p>
               ${project.company ? `<div class="card-company-line">
                 <img src="${escapeHtml(project.company.icon)}" alt="${escapeHtml(project.company.name)}" class="company-icon-card" title="${escapeHtml(project.company.name)}" />
                 <span class="company-name" style="color: ${escapeHtml(project.company.color || '#fff')}">${escapeHtml(project.company.name)}</span>
@@ -376,7 +376,7 @@ function openProjectModal(projectId) {
           ${project.date ? `<span class="modal-date">${formatDateWithDuration(project.date, project.endDate)}</span>` : ''}
         </div>
         ${companyHTML}
-        <p class="modal-description">${renderDescription(details.fullDescription || project.shortDescription)}</p>
+        <p class="modal-description">${formatText(details.fullDescription || project.shortDescription)}</p>
         ${metaHTML ? `<div class="modal-meta">${metaHTML}</div>` : ''}
       </div>
     </div>
@@ -693,7 +693,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-function renderDescription(text) {
+function formatText(text) {
   if (!text) return '';
   let result = escapeHtml(text).replace(/\n/g, '<br>');
   
@@ -704,8 +704,8 @@ function renderDescription(text) {
   result = result.replace(/\*(.+?)\*/g, '<em>$1</em>');
   result = result.replace(/_(.+?)_/g, '<em>$1</em>');
   
-  // Colored text: {{#HEXCOLOR}}text{{/color}}
-  result = result.replace(/\{\{#([0-9A-Fa-f]{3,6})\}\}(.+?)\{\{\/color\}\}/g, '<span style="color:#$1">$2</span>');
+  // Colored text: [#HEX]text[/color]
+  result = result.replace(/\[#([0-9A-Fa-f]{3,6})\](.+?)\[\/color\]/g, '<span style="color:#$1">$2</span>');
   
   return result;
 }
