@@ -763,13 +763,49 @@ body::after {
 
 .media-gallery-item {
   flex-shrink: 0;
-  max-height: 200px;
+  width: 200px;
+  height: 200px;
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--border-glow);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, width 0.4s ease, height 0.4s ease;
   position: relative;
+}
+
+.media-gallery-item .media-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  animation: media-spinner 0.8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.media-gallery-item.loaded .media-loader {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.media-gallery-item img,
+.media-gallery-item video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  background: var(--bg-primary);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.media-gallery-item.loaded img,
+.media-gallery-item.loaded video {
+  opacity: 1;
 }
 
 .media-gallery-item:hover {
@@ -1162,4 +1198,9 @@ body::after {
 .skill-section-header .skill-divider {
   flex-grow: 1;
   margin: 0;
+}
+
+/* ===== Media Loader Spinner ===== */
+@keyframes media-spinner {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }

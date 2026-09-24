@@ -487,11 +487,22 @@ function resizeMediaGalleryItems() {
       item.style.width = (targetHeight * aspectRatio) + 'px';
     }
     
+    function markLoaded() {
+      // TODO: remove delay after testing
+      const delay = 200 + Math.random() * 800;
+      setTimeout(() => {
+        applySize();
+        item.classList.add('loaded');
+        const loader = item.querySelector('.media-loader');
+        if (loader) loader.remove();
+      }, delay);
+    }
+    
     if (mediaEl.complete && mediaEl.naturalWidth) {
-      applySize();
+      markLoaded();
     } else {
-      mediaEl.addEventListener('loadeddata', applySize);
-      mediaEl.addEventListener('load', applySize);
+      mediaEl.addEventListener('loadeddata', markLoaded);
+      mediaEl.addEventListener('load', markLoaded);
     }
   });
 }
@@ -506,15 +517,18 @@ function renderMediaGallery(media, isInModal) {
     
     if (item.type === 'video') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
+        <div class="media-loader"></div>
         <video src="${src}" muted loop></video>
         <div class="video-play-overlay">&#9654;</div>
       </div>`;
     } else if (item.type === 'gif') {
       html += `<div class="media-gallery-item" data-media-index="${i}">
+        <div class="media-loader"></div>
         <img src="${src}" alt="Media" />
       </div>`;
     } else {
       html += `<div class="media-gallery-item" data-media-index="${i}">
+        <div class="media-loader"></div>
         <img src="${src}" alt="Media" />
       </div>`;
     }

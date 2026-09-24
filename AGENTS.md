@@ -19,7 +19,7 @@ Single-page vanilla JS + CSS app built with Vite. No framework, no tests, no lin
 In `projects.json`, the `fullDescription` field supports a custom syntax:
 - Bold: `**text**`
 - Italic: `*text*` or `_text_`
-- Colored text: `{{#HEXCOLOR}}text{{/color}}` (e.g. `{{#ff00aa}}highlight{{/color}}`)
+- Colored text: `[#HEX]text[/color]` (e.g. `[#ff00aa]highlight[/color]`)
 
 ## Deployment
 CI in `.github/workflows/deploy.yml` builds and deploys to GitHub Pages on push to `main`.
