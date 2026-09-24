@@ -102,11 +102,24 @@ function renderProfile(config) {
   }
 
   let actionButtonsHTML = '';
-  if (config.skills && config.skills.length > 0) {
-    actionButtonsHTML += `<button class="action-btn" id="skills-btn">Skills</button>`;
-  }
-  if (config.cvPath) {
-    actionButtonsHTML += `<button class="action-btn" id="cv-download-btn">Download CV</button>`;
+  if (config.skills && config.skills.length > 0 || config.cvPath) {
+    actionButtonsHTML = '<div class="action-buttons">';
+    
+    const buttons = [];
+    if (config.skills && config.skills.length > 0) {
+      buttons.push('<button class="action-btn" id="skills-btn">Skills</button>');
+    }
+    if (config.cvPath) {
+      buttons.push('<button class="action-btn" id="cv-download-btn">GET CV</button>');
+    }
+    
+    if (buttons.length === 2) {
+      actionButtonsHTML += buttons[0] + '<div class="action-divider"></div>' + buttons[1];
+    } else {
+      actionButtonsHTML += buttons.join('');
+    }
+    
+    actionButtonsHTML += '</div>';
   }
 
   section.innerHTML = `
@@ -915,11 +928,9 @@ async function init() {
       const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       
       if (scrollPercent >= 50) {
-        backToTopBtn.classList.remove('hidden');
         backToTopBtn.classList.add('visible');
       } else {
         backToTopBtn.classList.remove('visible');
-        backToTopBtn.classList.add('hidden');
       }
     });
     
@@ -939,16 +950,18 @@ function openSkillsModal(skills) {
   for (let i = 0; i < skills.length; i++) {
     const section = skills[i];
     html += `<div class="skill-section">`;
+    html += `<div class="skill-section-header">`;
     html += `<h3 class="skill-section-title">${escapeHtml(section.title)}</h3>`;
     html += `<div class="skill-divider"></div>`;
+    html += `</div>`;
     html += `<div class="skill-items">`;
-    for (const item of section.items) {
-      html += `<span class="skill-item">${formatText(item)}</span>`;
+    for (let j = 0; j < section.items.length; j++) {
+      html += `<span class="skill-item">${formatText(section.items[j])}</span>`;
+      if (j < section.items.length - 1) {
+        html += `<span class="skill-separator">|</span>`;
+      }
     }
     html += `</div></div>`;
-    if (i < skills.length - 1) {
-      html += `<div class="skill-divider"></div>`;
-    }
   }
   
   skillsBody.innerHTML = html;

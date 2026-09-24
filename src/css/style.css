@@ -139,7 +139,7 @@ body::after {
 }
 
 .profile-bio {
-  max-width: 600px;
+  max-width: 80vw;
   text-align: center;
   color: var(--text-secondary);
   font-size: 1.1rem;
@@ -1018,10 +1018,11 @@ body::after {
 
 /* ===== Skills Modal ===== */
 .skills-modal-content {
-  max-width: 80%;
-  width: 80%;
+  max-width: 60%;
+  width: 60%;
+  min-height: 400px;
   max-height: 80vh;
-  height: 80vh;
+  height: auto;
   padding: 40px;
 }
 
@@ -1030,35 +1031,33 @@ body::after {
   font-weight: 700;
   color: var(--accent-cyan);
   text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .skills-body {
   overflow-y: auto;
-  max-height: calc(80vh - 80px);
+  max-height: calc(80vh - 120px);
 }
 
 .skill-section {
-  padding: 10px 0;
+  padding: 6px 0 18px;
 }
 
 .skill-section-title {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--accent-cyan);
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-  margin-bottom: 8px;
+  color: rgba(0, 240, 255, 0.6);
 }
 
 .skill-divider {
   border-top: 1px solid rgba(0, 240, 255, 0.15);
-  margin: 15px 0;
+  margin: 8px 0;
 }
 
 .skill-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
 }
 
 .skill-item {
@@ -1067,28 +1066,48 @@ body::after {
   line-height: 1.6;
 }
 
+.skill-separator {
+  color: rgba(0, 240, 255, 0.3);
+  margin: 0 4px;
+  user-select: none;
+}
+
 /* ===== Action Buttons ===== */
-.action-btn {
-  padding: 8px 20px;
-  border: 1px solid var(--border-glow);
-  border-radius: 8px;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-flex;
+.action-buttons {
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.action-btn {
+  padding: 10px 30px;
+  border: 2px solid var(--accent-cyan);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-cyan);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  min-width: 140px;
 }
 
 .action-btn:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), 0 0 50px rgba(0, 240, 255, 0.15);
   transform: translateY(-2px);
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-  background: rgba(0, 240, 255, 0.1);
+}
+
+.action-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  flex-shrink: 0;
 }
 
 /* ===== Back to Top Button ===== */
@@ -1096,26 +1115,28 @@ body::after {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 1px solid var(--border-glow);
   background: var(--bg-card);
   color: var(--text-primary);
-  font-size: 1.5rem;
+  font-size: 3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   z-index: 999;
   opacity: 0;
   visibility: hidden;
+  transform: translateY(20px);
 }
 
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
 }
 
 .back-to-top:hover {
@@ -1125,6 +1146,20 @@ body::after {
   background: rgba(0, 240, 255, 0.1);
 }
 
-.back-to-top.hidden {
-  display: none;
+/* ===== Skills Modal Title + Divider Row ===== */
+.skill-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.skill-section-header .skill-section-title {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.skill-section-header .skill-divider {
+  flex-grow: 1;
+  margin: 0;
 }
