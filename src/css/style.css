@@ -20,10 +20,10 @@
 
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  background: transparent;
 }
 
 /* ===== Parallax Background ===== */

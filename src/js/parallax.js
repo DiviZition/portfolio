@@ -9,14 +9,14 @@ let stars = [];
 let particles = [];
 let terrainSeeds = [42, 137, 256, 389];
 let terrainFreqs = [0.003, 0.006, 0.012, 0.02];
-let terrainAmps = [120, 80, 50, 30];
+let terrainAmps = [150, 100, 65, 40];
 let terrainSpeeds = [0.02, 0.04, 0.07, 0.12];
 let terrainBaseY = [0.45, 0.55, 0.65, 0.8];
 let terrainColors = [
-  ['#0d0d2b', '#1a1a3a'],
-  ['#12122e', '#1e1e42'],
-  ['#0f0f24', '#181838'],
-  ['#0a0a1a', '#121230']
+  ['#1a1a4a', '#252560'],
+  ['#181840', '#222255'],
+  ['#151535', '#1e1e48'],
+  ['#101028', '#1a1a3c']
 ];
 let treePositions = [];
 let rockPositions = [];
@@ -94,10 +94,10 @@ function drawStars(time) {
 
 function drawSky(ctx) {
   const gradient = ctx.createLinearGradient(0, 0, 0, canvasH);
-  gradient.addColorStop(0, '#050510');
-  gradient.addColorStop(0.3, '#0a0a20');
-  gradient.addColorStop(0.7, '#0d0d28');
-  gradient.addColorStop(1, '#101030');
+  gradient.addColorStop(0, '#080818');
+  gradient.addColorStop(0.3, '#0c0c24');
+  gradient.addColorStop(0.7, '#101030');
+  gradient.addColorStop(1, '#151540');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvasW, canvasH);
 }
@@ -126,6 +126,11 @@ function drawTerrainLayer(ctx, layerIndex, offset) {
   gradient.addColorStop(1, terrainColors[layerIndex][1]);
   ctx.fillStyle = gradient;
   ctx.fill();
+  
+  // Subtle edge glow for visibility
+  ctx.strokeStyle = `rgba(${layerIndex === 0 ? '80, 40, 160' : layerIndex === 1 ? '60, 30, 140' : layerIndex === 2 ? '50, 25, 120' : '40, 20, 100'}, 0.15)`;
+  ctx.lineWidth = 1;
+  ctx.stroke();
 }
 
 function drawForegroundDetails(ctx, offset) {
@@ -137,7 +142,7 @@ function drawForegroundDetails(ctx, offset) {
     
     if (x < -20 || x > terrainWidth + 20) continue;
     
-    ctx.fillStyle = '#08081a';
+    ctx.fillStyle = '#0e0e28';
     
     if (tree.type === 'pine') {
       for (let y = 0; y < tree.height; y += 2) {
@@ -156,7 +161,7 @@ function drawForegroundDetails(ctx, offset) {
     
     if (x < -20 || x > terrainWidth + 20) continue;
     
-    ctx.fillStyle = '#0c0c22';
+    ctx.fillStyle = '#141438';
     ctx.fillRect(Math.floor(x), Math.floor(canvasH - rock.height), Math.ceil(rock.width), Math.ceil(rock.height));
   }
 }
