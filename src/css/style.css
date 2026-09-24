@@ -26,6 +26,27 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== Parallax Background ===== */
+#stars-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  pointer-events: none;
+}
+
+#parallax-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 /* ===== Scanlines Overlay ===== */
 body::after {
   content: '';
