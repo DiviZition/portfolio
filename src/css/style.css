@@ -278,7 +278,7 @@ body::after {
   width: var(--card-width);
   margin: 0 calc(50% - var(--card-width) / 2 - 40px);
   position: relative;
-  z-index: 3;
+  z-index: 20;
 }
 
 .roadmap-stop:nth-child(even) .roadmap-card-wrapper {

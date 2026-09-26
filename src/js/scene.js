@@ -11,7 +11,7 @@ let chains = [];
 let lastInteraction = new Map(); // instanceId -> Set of { otherInstanceId, timestamp }
 let currentDt = 16.67;
 let lastSpawnTime = Date.now();
-let spawnTimer = null;
+let nextSpawnDelay = 0;
 let animFrameId = null;
 let lastFrameTime = 0;
 let consecutiveLeft = 0;
@@ -30,8 +30,8 @@ function easeInCubic(t) {
 function createCanvas() {
   sceneCanvas = document.createElement('canvas');
   sceneCanvas.id = 'scene-canvas';
-  sceneCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;';
-  document.body.appendChild(sceneCanvas);
+  sceneCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+  document.getElementById('app').prepend(sceneCanvas);
 
   sceneCtx = sceneCanvas.getContext('2d');
 }
@@ -114,7 +114,7 @@ function spawnCharacter() {
     instanceId: Math.random().toString(36).substr(2, 9),
     emoji: charConfig.emoji,
     messageBGColor: charConfig.messageBGColor,
-    speed: charConfig.speed,
+    moveSpeed: charConfig.moveSpeed,
     size: charConfig.size,
     messages: charConfig.messages,
     replyTo: charConfig.replyTo,
@@ -124,29 +124,13 @@ function spawnCharacter() {
     lastFrameX: fromLeft ? -charConfig.size : canvasW + charConfig.size,
     trackIndex: trackIndex,
     image: charConfig.spriteSheet ? spriteImages.get(charConfig.spriteSheet) : null,
+    frameWidth: charConfig.frameWidth || charConfig.size,
+    frameHeight: charConfig.frameHeight || charConfig.size,
     framesX: charConfig.framesX || 1,
     fps: charConfig.fps || 0,
     currentFrame: 0,
     frameTimer: 0
   });
-}
-
-function scheduleNextSpawn() {
-  const now = Date.now();
-  const timeSinceLastSpawn = now - lastSpawnTime;
-  const minInterval = CONFIG.spawn.minIntervalMs;
-
-  if (timeSinceLastSpawn < minInterval) {
-    setTimeout(() => scheduleNextSpawn(), minInterval - timeSinceLastSpawn);
-    return;
-  }
-
-  const interval = minInterval + Math.random() * (CONFIG.spawn.maxIntervalMs - minInterval);
-  spawnTimer = setTimeout(() => {
-    lastSpawnTime = Date.now();
-    spawnCharacter();
-    scheduleNextSpawn();
-  }, interval);
 }
 
 function canInteract(instanceIdA, instanceIdB) {
@@ -204,7 +188,7 @@ function spawnChainAt(x, y, messageNPCs) {
         relativeY: i * (fontSize + padding * 2 + gap),
         speakerX: npc.x,
         driftDirection: npc.direction,
-        driftSpeedPxPerSec: npc.speed * (1000 / 16.67) // convert config speed from px/frame to px/sec
+        driftSpeedPxPerSec: npc.moveSpeed * (1000 / 16.67) // convert config speed from px/frame to px/sec
       });
     }
   }
@@ -289,7 +273,6 @@ function drawMessageBubble(ctx, msg, x, y, alpha, scale) {
 function drawCharacter(ctx, char) {
   if (char.image && char.framesX > 1) {
     const col = char.currentFrame % char.framesX;
-    const frameWidth = char.image.width / char.framesX;
 
     ctx.save();
     if (char.direction > 0) {
@@ -297,13 +280,13 @@ function drawCharacter(ctx, char) {
       ctx.scale(-1, 1);
       ctx.drawImage(
         char.image,
-        col * frameWidth, 0, frameWidth, char.image.height,
+        col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
         -char.size / 2, -char.size, char.size, char.size
       );
     } else {
       ctx.drawImage(
         char.image,
-        col * frameWidth, 0, frameWidth, char.image.height,
+        col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
         char.x - char.size / 2, char.y - char.size, char.size, char.size
       );
     }
@@ -324,7 +307,7 @@ function updateCharacters(dt) {
   for (let i = characters.length - 1; i >= 0; i--) {
     const char = characters[i];
     char.lastFrameX = char.x;
-    char.x += char.speed * char.direction * frameDelta;
+    char.x += char.moveSpeed * char.direction * frameDelta;
 
     if (char.fps > 0 && char.framesX > 1) {
       char.frameTimer += dt;
@@ -436,6 +419,12 @@ function animate(timestamp) {
   lastFrameTime = timestamp;
   currentDt = dt;
 
+  nextSpawnDelay -= dt;
+  if (nextSpawnDelay <= 0) {
+    spawnCharacter();
+    nextSpawnDelay = CONFIG.spawn.minIntervalMs + Math.random() * (CONFIG.spawn.maxIntervalMs - CONFIG.spawn.minIntervalMs);
+  }
+
   updateCharacters(dt);
   checkCrossings();
   render();
@@ -450,7 +439,7 @@ function init() {
 
   const startScene = () => {
     spawnCharacter();
-    scheduleNextSpawn();
+    nextSpawnDelay = CONFIG.spawn.minIntervalMs / 2;
 
     lastFrameTime = 0;
     animFrameId = requestAnimationFrame(animate);
@@ -472,7 +461,7 @@ function init() {
   // Cleanup on page unload to prevent leaks
   window.addEventListener('pagehide', () => {
     cancelAnimationFrame(animFrameId);
-    clearTimeout(spawnTimer);
+    spriteImages.clear();
   });
 }
 

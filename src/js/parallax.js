@@ -24,11 +24,11 @@ function createCanvases() {
     const c = document.createElement('canvas');
     c.id = name;
     c.className = name;
-    c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;';
+    c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;';
     if (name === 'parallax-bg') {
       c.style.imageRendering = 'pixelated';
     }
-    document.body.prepend(c);
+    document.getElementById('app').prepend(c);
     return c;
   });
 

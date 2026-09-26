@@ -25,7 +25,7 @@
       "id": "pepe",
       "emoji": "🐸",
       "messageBGColor": "#4ade80",
-      "speed": 2,
+      "moveSpeed": 2,
       "size": 32,
       "messages": ["Hey!", "Nice site!", "Cool background!"],
       "replyTo": {
@@ -37,7 +37,7 @@
       "id": "sisyphus",
       "emoji": "⛰️",
       "messageBGColor": "#a78bfa",
-      "speed": 1.5,
+      "moveSpeed": 1.5,
       "size": 32,
       "messages": ["Pushing forward...", "One more push"],
       "replyTo": {
@@ -48,10 +48,12 @@
     {
       "id": "shadow",
       "spriteSheet": "assets/sprites/shadow.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
       "framesX": 5,
       "fps": 8,
       "messageBGColor": "#3a373a",
-      "speed": 2.2,
+      "moveSpeed": 2.2,
       "size": 256,
       "messages": ["..."],
       "replyTo": {

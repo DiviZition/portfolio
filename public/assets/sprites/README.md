@@ -25,14 +25,21 @@ Add characters to `config/scene.json`:
   "id": "mycharacter",
   "spriteSheet": "assets/sprites/mycharacter.png",
   "frameWidth": 32,
+  "frameHeight": 32,
   "framesX": 8,
   "fps": 8,
-  "messageBGColor": "#4ade80",
-  "speed": 2,
+  "moveSpeed": 2,
   "size": 32,
+  "messageBGColor": "#4ade80",
   "messages": ["Hello!"],
   "replyTo": { "any": ["Hi there!"] }
 }
 ```
 
-Omit `spriteSheet` fields to use emoji fallback instead.
+- `frameWidth` / `frameHeight`: pixel dimensions of a single frame (e.g., 256px image with 8 frames → 32x32)
+- `framesX`: number of frames in the horizontal row
+- `fps`: animation speed (frames per second)
+- `moveSpeed`: movement speed in pixels per frame at 60fps base
+- `size`: rendered size on screen
+
+Omit all sprite fields (`spriteSheet`, `frameWidth`, `frameHeight`, `framesX`, `fps`) to use emoji fallback instead.
