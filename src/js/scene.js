@@ -115,7 +115,6 @@ function spawnCharacter() {
     messageBGColor: charConfig.messageBGColor,
     moveSpeed: charConfig.moveSpeed,
     size: charConfig.size,
-    messages: charConfig.messages,
     replyTo: charConfig.replyTo,
     x: fromLeft ? -charConfig.size : canvasW + charConfig.size,
     y: roadY,
@@ -130,6 +129,16 @@ function spawnCharacter() {
     currentFrame: 0,
     frameTimer: 0
   });
+}
+
+function getReplyText(speaker, targetId) {
+  if (speaker.replyTo[targetId]) {
+    return getRandomItem(speaker.replyTo[targetId]);
+  }
+  if (speaker.replyTo.any) {
+    return getRandomItem(speaker.replyTo.any);
+  }
+  return null;
 }
 
 function canInteract(instanceIdA, instanceIdB) {
@@ -179,16 +188,21 @@ function spawnChainAt(x, y, messageNPCs) {
 
   for (let i = 0; i < messageNPCs.length; i++) {
     const npc = messageNPCs[i];
-    if (npc.messages.length > 0) {
-      allMessages.push({
-        text: getRandomItem(npc.messages),
-        color: npc.messageBGColor,
-        spawnDelay: 0,
-        relativeY: i * (fontSize + padding * 2 + gap),
-        speakerX: npc.x,
-        driftDirection: npc.direction,
-        driftSpeedPxPerSec: npc.moveSpeed * (1000 / 16.67) // convert config speed from px/frame to px/sec
-      });
+    const otherNpc = messageNPCs.find(n => n.id !== npc.id);
+    
+    if (otherNpc) {
+      const replyText = getReplyText(npc, otherNpc.id);
+      if (replyText) {
+        allMessages.push({
+          text: replyText,
+          color: npc.messageBGColor,
+          spawnDelay: 0,
+          relativeY: i * (fontSize + padding * 2 + gap),
+          speakerX: npc.x,
+          driftDirection: npc.direction,
+          driftSpeedPxPerSec: npc.moveSpeed * (1000 / 16.67) // convert config speed from px/frame to px/sec
+        });
+      }
     }
   }
 

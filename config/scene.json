@@ -32,7 +32,6 @@
       "messageBGColor": "#4ade80",
       "moveSpeed": 2,
       "size": 32,
-      "messages": ["Hey!", "Nice site!", "Cool background!"],
       "replyTo": {
         "any": ["Nice to see ya!", "Hey there!"],
         "sisyphus": ["Rolling along!", "Busy day 😅"]
@@ -44,9 +43,8 @@
       "messageBGColor": "#a78bfa",
       "moveSpeed": 1.5,
       "size": 32,
-      "messages": ["Pushing forward...", "One more push"],
       "replyTo": {
-        "any": ["Oh hey!", "Carrying on..."],
+        "any": ["Oh hey!", "Carrying on...", "Пошел нахуй"],
         "pepe": ["Nice site!", "Keep it up!"]
       }
     },
@@ -60,9 +58,9 @@
       "messageBGColor": "#3a373a",
       "moveSpeed": 2.2,
       "size": 256,
-      "messages": ["..."],
       "replyTo": {
-        "any": ["*silence*"]
+        "pepe": ["..."],
+        "sisyphus": ["*silence*"]
       }
     }
   ]

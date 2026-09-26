@@ -31,7 +31,6 @@ Add characters to `config/scene.json`:
   "moveSpeed": 2,
   "size": 32,
   "messageBGColor": "#4ade80",
-  "messages": ["Hello!"],
   "replyTo": { "any": ["Hi there!"] }
 }
 ```
