@@ -4,6 +4,12 @@
     "maxIntervalMs": 5000,
     "roadYPercent": 0.92
   },
+  "tracks": [
+    {"yOffsetFromBottom": 30},
+    {"yOffsetFromBottom": 80},
+    {"yOffsetFromBottom": 140},
+    {"yOffsetFromBottom": 200}
+  ],
   "replyCooldownMs": 5000,
   "interactionWindow": 100,
   "chainConfig": {

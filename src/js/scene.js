@@ -2,8 +2,6 @@ import sceneConfig from '../../config/scene.json' with { type: 'json' };
 
 const CONFIG = sceneConfig.default || sceneConfig;
 
-const TRACKS = [0.90, 0.92, 0.94, 0.96];
-
 let sceneCanvas, sceneCtx;
 let canvasW, canvasH;
 let characters = [];
@@ -48,7 +46,8 @@ function getRandomItem(arr) {
 }
 
 function getTrackY(index) {
-  return canvasH * TRACKS[index];
+  const track = CONFIG.tracks[index];
+  return canvasH - track.yOffsetFromBottom;
 }
 
 function preloadSprites() {
@@ -86,7 +85,7 @@ function preloadSprites() {
 
 function spawnCharacter() {
   const charConfig = getRandomItem(CONFIG.characters);
-  const trackIndex = Math.floor(Math.random() * TRACKS.length);
+  const trackIndex = Math.floor(Math.random() * CONFIG.tracks.length);
   const roadY = getTrackY(trackIndex);
 
   let fromLeft;
