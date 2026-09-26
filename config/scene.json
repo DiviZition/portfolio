@@ -1,14 +1,13 @@
 {
   "spawn": {
     "minIntervalMs": 2000,
-    "maxIntervalMs": 5000,
-    "roadYPercent": 0.92
+    "maxIntervalMs": 5000
   },
   "tracks": [
-    {"yOffsetFromBottom": 30},
-    {"yOffsetFromBottom": 80},
-    {"yOffsetFromBottom": 140},
-    {"yOffsetFromBottom": 200}
+    {"yOffsetFromBottom": 60},
+    {"yOffsetFromBottom": 50},
+    {"yOffsetFromBottom": 40},
+    {"yOffsetFromBottom": 30}
   ],
   "replyCooldownMs": 5000,
   "interactionWindow": 100,
