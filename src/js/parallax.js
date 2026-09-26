@@ -1,11 +1,9 @@
+import bgConfig from '../../config/background.json' with { type: 'json' };
+
+const BACKGROUND = bgConfig.default || bgConfig;
+
 const CONFIG = {
   skyColors: ['#0a0a1a', '#151538'],
-  terrainLayers: [
-    { baseY: 0.72, amp: 60, colors: ['#3a2878', '#2a1860'], speed: 0.01, seed: 42 },
-    { baseY: 0.78, amp: 45, colors: ['#4a3090', '#382070'], speed: 0.02, seed: 137 },
-    { baseY: 0.84, amp: 30, colors: ['#5a38a0', '#482888'], speed: 0.03, seed: 256 },
-    { baseY: 0.90, amp: 15, colors: ['#6a40b0', '#583098'], speed: 0.04, seed: 389 }
-  ],
   starCount: (w, h) => Math.floor(w * h / 2500),
   particleCount: (w, h) => Math.floor(w * h / 8000),
   particleColors: ['0, 240, 255', '180, 0, 255', '255, 0, 170', '255, 255, 255']
@@ -16,7 +14,8 @@ let bgCanvas, bgCtx;
 let canvasW, canvasH;
 let stars = [];
 let particles = [];
-let foregroundDetails = [];
+let backgroundLayers = [];
+let imagesLoaded = false;
 
 function createCanvases() {
   const names = ['stars-canvas', 'parallax-bg'];
@@ -45,7 +44,117 @@ function resize() {
   bgCanvas.height = canvasH;
   generateStars();
   generateParticles();
-  generateForegroundDetails();
+  updateBackgroundInstances();
+}
+
+function preloadBackgroundImages() {
+  const paths = new Set();
+  for (const layer of BACKGROUND.layers) {
+    if (layer.image) {
+      paths.add(layer.image);
+    }
+  }
+
+  if (paths.size === 0) {
+    imagesLoaded = true;
+    return;
+  }
+
+  let loaded = 0;
+  for (const path of paths) {
+    const img = new Image();
+    img.onload = () => {
+      loaded++;
+      if (loaded === paths.size) {
+        imagesLoaded = true;
+      }
+    };
+    img.onerror = () => {
+      loaded++;
+      if (loaded === paths.size) {
+        imagesLoaded = true;
+      }
+    };
+    img.src = path;
+  }
+}
+
+function initBackgroundLayers() {
+  backgroundLayers = BACKGROUND.layers.map((layer) => ({
+    _imagePath: layer.image,
+    width: layer.width,
+    height: layer.height,
+    offsetFromBottom: layer.offsetFromBottom,
+    animated: layer.animated,
+    speed: layer.speed,
+    direction: layer.direction,
+    image: null,
+    instances: []
+  }));
+
+  let loaded = 0;
+  const totalImages = backgroundLayers.filter(l => l._imagePath).length;
+
+  if (totalImages === 0) {
+    buildInstances();
+    return;
+  }
+
+  for (const layer of backgroundLayers) {
+    if (layer._imagePath) {
+      const img = new Image();
+      img.onload = () => {
+        layer.image = img;
+        loaded++;
+        if (loaded === totalImages) {
+          buildInstances();
+        }
+      };
+      img.onerror = () => {
+        loaded++;
+        if (loaded === totalImages) {
+          buildInstances();
+        }
+      };
+      img.src = layer._imagePath;
+    }
+  }
+}
+
+function buildInstances() {
+  for (const layer of backgroundLayers) {
+    if (!layer.image) continue;
+
+    if (layer.animated) {
+      const numCopies = Math.ceil(canvasW / layer.width) + 2;
+      layer.instances = [];
+      for (let i = 0; i < numCopies; i++) {
+        layer.instances.push({ x: i * layer.width });
+      }
+    } else {
+      layer.instances = [{ x: 0 }];
+    }
+  }
+}
+
+function updateBackgroundInstances() {
+  for (const layer of backgroundLayers) {
+    if (!layer.image || !layer.animated) continue;
+
+    const numCopies = Math.ceil(canvasW / layer.width) + 2;
+    if (layer.instances.length < numCopies) {
+      for (let i = layer.instances.length; i < numCopies; i++) {
+        layer.instances.push({ x: i * layer.width });
+      }
+    }
+
+    const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+    for (const inst of layer.instances) {
+      if (inst.x + layer.width < rightmost - canvasW * 0.5) {
+        inst.x = rightmost + layer.width;
+      }
+    }
+  }
 }
 
 function generateStars() {
@@ -80,100 +189,12 @@ function generateParticles() {
   }
 }
 
-function generateForegroundDetails() {
-  foregroundDetails = [];
-  const count = Math.floor(canvasW / 15);
-  for (let i = 0; i < count; i++) {
-    const type = Math.random();
-    if (type < 0.4) {
-      foregroundDetails.push({
-        x: Math.random() * canvasW,
-        height: 8 + Math.random() * 15,
-        width: 2 + Math.random() * 3,
-        type: 'tree'
-      });
-    } else if (type < 0.7) {
-      foregroundDetails.push({
-        x: Math.random() * canvasW,
-        height: 3 + Math.random() * 5,
-        width: 4 + Math.random() * 6,
-        type: 'rock'
-      });
-    } else {
-      foregroundDetails.push({
-        x: Math.random() * canvasW,
-        height: 6 + Math.random() * 10,
-        width: 2 + Math.random() * 2,
-        type: 'cactus'
-      });
-    }
-  }
-}
-
-function drawForegroundDetails(ctx) {
-  const baseY = canvasH * 0.92;
-
-  for (const detail of foregroundDetails) {
-    const x = detail.x;
-    const y = baseY;
-
-    ctx.fillStyle = '#1a1040';
-
-    if (detail.type === 'tree') {
-      for (let dH = 0; dH < detail.height; dH += 2) {
-        const wd = detail.width * (1 - dH / detail.height);
-        ctx.fillRect(Math.floor(x - wd / 2), Math.floor(y - dH), Math.ceil(wd), 2);
-      }
-    } else if (detail.type === 'rock') {
-      ctx.beginPath();
-      ctx.ellipse(Math.floor(x), Math.floor(y - detail.height / 2), Math.floor(detail.width / 2), Math.floor(detail.height / 2), 0, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      ctx.fillRect(Math.floor(x - detail.width / 2), Math.floor(y - detail.height), Math.ceil(detail.width), Math.ceil(detail.height));
-      if (detail.height > 10) {
-        const armY = Math.floor(y - detail.height * 0.6);
-        ctx.fillRect(Math.floor(x + detail.width / 2), Math.floor(armY), 4, 2);
-        ctx.fillRect(Math.floor(x + detail.width / 2 + 3), Math.floor(armY - 4), 2, 4);
-      }
-    }
-  }
-}
-
-function noise(x, seed) {
-  let y = 0;
-  for (let i = 1; i <= 6; i++) {
-    const freq = 0.004 * Math.pow(2, i - 1);
-    y += Math.sin((x + seed) * freq) / Math.pow(2, i - 1);
-  }
-  return y;
-}
-
-function drawSky(ctx) {
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvasH);
-  CONFIG.skyColors.forEach((color, i) => {
-    gradient.addColorStop(i / (CONFIG.skyColors.length - 1), color);
-  });
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvasW, canvasH);
-}
-
 function drawStars(ctx, time) {
   for (const star of stars) {
     const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
     const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
     ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
     ctx.fillRect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
-  }
-}
-
-function drawTerrain(ctx) {
-  const height = canvasH;
-  
-  for (let i = 0; i < CONFIG.terrainLayers.length; i++) {
-    const layer = CONFIG.terrainLayers[i];
-    const baseY = height * layer.baseY;
-    ctx.fillStyle = layer.colors[0];
-    ctx.fillRect(0, baseY, canvasW, height - baseY);
   }
 }
 
@@ -196,14 +217,95 @@ function updateParticles() {
   }
 }
 
+function drawSky(ctx) {
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvasH);
+  CONFIG.skyColors.forEach((color, i) => {
+    gradient.addColorStop(i / (CONFIG.skyColors.length - 1), color);
+  });
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvasW, canvasH);
+}
+
+function updateBackgroundLayers(dt) {
+  for (const layer of backgroundLayers) {
+    if (!layer.image || !layer.animated) continue;
+
+    const speedPxPerSec = layer.speed || 20;
+    const moveAmount = speedPxPerSec * (dt / 1000) * (layer.direction || -1);
+
+    for (const inst of layer.instances) {
+      inst.x += moveAmount;
+    }
+
+    const leftmost = Math.min(...layer.instances.map(inst => inst.x));
+    if (leftmost + layer.width < 0) {
+      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+      for (const inst of layer.instances) {
+        if (inst.x + layer.width < 0) {
+          inst.x = rightmost + layer.width;
+        }
+      }
+    }
+
+    const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+    if (rightmost > canvasW) {
+      const leftmost2 = Math.min(...layer.instances.map(inst => inst.x));
+      for (const inst of layer.instances) {
+        if (inst.x > canvasW + layer.width) {
+          inst.x = leftmost2 - layer.width;
+        }
+      }
+    }
+  }
+}
+
+function drawBackgroundLayers(ctx, dt) {
+  updateBackgroundLayers(dt);
+
+  // Always draw procedural fallback first (sky only)
+  drawSky(ctx);
+
+  // Then draw custom image layers on top
+  for (const layer of backgroundLayers) {
+    if (!layer.image) continue;
+
+    const yOffset = layer.offsetFromBottom < 1 ? canvasH * layer.offsetFromBottom : layer.offsetFromBottom;
+    const y = canvasH - yOffset - layer.height;
+
+    if (layer.animated) {
+      // Animated layers: tile/wrap from left edge
+      for (const inst of layer.instances) {
+        ctx.drawImage(
+          layer.image,
+          Math.floor(inst.x),
+          Math.floor(y),
+          layer.width,
+          layer.height
+        );
+      }
+    } else {
+      // Static layers: center horizontally
+      const centerX = (canvasW - layer.width) / 2;
+      ctx.drawImage(
+        layer.image,
+        Math.floor(centerX),
+        Math.floor(y),
+        layer.width,
+        layer.height
+      );
+    }
+  }
+}
+
 function animate(time) {
   starsCtx.clearRect(0, 0, canvasW, canvasH);
   drawStars(starsCtx, time);
 
+  const dt = time - (animate.lastTime || time);
+  animate.lastTime = time;
+
   bgCtx.clearRect(0, 0, canvasW, canvasH);
-  drawSky(bgCtx);
-  drawTerrain(bgCtx);
-  drawForegroundDetails(bgCtx);
+  drawBackgroundLayers(bgCtx, dt);
   drawParticles(bgCtx, time);
 
   updateParticles();
@@ -211,7 +313,31 @@ function animate(time) {
   requestAnimationFrame(animate);
 }
 
-createCanvases();
-resize();
-window.addEventListener('resize', resize);
-requestAnimationFrame(animate);
+function start() {
+  createCanvases();
+  resize();
+  window.addEventListener('resize', resize);
+
+  preloadBackgroundImages();
+
+  const initScene = () => {
+    initBackgroundLayers();
+    animate.lastTime = 0;
+    requestAnimationFrame(animate);
+  };
+
+  if (imagesLoaded) {
+    initScene();
+  } else {
+    const checkReady = () => {
+      if (imagesLoaded) {
+        initScene();
+      } else {
+        requestAnimationFrame(checkReady);
+      }
+    };
+    requestAnimationFrame(checkReady);
+  }
+}
+
+start();
