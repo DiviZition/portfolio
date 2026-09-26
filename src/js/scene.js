@@ -188,7 +188,7 @@ function spawnChainAt(x, y, messageNPCs) {
 
   for (let i = 0; i < messageNPCs.length; i++) {
     const npc = messageNPCs[i];
-    const otherNpc = messageNPCs.find(n => n.id !== npc.id);
+    const otherNpc = messageNPCs.find(n => n.instanceId !== npc.instanceId);
     
     if (otherNpc) {
       const replyText = getReplyText(npc, otherNpc.id);
