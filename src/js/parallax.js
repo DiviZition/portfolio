@@ -1,42 +1,56 @@
-const starsCanvas = document.getElementById('stars-canvas');
-const starsCtx = starsCanvas.getContext('2d');
-const bgCanvas = document.getElementById('parallax-bg');
-const bgCtx = bgCanvas.getContext('2d');
+const CONFIG = {
+  skyColors: ['#0a0a1a', '#151538'],
+  terrainLayers: [
+    { baseY: 0.72, amp: 60, colors: ['#3a2878', '#2a1860'], speed: 0.01, seed: 42 },
+    { baseY: 0.78, amp: 45, colors: ['#4a3090', '#382070'], speed: 0.02, seed: 137 },
+    { baseY: 0.84, amp: 30, colors: ['#5a38a0', '#482888'], speed: 0.03, seed: 256 },
+    { baseY: 0.90, amp: 15, colors: ['#6a40b0', '#583098'], speed: 0.04, seed: 389 }
+  ],
+  starCount: (w, h) => Math.floor(w * h / 2500),
+  particleCount: (w, h) => Math.floor(w * h / 8000),
+  particleColors: ['0, 240, 255', '180, 0, 255', '255, 0, 170', '255, 255, 255']
+};
 
-const SCALING_FACTOR = 3;
+let starsCanvas, starsCtx;
+let bgCanvas, bgCtx;
 let canvasW, canvasH;
 let stars = [];
 let particles = [];
-let terrainSeeds = [42, 137, 256, 389];
-let terrainFreqs = [0.003, 0.006, 0.012, 0.02];
-let terrainAmps = [150, 100, 65, 40];
-let terrainSpeeds = [0.02, 0.04, 0.07, 0.12];
-let terrainBaseY = [0.45, 0.55, 0.65, 0.8];
-let terrainColors = [
-  ['#1a1a4a', '#252560'],
-  ['#181840', '#222255'],
-  ['#151535', '#1e1e48'],
-  ['#101028', '#1a1a3c']
-];
-let treePositions = [];
-let rockPositions = [];
+let foregroundDetails = [];
+
+function createCanvases() {
+  const names = ['stars-canvas', 'parallax-bg'];
+  [starsCanvas, bgCanvas] = names.map(name => {
+    const c = document.createElement('canvas');
+    c.id = name;
+    c.className = name;
+    c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;';
+    if (name === 'parallax-bg') {
+      c.style.imageRendering = 'pixelated';
+    }
+    document.body.prepend(c);
+    return c;
+  });
+
+  starsCtx = starsCanvas.getContext('2d');
+  bgCtx = bgCanvas.getContext('2d');
+}
 
 function resize() {
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
-  
   starsCanvas.width = canvasW;
   starsCanvas.height = canvasH;
-  bgCanvas.width = Math.floor(canvasW / SCALING_FACTOR);
-  bgCanvas.height = Math.floor(canvasH / SCALING_FACTOR);
-  
+  bgCanvas.width = canvasW;
+  bgCanvas.height = canvasH;
   generateStars();
+  generateParticles();
   generateForegroundDetails();
 }
 
 function generateStars() {
   stars = [];
-  const count = Math.floor((canvasW * canvasH) / 2500);
+  const count = CONFIG.starCount(canvasW, canvasH);
   for (let i = 0; i < count; i++) {
     stars.push({
       x: Math.random() * canvasW,
@@ -49,120 +63,117 @@ function generateStars() {
   }
 }
 
+function generateParticles() {
+  particles = [];
+  const count = CONFIG.particleCount(canvasW, canvasH);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * canvasW,
+      y: Math.random() * canvasH,
+      size: Math.random() < 0.3 ? 2 : 1,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -0.1 - Math.random() * 0.3,
+      baseAlpha: 0.1 + Math.random() * 0.2,
+      phase: Math.random() * Math.PI * 2,
+      color: CONFIG.particleColors[Math.floor(Math.random() * CONFIG.particleColors.length)]
+    });
+  }
+}
+
 function generateForegroundDetails() {
-  treePositions = [];
-  rockPositions = [];
-  const terrainWidth = bgCanvas.width;
-  
-  for (let x = 0; x < terrainWidth + 100; x += Math.floor(8 + Math.random() * 25)) {
-    if (Math.random() < 0.4) {
-      treePositions.push({
-        x: x,
-        height: 10 + Math.floor(Math.random() * 20),
-        width: 3 + Math.floor(Math.random() * 4),
-        type: Math.random() < 0.7 ? 'pine' : 'round'
+  foregroundDetails = [];
+  const count = Math.floor(canvasW / 15);
+  for (let i = 0; i < count; i++) {
+    const type = Math.random();
+    if (type < 0.4) {
+      foregroundDetails.push({
+        x: Math.random() * canvasW,
+        height: 8 + Math.random() * 15,
+        width: 2 + Math.random() * 3,
+        type: 'tree'
+      });
+    } else if (type < 0.7) {
+      foregroundDetails.push({
+        x: Math.random() * canvasW,
+        height: 3 + Math.random() * 5,
+        width: 4 + Math.random() * 6,
+        type: 'rock'
       });
     } else {
-      rockPositions.push({
-        x: x,
-        width: 3 + Math.floor(Math.random() * 6),
-        height: 2 + Math.floor(Math.random() * 4)
+      foregroundDetails.push({
+        x: Math.random() * canvasW,
+        height: 6 + Math.random() * 10,
+        width: 2 + Math.random() * 2,
+        type: 'cactus'
       });
+    }
+  }
+}
+
+function drawForegroundDetails(ctx) {
+  const baseY = canvasH * 0.92;
+
+  for (const detail of foregroundDetails) {
+    const x = detail.x;
+    const y = baseY;
+
+    ctx.fillStyle = '#1a1040';
+
+    if (detail.type === 'tree') {
+      for (let dH = 0; dH < detail.height; dH += 2) {
+        const wd = detail.width * (1 - dH / detail.height);
+        ctx.fillRect(Math.floor(x - wd / 2), Math.floor(y - dH), Math.ceil(wd), 2);
+      }
+    } else if (detail.type === 'rock') {
+      ctx.beginPath();
+      ctx.ellipse(Math.floor(x), Math.floor(y - detail.height / 2), Math.floor(detail.width / 2), Math.floor(detail.height / 2), 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillRect(Math.floor(x - detail.width / 2), Math.floor(y - detail.height), Math.ceil(detail.width), Math.ceil(detail.height));
+      if (detail.height > 10) {
+        const armY = Math.floor(y - detail.height * 0.6);
+        ctx.fillRect(Math.floor(x + detail.width / 2), Math.floor(armY), 4, 2);
+        ctx.fillRect(Math.floor(x + detail.width / 2 + 3), Math.floor(armY - 4), 2, 4);
+      }
     }
   }
 }
 
 function noise(x, seed) {
   let y = 0;
-  for (let i = 1; i <= 8; i++) {
-    y += Math.sin((x + seed) * terrainFreqs[i - 1] * Math.PI * 2) / i;
+  for (let i = 1; i <= 6; i++) {
+    const freq = 0.004 * Math.pow(2, i - 1);
+    y += Math.sin((x + seed) * freq) / Math.pow(2, i - 1);
   }
   return y;
 }
 
-function drawStars(time) {
-  starsCtx.clearRect(0, 0, canvasW, canvasH);
-  
-  for (const star of stars) {
-    const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
-    const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
-    
-    starsCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-    starsCtx.fillRect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
-  }
-}
-
 function drawSky(ctx) {
   const gradient = ctx.createLinearGradient(0, 0, 0, canvasH);
-  gradient.addColorStop(0, '#080818');
-  gradient.addColorStop(0.3, '#0c0c24');
-  gradient.addColorStop(0.7, '#101030');
-  gradient.addColorStop(1, '#151540');
+  CONFIG.skyColors.forEach((color, i) => {
+    gradient.addColorStop(i / (CONFIG.skyColors.length - 1), color);
+  });
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvasW, canvasH);
 }
 
-function drawTerrainLayer(ctx, layerIndex, offset) {
-  const width = canvasW;
-  const height = canvasH;
-  const seed = terrainSeeds[layerIndex];
-  const baseY = height * terrainBaseY[layerIndex];
-  const amp = terrainAmps[layerIndex];
-  
-  ctx.beginPath();
-  ctx.moveTo(0, height);
-  
-  for (let x = -1; x <= width + 1; x += 2) {
-    const noiseVal = noise(x + offset, seed);
-    const y = baseY + noiseVal * amp;
-    ctx.lineTo(x, y);
+function drawStars(ctx, time) {
+  for (const star of stars) {
+    const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
+    const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    ctx.fillRect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
   }
-  
-  ctx.lineTo(width, height);
-  ctx.closePath();
-  
-  const gradient = ctx.createLinearGradient(0, baseY - amp, 0, height);
-  gradient.addColorStop(0, terrainColors[layerIndex][0]);
-  gradient.addColorStop(1, terrainColors[layerIndex][1]);
-  ctx.fillStyle = gradient;
-  ctx.fill();
-  
-  // Subtle edge glow for visibility
-  ctx.strokeStyle = `rgba(${layerIndex === 0 ? '80, 40, 160' : layerIndex === 1 ? '60, 30, 140' : layerIndex === 2 ? '50, 25, 120' : '40, 20, 100'}, 0.15)`;
-  ctx.lineWidth = 1;
-  ctx.stroke();
 }
 
-function drawForegroundDetails(ctx, offset) {
-  const terrainWidth = canvasW;
-  const scaledOffset = offset % (terrainWidth + 200);
+function drawTerrain(ctx) {
+  const height = canvasH;
   
-  for (const tree of treePositions) {
-    const x = ((tree.x - scaledOffset) % (terrainWidth + 200) + terrainWidth + 200) % (terrainWidth + 200) - 100;
-    
-    if (x < -20 || x > terrainWidth + 20) continue;
-    
-    ctx.fillStyle = '#0e0e28';
-    
-    if (tree.type === 'pine') {
-      for (let y = 0; y < tree.height; y += 2) {
-        const w = tree.width * (1 - y / tree.height);
-        ctx.fillRect(Math.floor(x - w / 2), Math.floor(canvasH - tree.height + y), Math.ceil(w), 2);
-      }
-    } else {
-      ctx.beginPath();
-      ctx.arc(Math.floor(x), Math.floor(canvasH - tree.height), tree.width, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  
-  for (const rock of rockPositions) {
-    const x = ((rock.x - scaledOffset) % (terrainWidth + 200) + terrainWidth + 200) % (terrainWidth + 200) - 100;
-    
-    if (x < -20 || x > terrainWidth + 20) continue;
-    
-    ctx.fillStyle = '#141438';
-    ctx.fillRect(Math.floor(x), Math.floor(canvasH - rock.height), Math.ceil(rock.width), Math.ceil(rock.height));
+  for (let i = 0; i < CONFIG.terrainLayers.length; i++) {
+    const layer = CONFIG.terrainLayers[i];
+    const baseY = height * layer.baseY;
+    ctx.fillStyle = layer.colors[0];
+    ctx.fillRect(0, baseY, canvasW, height - baseY);
   }
 }
 
@@ -178,7 +189,6 @@ function updateParticles() {
   for (const p of particles) {
     p.x += p.vx + (Math.random() - 0.5) * 0.3;
     p.y += p.vy + (Math.random() - 0.5) * 0.2;
-    
     if (p.x < 0) p.x = canvasW;
     if (p.x > canvasW) p.x = 0;
     if (p.y < 0) p.y = canvasH;
@@ -186,56 +196,22 @@ function updateParticles() {
   }
 }
 
-function generateParticles() {
-  particles = [];
-  const count = Math.floor((canvasW * canvasH) / 8000);
-  const colors = ['0, 240, 255', '180, 0, 255', '255, 0, 170', '255, 255, 255'];
-  
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      x: Math.random() * canvasW,
-      y: Math.random() * canvasH,
-      size: Math.random() < 0.3 ? 2 : 1,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -0.1 - Math.random() * 0.3,
-      baseAlpha: 0.1 + Math.random() * 0.3,
-      phase: Math.random() * Math.PI * 2,
-      color: colors[Math.floor(Math.random() * colors.length)]
-    });
-  }
-}
-
-function getScrollOffset() {
-  const scrollFraction = window.scrollY / (document.body.scrollHeight - window.innerHeight || 1);
-  return scrollFraction;
-}
-
-let lastTime = 0;
 function animate(time) {
-  const scrollOffset = getScrollOffset();
-  
   starsCtx.clearRect(0, 0, canvasW, canvasH);
-  drawStars(time);
-  
+  drawStars(starsCtx, time);
+
   bgCtx.clearRect(0, 0, canvasW, canvasH);
   drawSky(bgCtx);
-  
-  for (let i = 0; i < terrainSpeeds.length; i++) {
-    const offset = scrollOffset * terrainSpeeds[i] * canvasH * 2;
-    drawTerrainLayer(bgCtx, i, offset);
-  }
-  
-  drawForegroundDetails(bgCtx, scrollOffset * canvasH * 2);
+  drawTerrain(bgCtx);
+  drawForegroundDetails(bgCtx);
   drawParticles(bgCtx, time);
-  
+
   updateParticles();
-  
+
   requestAnimationFrame(animate);
 }
 
+createCanvases();
 resize();
-window.addEventListener('resize', () => {
-  resize();
-});
-
+window.addEventListener('resize', resize);
 requestAnimationFrame(animate);

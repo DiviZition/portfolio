@@ -1,6 +1,7 @@
 const ICONS_BASE = './assets/icons/';
 
 import './js/parallax.js';
+import('./js/scene.js');
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
