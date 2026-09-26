@@ -44,6 +44,19 @@
         "any": ["Oh hey!", "Carrying on..."],
         "pepe": ["Nice site!", "Keep it up!"]
       }
+    },
+    {
+      "id": "shadow",
+      "spriteSheet": "assets/sprites/shadow.png",
+      "framesX": 5,
+      "fps": 8,
+      "messageBGColor": "#3a373a",
+      "speed": 2.2,
+      "size": 256,
+      "messages": ["..."],
+      "replyTo": {
+        "any": ["*silence*"]
+      }
     }
   ]
 }

@@ -16,6 +16,8 @@ let animFrameId = null;
 let lastFrameTime = 0;
 let consecutiveLeft = 0;
 let consecutiveRight = 0;
+let spriteImages = new Map();
+let imagesLoaded = false;
 
 function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
@@ -47,6 +49,39 @@ function getRandomItem(arr) {
 
 function getTrackY(index) {
   return canvasH * TRACKS[index];
+}
+
+function preloadSprites() {
+  const paths = new Set();
+  for (const char of CONFIG.characters) {
+    if (char.spriteSheet) {
+      paths.add(char.spriteSheet);
+    }
+  }
+
+  if (paths.size === 0) {
+    imagesLoaded = true;
+    return;
+  }
+
+  let loaded = 0;
+  for (const path of paths) {
+    const img = new Image();
+    img.onload = () => {
+      loaded++;
+      if (loaded === paths.size) {
+        imagesLoaded = true;
+      }
+    };
+    img.onerror = () => {
+      loaded++;
+      if (loaded === paths.size) {
+        imagesLoaded = true;
+      }
+    };
+    img.src = path;
+    spriteImages.set(path, img);
+  }
 }
 
 function spawnCharacter() {
@@ -87,7 +122,12 @@ function spawnCharacter() {
     y: roadY,
     direction: fromLeft ? 1 : -1,
     lastFrameX: fromLeft ? -charConfig.size : canvasW + charConfig.size,
-    trackIndex: trackIndex
+    trackIndex: trackIndex,
+    image: charConfig.spriteSheet ? spriteImages.get(charConfig.spriteSheet) : null,
+    framesX: charConfig.framesX || 1,
+    fps: charConfig.fps || 0,
+    currentFrame: 0,
+    frameTimer: 0
   });
 }
 
@@ -164,7 +204,7 @@ function spawnChainAt(x, y, messageNPCs) {
         relativeY: i * (fontSize + padding * 2 + gap),
         speakerX: npc.x,
         driftDirection: npc.direction,
-        speed: npc.speed
+        driftSpeedPxPerSec: npc.speed * (1000 / 16.67) // convert config speed from px/frame to px/sec
       });
     }
   }
@@ -195,9 +235,12 @@ function checkCrossings() {
       if (xDistance > window * 2 || yDistance > canvasH * 0.15) continue;
 
       const crossingX = (a.x + b.x) / 2;
-      const crossingY = (a.y + b.y) / 2;
 
-      spawnChainAt(crossingX, crossingY, [a, b]);
+      // Calculate head position for each character (feet Y - size)
+      const headY_a = a.y - a.size;
+      const headY_b = b.y - b.size;
+
+      spawnChainAt(crossingX, Math.min(headY_a, headY_b), [a, b]);
 
       markInteracted(a.instanceId, b.instanceId);
     }
@@ -244,12 +287,35 @@ function drawMessageBubble(ctx, msg, x, y, alpha, scale) {
 }
 
 function drawCharacter(ctx, char) {
-  ctx.save();
-  ctx.font = `${char.size}px 'Segoe UI Emoji', 'Segoe UI', system-ui, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(char.emoji, char.x, char.y);
-  ctx.restore();
+  if (char.image && char.framesX > 1) {
+    const col = char.currentFrame % char.framesX;
+    const frameWidth = char.image.width / char.framesX;
+
+    ctx.save();
+    if (char.direction > 0) {
+      ctx.translate(char.x, char.y);
+      ctx.scale(-1, 1);
+      ctx.drawImage(
+        char.image,
+        col * frameWidth, 0, frameWidth, char.image.height,
+        -char.size / 2, -char.size, char.size, char.size
+      );
+    } else {
+      ctx.drawImage(
+        char.image,
+        col * frameWidth, 0, frameWidth, char.image.height,
+        char.x - char.size / 2, char.y - char.size, char.size, char.size
+      );
+    }
+    ctx.restore();
+  } else {
+    ctx.save();
+    ctx.font = `${char.size}px 'Segoe UI Emoji', 'Segoe UI', system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(char.emoji, char.x, char.y);
+    ctx.restore();
+  }
 }
 
 function updateCharacters(dt) {
@@ -259,6 +325,15 @@ function updateCharacters(dt) {
     const char = characters[i];
     char.lastFrameX = char.x;
     char.x += char.speed * char.direction * frameDelta;
+
+    if (char.fps > 0 && char.framesX > 1) {
+      char.frameTimer += dt;
+      const frameInterval = 1000 / char.fps;
+      while (char.frameTimer >= frameInterval) {
+        char.frameTimer -= frameInterval;
+        char.currentFrame++;
+      }
+    }
 
     if ((char.direction > 0 && char.x > canvasW + char.size * 2) ||
         (char.direction < 0 && char.x < -char.size * 2)) {
@@ -329,9 +404,9 @@ function render() {
       // Calculate drift from spawn position toward center side, capped at chain.x ± maxOffset
       const maxOffset = CONFIG.chainConfig.messageSideOffset;
       const targetX = chain.x + (msg.driftDirection * maxOffset);
-      const driftPerFrame = msg.speed;
-      const framesElapsed = msgAge / currentDt;
-      const totalDrift = driftPerFrame * framesElapsed;
+
+      // Time-based drift: speed is px/sec, accumulate over elapsed time
+      const totalDrift = msg.driftSpeedPxPerSec * (msgAge / 1000);
       
       let finalX;
       if (msg.driftDirection > 0) {
@@ -371,11 +446,28 @@ function init() {
   resize();
   window.addEventListener('resize', resize);
 
-  spawnCharacter();
-  scheduleNextSpawn();
+  preloadSprites();
 
-  lastFrameTime = 0;
-  animFrameId = requestAnimationFrame(animate);
+  const startScene = () => {
+    spawnCharacter();
+    scheduleNextSpawn();
+
+    lastFrameTime = 0;
+    animFrameId = requestAnimationFrame(animate);
+  };
+
+  if (imagesLoaded) {
+    startScene();
+  } else {
+    const checkReady = () => {
+      if (imagesLoaded) {
+        startScene();
+      } else {
+        requestAnimationFrame(checkReady);
+      }
+    };
+    requestAnimationFrame(checkReady);
+  }
 
   // Cleanup on page unload to prevent leaks
   window.addEventListener('pagehide', () => {
