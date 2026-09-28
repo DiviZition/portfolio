@@ -1,0 +1,88 @@
+{
+  "spawn": {
+    "minIntervalMs": 5000,
+    "maxIntervalMs": 10000
+  },
+  "tracks": [
+    {"yOffsetFromBottom": 0.04},
+    {"yOffsetFromBottom": 0.0325},
+    {"yOffsetFromBottom": 0.025},
+    {"yOffsetFromBottom": 0.02}
+  ],
+  "replyCooldownMs": 5000,
+  "interactionWindow": 100,
+  "chainConfig": {
+    "messageGap": 6,
+    "messageYOffset": -40,
+    "messageSideOffset": 20,
+    "chainDriftSpeedPxPerFrame": 0.5,
+    "proximityThreshold": 150,
+    "messageFadeMs": 300,
+    "messageMaxLifeMs": 2500
+  },
+  "messageConfig": {
+    "bubblePadding": 8,
+    "bubbleRadius": 16,
+    "fontSize": 14
+  },
+  "characters": [
+    {
+      "id": "klass",
+      "spriteSheet": "assets/npc/klass.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "framesX": 4,
+      "fps": 5,
+      "messageBGColor": "#aebed3",
+      "moveSpeed": 2,
+      "size": 218,
+      "shadow": {
+        "width": 80,
+        "height": 15
+      },
+      "replyTo": {
+        "any": ["Umm, hello?", "Good evening", "Hello stranger"],
+        "klass": ["No way!", "You are - me?", "Am I - you?", "Are we the same man?", "Damn, that's a strange place..."],
+        "shadow": ["You seems calm here?", "We could have been friends 😅", "I'm sorry...", "Do you bite?", "I'd take you with me if I could...", "You'll have a chance too"]
+      }
+    },
+    {
+      "id": "pepe",
+      "spriteSheet": "assets/npc/pepe.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "framesX": 4,
+      "fps": 5,
+      "messageBGColor": "#a78bfa",
+      "moveSpeed": 1.7,
+      "size": 196,
+      "shadow": {
+        "width": 100,
+        "height": 13
+      },
+      "replyTo": {
+        "any": ["Oh hey!", "Hola!", "Hey-hey!"],
+        "pepe": ["Ha-ha fella!", "Wonna fight?"]
+      }
+    },
+    {
+      "id": "shadow",
+      "spriteSheet": "assets/npc/shadow.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "framesX": 5,
+      "fps": 6,
+      "messageBGColor": "#3a373a",
+      "moveSpeed": 1.2,
+      "size": 236,
+      "shadow": {
+        "width": 90,
+        "height": 15
+      },
+      "replyTo": {
+        "klass": ["!!!", "Grrr", "🥲"],
+        "shadow": ["...", "?", "!", "🥲"]
+      }
+    }
+  ]
+}
