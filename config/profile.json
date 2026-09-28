@@ -7,16 +7,21 @@
   "cvPath": "assets/cv/Viktor_Popov_Unity_CV.pdf",
   "skills": [
     {
-      "title": "Game Engines",
-      "items": ["**Unity**", "_Unreal Engine_"]
+      "title": "Unity Stack",
+      "items": ["Unity 2D/3D", "Addressables", "DOTween", "Client-Server (REST API)", "CPU Optimization", 
+                "Ads Networks",
+                "Game Physics", "UniTask", "Visual Effects", "GPU Optimization", "Firebase SDKs",
+                "Profiling", "Zenject", "iOS&Android", "Shader Graph", "URP",
+                "Animations", "UI/UX", "Unity UI (uGUI)", "Particle System", "CI/CD"]
     },
     {
-      "title": "Programming Languages",
-      "items": ["C#", "JavaScript/TypeScript", "Python", "Lua"]
+      "title": "Code",
+      "items": ["C#", "OOP", "Memory Management", "Design Patterns", "GPU Instancing",
+                "R3", "SOLID", "AI Behaviour", "Data Structures", "MVVM"]
     },
     {
-      "title": "Tools & Frameworks",
-      "items": ["Zenject (DI)", "DOTween", "R3 (Reactive Extensions)", "UniTask", "GitLab", "Jira/Scrum"]
+      "title": "Code",
+      "items": ["Git", "Plugins", "Agentic Development", "Scrum/Kanban", "Trello/Jira"]
     }
   ],
   "socials": [
