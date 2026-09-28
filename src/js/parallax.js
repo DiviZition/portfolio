@@ -5,17 +5,24 @@ const BACKGROUND = bgConfig.default || bgConfig;
 const CONFIG = {
   skyColors: ['#0a0a1a', '#151538'],
   starCount: (w, h) => Math.floor(w * h / 2500),
-  particleCount: (w, h) => Math.floor(w * h / 8000),
-  particleColors: ['0, 240, 255', '180, 0, 255', '255, 0, 170', '255, 255, 255']
+  starColors: ['255, 255, 255', '173, 216, 230', '255, 182, 193', '186, 85, 211'],
+  starColorWeights: [0.4, 0.65, 0.85, 1.0],
+  shootingStarIntervalMin: 12000,
+  shootingStarIntervalMax: 18000,
+  shootingStarSpeedMin: 400,
+  shootingStarSpeedMax: 800,
+  shootingStarLength: 60,
 };
 
 let starsCanvas, starsCtx;
 let bgCanvas, bgCtx;
 let canvasW, canvasH;
-let stars = [];
-let particles = [];
+let starsByColor = [[], [], [], []];
 let backgroundLayers = [];
 let imagesLoaded = false;
+let shootingStars = [];
+let lastShootingStarTime = 0;
+let resizeTimer = null;
 
 function createCanvases() {
   const names = ['stars-canvas', 'parallax-bg'];
@@ -23,7 +30,9 @@ function createCanvases() {
     const c = document.createElement('canvas');
     c.id = name;
     c.className = name;
-    c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;';
+    let zIndex = '-2';
+    if (name === 'parallax-bg') zIndex = '-1';
+    c.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:${zIndex};`;
     if (name === 'parallax-bg') {
       c.style.imageRendering = 'pixelated';
     }
@@ -36,15 +45,60 @@ function createCanvases() {
 }
 
 function resize() {
+  const prevCanvasW = canvasW;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   starsCanvas.width = canvasW;
   starsCanvas.height = canvasH;
   bgCanvas.width = canvasW;
   bgCanvas.height = canvasH;
+
+  // Scale instance positions proportionally so tiles stay at same screen locations
+  for (const layer of backgroundLayers) {
+    if (!layer.image || !layer.animated) continue;
+    const ratio = prevCanvasW > 0 ? canvasW / prevCanvasW : 1;
+    for (const inst of layer.instances) {
+      inst.x *= ratio;
+    }
+  }
+
   generateStars();
-  generateParticles();
+  computeScales();
   updateBackgroundInstances();
+}
+
+function debouncedResize() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const prevCanvasW = canvasW;
+    canvasW = window.innerWidth;
+    canvasH = window.innerHeight;
+    starsCanvas.width = canvasW;
+    starsCanvas.height = canvasH;
+    bgCanvas.width = canvasW;
+    bgCanvas.height = canvasH;
+
+    // Scale instance positions proportionally so tiles stay at same screen locations
+    for (const layer of backgroundLayers) {
+      if (!layer.image || !layer.animated) continue;
+      const ratio = prevCanvasW > 0 ? canvasW / prevCanvasW : 1;
+      for (const inst of layer.instances) {
+        inst.x *= ratio;
+      }
+    }
+
+    generateStars();
+    computeScales();
+    updateBackgroundInstances();
+  }, 200);
+}
+
+function computeScales() {
+  for (const layer of backgroundLayers) {
+    if (!layer.image) continue;
+    layer.scaleX = canvasW / layer.image.width;
+    layer.scaleY = canvasH / layer.image.height;
+  }
 }
 
 function preloadBackgroundImages() {
@@ -82,8 +136,6 @@ function preloadBackgroundImages() {
 function initBackgroundLayers() {
   backgroundLayers = BACKGROUND.layers.map((layer) => ({
     _imagePath: layer.image,
-    width: layer.width,
-    height: layer.height,
     offsetFromBottom: layer.offsetFromBottom,
     animated: layer.animated,
     speed: layer.speed,
@@ -107,12 +159,15 @@ function initBackgroundLayers() {
         layer.image = img;
         loaded++;
         if (loaded === totalImages) {
+          computeScales();
           buildInstances();
         }
       };
       img.onerror = () => {
+        layer.image = null;
         loaded++;
         if (loaded === totalImages) {
+          computeScales();
           buildInstances();
         }
       };
@@ -125,11 +180,13 @@ function buildInstances() {
   for (const layer of backgroundLayers) {
     if (!layer.image) continue;
 
+    const tileW = layer.image.width * layer.scaleX;
+
     if (layer.animated) {
-      const numCopies = Math.ceil(canvasW / layer.width) + 2;
+      const numCopies = Math.ceil(canvasW / tileW) + 2;
       layer.instances = [];
       for (let i = 0; i < numCopies; i++) {
-        layer.instances.push({ x: i * layer.width });
+        layer.instances.push({ x: i * tileW });
       }
     } else {
       layer.instances = [{ x: 0 }];
@@ -141,79 +198,107 @@ function updateBackgroundInstances() {
   for (const layer of backgroundLayers) {
     if (!layer.image || !layer.animated) continue;
 
-    const numCopies = Math.ceil(canvasW / layer.width) + 2;
-    if (layer.instances.length < numCopies) {
-      for (let i = layer.instances.length; i < numCopies; i++) {
-        layer.instances.push({ x: i * layer.width });
-      }
-    }
+    const tileW = layer.image.width * layer.scaleX;
+    const neededCopies = Math.ceil(canvasW / tileW) + 2;
 
-    const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-    for (const inst of layer.instances) {
-      if (inst.x + layer.width < rightmost - canvasW * 0.5) {
-        inst.x = rightmost + layer.width;
-      }
+    // Ensure we have enough instances to cover the viewport
+    while (layer.instances.length < neededCopies) {
+      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+      layer.instances.push({ x: rightmost + tileW });
     }
   }
 }
 
 function generateStars() {
-  stars = [];
+  starsByColor = [[], [], [], []];
   const count = CONFIG.starCount(canvasW, canvasH);
   for (let i = 0; i < count; i++) {
-    stars.push({
+    let colorIdx = 0;
+    const r = Math.random();
+    for (let c = 0; c < CONFIG.starColorWeights.length; c++) {
+      if (r < CONFIG.starColorWeights[c]) { colorIdx = c; break; }
+    }
+    const sizeOptions = [1, 1.5, 2, 3];
+    const logMin = Math.log(0.001);
+    const logMax = Math.log(0.008);
+    const twinkleSpeed = Math.exp(logMin + Math.random() * (logMax - logMin));
+    starsByColor[colorIdx].push({
       x: Math.random() * canvasW,
       y: Math.random() * canvasH * 0.6,
-      size: Math.random() < 0.3 ? 1.5 : 1,
+      size: sizeOptions[Math.floor(Math.random() * sizeOptions.length)],
       baseAlpha: 0.3 + Math.random() * 0.7,
-      twinkleSpeed: 0.005 + Math.random() * 0.02,
+      twinkleSpeed: twinkleSpeed,
       twinkleOffset: Math.random() * Math.PI * 2
     });
   }
 }
 
-function generateParticles() {
-  particles = [];
-  const count = CONFIG.particleCount(canvasW, canvasH);
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      x: Math.random() * canvasW,
-      y: Math.random() * canvasH,
-      size: Math.random() < 0.3 ? 2 : 1,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -0.1 - Math.random() * 0.3,
-      baseAlpha: 0.1 + Math.random() * 0.2,
-      phase: Math.random() * Math.PI * 2,
-      color: CONFIG.particleColors[Math.floor(Math.random() * CONFIG.particleColors.length)]
-    });
-  }
-}
-
 function drawStars(ctx, time) {
-  for (const star of stars) {
-    const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
-    const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
-    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-    ctx.fillRect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
+  for (let c = 0; c < starsByColor.length; c++) {
+    const group = starsByColor[c];
+    if (group.length === 0) continue;
+    ctx.beginPath();
+    for (const star of group) {
+      const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
+      const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
+      ctx.fillStyle = `rgba(${CONFIG.starColors[c]}, ${alpha})`;
+      ctx.rect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
+    }
+    ctx.fill();
   }
 }
 
-function drawParticles(ctx, time) {
-  for (const p of particles) {
-    const alpha = p.baseAlpha * (0.5 + 0.5 * Math.sin(time * 0.01 + p.phase));
-    ctx.fillStyle = `rgba(${p.color}, ${alpha})`;
-    ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
+function spawnShootingStar(time) {
+  const speed = CONFIG.shootingStarSpeedMin + Math.random() * (CONFIG.shootingStarSpeedMax - CONFIG.shootingStarSpeedMin);
+  const angle = Math.PI / 2 + (Math.random() - 0.5) * 1.6;
+  shootingStars.push({
+    x: Math.random() * canvasW,
+    y: Math.random() * canvasH * 0.3,
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed,
+    age: 0,
+    maxLife: 800 + Math.random() * 400,
+    color: Math.random() < 0.5 ? '255, 255, 255' : '173, 216, 230',
+    length: CONFIG.shootingStarLength * (0.8 + Math.random() * 0.4)
+  });
+}
+
+function updateShootingStars(dt) {
+  for (let i = shootingStars.length - 1; i >= 0; i--) {
+    const star = shootingStars[i];
+    star.x += star.vx * (dt / 1000);
+    star.y += star.vy * (dt / 1000);
+    star.age += dt;
+    if (star.age > star.maxLife) {
+      shootingStars.splice(i, 1);
+    }
   }
 }
 
-function updateParticles() {
-  for (const p of particles) {
-    p.x += p.vx + (Math.random() - 0.5) * 0.3;
-    p.y += p.vy + (Math.random() - 0.5) * 0.2;
-    if (p.x < 0) p.x = canvasW;
-    if (p.x > canvasW) p.x = 0;
-    if (p.y < 0) p.y = canvasH;
-    if (p.y > canvasH) p.y = 0;
+function drawShootingStars(ctx) {
+  for (const star of shootingStars) {
+    const progress = star.age / star.maxLife;
+    let alpha = 1;
+    if (progress < 0.05) {
+      alpha = progress / 0.05;
+    } else if (progress > 0.7) {
+      alpha = 1 - (progress - 0.7) / 0.3;
+    }
+
+    const tailX = star.x - star.vx * (star.length / 1000);
+    const tailY = star.y - star.vy * (star.length / 1000);
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = `rgba(${star.color}, 1)`;
+    const lineWidth = [1, 1.5, 2][Math.floor(Math.random() * 3)];
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(tailX, tailY);
+    ctx.lineTo(star.x, star.y);
+    ctx.stroke();
+    ctx.restore();
   }
 }
 
@@ -230,29 +315,37 @@ function updateBackgroundLayers(dt) {
   for (const layer of backgroundLayers) {
     if (!layer.image || !layer.animated) continue;
 
-    const speedPxPerSec = layer.speed || 20;
+    const tileW = layer.image.width * layer.scaleX;
+    const speedPxPerSec = (layer.speed || 20) * layer.scaleX;
     const moveAmount = speedPxPerSec * (dt / 1000) * (layer.direction || -1);
 
     for (const inst of layer.instances) {
       inst.x += moveAmount;
     }
 
+    let wrapped = false;
+
+    // Left wrap: instances past the left edge go to the right
     const leftmost = Math.min(...layer.instances.map(inst => inst.x));
-    if (leftmost + layer.width < 0) {
+    if (leftmost + tileW < 0) {
       const rightmost = Math.max(...layer.instances.map(inst => inst.x));
       for (const inst of layer.instances) {
-        if (inst.x + layer.width < 0) {
-          inst.x = rightmost + layer.width;
+        if (inst.x + tileW < 0) {
+          inst.x = rightmost + tileW;
+          wrapped = true;
         }
       }
     }
 
-    const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-    if (rightmost > canvasW) {
-      const leftmost2 = Math.min(...layer.instances.map(inst => inst.x));
-      for (const inst of layer.instances) {
-        if (inst.x > canvasW + layer.width) {
-          inst.x = leftmost2 - layer.width;
+    // Right wrap: only if nothing was left-wrapped in this frame
+    if (!wrapped) {
+      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+      if (rightmost > canvasW) {
+        const leftmost2 = Math.min(...layer.instances.map(inst => inst.x));
+        for (const inst of layer.instances) {
+          if (inst.x > canvasW + tileW) {
+            inst.x = leftmost2 - tileW;
+          }
         }
       }
     }
@@ -262,36 +355,31 @@ function updateBackgroundLayers(dt) {
 function drawBackgroundLayers(ctx, dt) {
   updateBackgroundLayers(dt);
 
-  // Always draw procedural fallback first (sky only)
-  drawSky(ctx);
-
-  // Then draw custom image layers on top
+  // Draw custom image layers on top
   for (const layer of backgroundLayers) {
     if (!layer.image) continue;
 
+    const tileW = layer.image.width * layer.scaleX;
+    const tileH = layer.image.height * layer.scaleY;
     const yOffset = layer.offsetFromBottom < 1 ? canvasH * layer.offsetFromBottom : layer.offsetFromBottom;
-    const y = canvasH - yOffset - layer.height;
+    const y = canvasH - yOffset - tileH;
 
     if (layer.animated) {
       // Animated layers: tile/wrap from left edge
       for (const inst of layer.instances) {
         ctx.drawImage(
           layer.image,
-          Math.floor(inst.x),
-          Math.floor(y),
-          layer.width,
-          layer.height
+          0, 0, layer.image.width, layer.image.height,
+          Math.floor(inst.x), Math.floor(y), Math.floor(tileW), Math.floor(tileH)
         );
       }
     } else {
       // Static layers: center horizontally
-      const centerX = (canvasW - layer.width) / 2;
+      const centerX = (canvasW - tileW) / 2;
       ctx.drawImage(
         layer.image,
-        Math.floor(centerX),
-        Math.floor(y),
-        layer.width,
-        layer.height
+        0, 0, layer.image.width, layer.image.height,
+        Math.floor(centerX), Math.floor(y), Math.floor(tileW), Math.floor(tileH)
       );
     }
   }
@@ -299,24 +387,42 @@ function drawBackgroundLayers(ctx, dt) {
 
 function animate(time) {
   starsCtx.clearRect(0, 0, canvasW, canvasH);
+  drawSky(starsCtx);
   drawStars(starsCtx, time);
 
-  const dt = time - (animate.lastTime || time);
+  const shootingStarInterval = CONFIG.shootingStarIntervalMin + Math.random() * (CONFIG.shootingStarIntervalMax - CONFIG.shootingStarIntervalMin);
+  if (time - lastShootingStarTime > shootingStarInterval) {
+    spawnShootingStar(time);
+    lastShootingStarTime = time;
+  }
+
+  updateShootingStars(time - (animate.lastTime || time));
+  drawShootingStars(starsCtx);
+
+  const rawDt = time - (animate.lastTime || time);
+  const dt = Math.min(rawDt, 50);
   animate.lastTime = time;
 
   bgCtx.clearRect(0, 0, canvasW, canvasH);
   drawBackgroundLayers(bgCtx, dt);
-  drawParticles(bgCtx, time);
-
-  updateParticles();
 
   requestAnimationFrame(animate);
 }
 
 function start() {
   createCanvases();
-  resize();
-  window.addEventListener('resize', resize);
+  resizeTimer = null;
+  const prevCanvasW = canvasW;
+  canvasW = window.innerWidth;
+  canvasH = window.innerHeight;
+  starsCanvas.width = canvasW;
+  starsCanvas.height = canvasH;
+  bgCanvas.width = canvasW;
+  bgCanvas.height = canvasH;
+
+  generateStars();
+
+  window.addEventListener('resize', debouncedResize);
 
   preloadBackgroundImages();
 

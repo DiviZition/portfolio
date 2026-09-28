@@ -1,0 +1,66 @@
+{
+  "layers": [
+      {
+      "image": "assets/bg/portfolio-bg-moon.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": true,
+      "speed": "2",
+      "direction": 1
+    },
+    {
+      "image": "assets/bg/portfolio-bg-mountain.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
+    },
+    {
+      "image": "assets/bg/portfolio-bg-smogFar.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": -0.1,
+      "animated": true,
+      "speed": "90",
+      "direction": -1
+    },
+    {
+      "image": "assets/bg/portfolio-bg-towers.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
+    },
+    {
+      "image": "assets/bg/portfolio-bg-ground.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
+    },
+    {
+      "image": "assets/bg/portfolio-bg-lamp.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
+    },
+    {
+      "image": "assets/bg/portfolio-bg-hand.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
+    },
+    {
+      "image": "assets/bg/portfolio-bg-smogClose.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": true,
+      "speed": "20",
+      "direction": 1
+    }
+  ]
+}

@@ -1,22 +1,45 @@
 {
   "name": "Viktor Popov",
-  "image": "assets/myPicture/SkiPicture.png",
+  "image": "assets/myPicture/Rian Ghosling.jpg",
   "favicon": "assets/icons/favicon2.png",
   "tagline": "🎮 Senior Unity Developer with 5+ years of commercial experience.",
-  "bio": "🚀 I’ve contributed to 9 mobile releases that reached 4.5M+ downloads in total.\n🛠️ I’ve delivered under tight deadlines, optimized games for very low-end devices, \nand on my latest project, I led a team of 3 and ported a mobile title to the web. \n\n✨ Games are my passion, and building them is how I express myself. \nI love the feeling when a system just works - clean, smooth to use, and built to last. \nI love the feeling when a real player enjoys the game because it’s fun and interesting. \nThat’s what I’m always ready to work hard for.",
+  "bio": "✨ Games are my passion, and building them is how I express myself. \nI love the feeling when a system just works - clean, smooth to use, and built to last. \nI love the feeling when a real player enjoys the game because it’s fun and interesting. \nThat’s what I’m always ready to work hard for.",
   "cvPath": "assets/cv/Viktor_Popov_Unity_CV.pdf",
   "skills": [
     {
-      "title": "Game Engines",
-      "items": ["**Unity**", "_Unreal Engine_"]
+      "title": "Unity",
+      "items": ["**Unity 2D/3D**", "[#d16312]Addressables[/color]", "Zenject", "UniTask", "DOTween", "Game Physics", "URP", "Unity UI (uGUI)", "Editor Tools",
+                "Visual Effects(VFX)", "Shader Graph", "Particle System", "Animations",
+                "[#d16312]Client-Server (REST API)[/color]", "Ads Networks: Unity Level Play; AppLovin Max", "Firebase SDKs: Analytics; Crashlytics; Remote Config"]
     },
     {
-      "title": "Programming Languages",
-      "items": ["C#", "JavaScript/TypeScript", "Python", "Lua"]
+      "title": "Optimization",
+      "items": ["**Profiling**", "Memory Management", 
+                "**[#5646c4]CPU[/color]/[#5646c4]GPU[/color]** Optimization", "UI Canvas Optimization"] 
     },
     {
-      "title": "Tools & Frameworks",
-      "items": ["Zenject (DI)", "DOTween", "R3 (Reactive Extensions)", "UniTask", "GitLab", "Jira/Scrum"]
+      "title": "Code",
+      "items": ["**C#**", "**OOP**", "**SOLID**", "[#d16312]ECS&DOD[/color]", "**Data Structures**", "**Design Patterns(GoF)**", "MVVM", "R3", "Linq"] 
+    },
+    {
+      "title": "Platforms",
+      "items": ["iOS", "Android", "Web", "PC [#6D7193](not commercial)[/color]"] 
+    },
+    {
+      "title": "Tools",
+      "items": ["**Git**", "Figma", "_CI/CD_", "Trello/Jira/ClickUp", "_Plugins_", "_Maya_", "_Krita_"]
+    },
+    {
+      "title": "Side Skills",
+      "items": ["_Leading [#6D7193]Basics[/color]_", 
+                "[#d16312]_Tech Art_[/color]", 
+                "_2D/3D Basics_", "UI/UX", 
+                "[#d16312]Agentic Development[/color]", 
+                "Level Design", "_Game Design Basics_", "Scrum/Kanban"]
+    },
+    {
+      "title": "Languages",
+      "items": ["English: B2 (Advanced)", "Ukrainian: C1 (Native)", "Russian: C2 (Native)"] 
     }
   ],
   "socials": [

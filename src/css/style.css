@@ -134,14 +134,16 @@ body::after {
 
 .profile-tagline {
   font-size: clamp(1rem, 2.5vw, 1.4rem);
-  color: var(--text-secondary);
+  color: #fff;
+  font-weight: 700;
   letter-spacing: 0.05em;
 }
 
 .profile-bio {
   max-width: 80vw;
   text-align: center;
-  color: var(--text-secondary);
+  color: #fff;
+  font-weight: 700;
   font-size: 1.1rem;
 }
 
@@ -159,7 +161,6 @@ body::after {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: var(--bg-card);
   border: 1px solid var(--border-glow);
   transition: all 0.3s ease;
   text-decoration: none;
@@ -1052,6 +1053,21 @@ body::after {
   color: #fff;
 }
 
+/* ===== CV Confirm Modal ===== */
+.cv-confirm-content {
+  max-width: 700px;
+  width: 100%;
+  padding: 36px 40px;
+  text-align: center;
+}
+
+#cv-confirm-text {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
 /* ===== Skills Modal ===== */
 .skills-modal-content {
   max-width: 60%;
@@ -1060,6 +1076,9 @@ body::after {
   max-height: 80vh;
   height: auto;
   padding: 40px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: visible;
 }
 
 .skills-modal-title {
@@ -1068,11 +1087,12 @@ body::after {
   color: var(--accent-cyan);
   text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
   margin-bottom: 8px;
+  flex-shrink: 0;
 }
 
 .skills-body {
   overflow-y: auto;
-  max-height: calc(80vh - 120px);
+  max-height: calc(80vh - 160px);
 }
 
 .skill-section {
@@ -1093,7 +1113,15 @@ body::after {
 .skill-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+}
+
+.skill-item-pair {
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.skill-item-pair:last-child {
+  margin-right: 0;
 }
 
 .skill-item {
@@ -1104,7 +1132,7 @@ body::after {
 
 .skill-separator {
   color: rgba(0, 240, 255, 0.3);
-  margin: 0 4px;
+  margin-left: 8px;
   user-select: none;
 }
 

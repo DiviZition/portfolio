@@ -155,7 +155,7 @@ function renderProfile(config) {
 
   const cvBtn = document.getElementById('cv-download-btn');
   if (cvBtn && config.cvPath) {
-    cvBtn.addEventListener('click', () => downloadCV(config.cvPath));
+    cvBtn.addEventListener('click', () => openCVConfirmModal(config.cvPath));
   }
 }
 
@@ -846,6 +846,24 @@ async function init() {
     });
   }
 
+  const cvConfirmModal = document.getElementById('cv-confirm-modal');
+  if (cvConfirmModal) {
+    cvConfirmModal.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
+        closeCVConfirmModal();
+      }
+    });
+
+    const cvConfirmBtn = document.getElementById('cv-confirm-btn');
+    if (cvConfirmBtn) {
+      cvConfirmBtn.addEventListener('click', () => {
+        const path = cvConfirmModal.dataset.cvPath;
+        if (path) downloadCV(path);
+        closeCVConfirmModal();
+      });
+    }
+  }
+
   document.getElementById('media-lightbox').addEventListener('click', (e) => {
     if (e.target.classList.contains('lightbox-overlay')) {
       closeLightbox();
@@ -856,6 +874,8 @@ async function init() {
     if (e.key === 'Escape') {
       if (!document.getElementById('media-lightbox').classList.contains('hidden')) {
         closeLightbox();
+      } else if (!document.getElementById('cv-confirm-modal').classList.contains('hidden')) {
+        closeCVConfirmModal();
       } else if (!document.getElementById('skills-modal').classList.contains('hidden')) {
         closeSkillsModal();
       } else if (!document.getElementById('project-modal').classList.contains('hidden')) {
@@ -973,10 +993,11 @@ function openSkillsModal(skills) {
     html += `</div>`;
     html += `<div class="skill-items">`;
     for (let j = 0; j < section.items.length; j++) {
-      html += `<span class="skill-item">${formatText(section.items[j])}</span>`;
+      html += `<span class="skill-item-pair">${formatText(section.items[j])}`;
       if (j < section.items.length - 1) {
         html += `<span class="skill-separator">|</span>`;
       }
+      html += `</span>`;
     }
     html += `</div></div>`;
   }
@@ -990,6 +1011,23 @@ function openSkillsModal(skills) {
 
 function closeSkillsModal() {
   const modal = document.getElementById('skills-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
+function openCVConfirmModal(cvPath) {
+  const modal = document.getElementById('cv-confirm-modal');
+  if (!modal) return;
+
+  modal.dataset.cvPath = cvPath;
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCVConfirmModal() {
+  const modal = document.getElementById('cv-confirm-modal');
   if (modal) {
     modal.classList.add('hidden');
     document.body.style.overflow = '';

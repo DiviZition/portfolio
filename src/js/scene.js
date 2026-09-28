@@ -1,4 +1,11 @@
+import bgConfig from '../../config/background.json' with { type: 'json' };
+
 import sceneConfig from '../../config/scene.json' with { type: 'json' };
+
+import './parallax.js';
+
+const BACKGROUND = bgConfig.default || bgConfig;
+
 
 const CONFIG = sceneConfig.default || sceneConfig;
 
@@ -35,10 +42,16 @@ function createCanvas() {
 }
 
 function resize() {
+  const prevCanvasH = canvasH;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   sceneCanvas.width = canvasW;
   sceneCanvas.height = canvasH;
+
+  // Scale character positions proportionally so they stay on their tracks
+  for (const char of characters) {
+    char.y *= canvasH / prevCanvasH;
+  }
 }
 
 function getRandomItem(arr) {
@@ -47,7 +60,7 @@ function getRandomItem(arr) {
 
 function getTrackY(index) {
   const track = CONFIG.tracks[index];
-  return canvasH - track.yOffsetFromBottom;
+  return canvasH * (1 - track.yOffsetFromBottom);
 }
 
 function preloadSprites() {
@@ -115,6 +128,12 @@ function spawnCharacter() {
     messageBGColor: charConfig.messageBGColor,
     moveSpeed: charConfig.moveSpeed,
     size: charConfig.size,
+    shadow: {
+      width: charConfig.shadow?.width ?? (charConfig.size * 0.6),
+      height: charConfig.shadow?.height ?? (charConfig.size * 0.15),
+      opacity: charConfig.shadow?.opacity ?? 0.25,
+      yOffset: charConfig.shadow?.yOffset ?? 0
+    },
     replyTo: charConfig.replyTo,
     x: fromLeft ? -charConfig.size : canvasW + charConfig.size,
     y: roadY,
@@ -341,6 +360,8 @@ function updateCharacters(dt) {
 function render() {
   sceneCtx.clearRect(0, 0, canvasW, canvasH);
 
+  // Pass 0: Dust particles render on their own canvas (no-op here)
+
   const now = Date.now();
   const driftSpeed = CONFIG.chainConfig.chainDriftSpeedPxPerFrame;
   const fadeMs = CONFIG.chainConfig.messageFadeMs;
@@ -349,6 +370,11 @@ function render() {
   // Pass 1: Draw NPCs sorted by track index (lower Y first = further back)
   const sortedChars = [...characters].sort((a, b) => a.trackIndex - b.trackIndex);
   for (const char of sortedChars) {
+    sceneCtx.fillStyle = `rgba(0, 0, 0, ${char.shadow.opacity})`;
+    sceneCtx.beginPath();
+    sceneCtx.ellipse(char.x, char.y + char.shadow.yOffset, char.shadow.width / 2, char.shadow.height / 2, 0, 0, Math.PI * 2);
+    sceneCtx.fill();
+    sceneCtx.fillStyle = '#000000';
     drawCharacter(sceneCtx, char);
   }
 
