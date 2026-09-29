@@ -41,7 +41,6 @@ function getIconPath(platform) {
 
 let cardSizesScheduled = false;
 let resizeTimer = null;
-let videoDebounceTimer = null;
 
 function updateCardImageSizes() {
   if (cardSizesScheduled) return;
@@ -574,7 +573,7 @@ function renderLightboxContent(mediaItem) {
   const content = document.getElementById('lightbox-content');
   
   if (mediaItem.type === 'video') {
-    content.innerHTML = `<video src="${escapeHtml(mediaItem.src)}" controls autoplay></video>`;
+    content.innerHTML = `<video src="${escapeHtml(mediaItem.src)}" controls autoplay style="display:none"></video>`;
   } else {
     content.innerHTML = `<img src="${escapeHtml(mediaItem.src)}" alt="Media" />`;
   }
@@ -598,6 +597,9 @@ function renderLightboxContent(mediaItem) {
       
       mediaEl.style.width = boxWidth + 'px';
       mediaEl.style.height = boxHeight + 'px';
+      if (mediaEl.tagName === 'VIDEO') {
+        mediaEl.style.display = '';
+      }
     }
     
     if (mediaEl.complete && mediaEl.naturalWidth) {
@@ -821,7 +823,15 @@ async function init() {
   setupModalClose(document.getElementById('project-modal'), closeModal);
   setupModalClose(document.getElementById('skills-modal'), closeSkillsModal);
   setupModalClose(document.getElementById('cv-confirm-modal'), closeCVConfirmModal);
-  setupModalClose(document.getElementById('media-lightbox'), closeLightbox);
+
+  const lightbox = document.getElementById('media-lightbox');
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target.classList.contains('lightbox-overlay')) {
+        closeLightbox();
+      }
+    });
+  }
 
   const cvConfirmBtn = document.getElementById('cv-confirm-btn');
   if (cvConfirmBtn) {
@@ -875,12 +885,12 @@ async function init() {
     const videos = gallery.querySelectorAll('video');
     videos.forEach(video => {
       video.addEventListener('mouseenter', () => {
-        clearTimeout(videoDebounceTimer);
-        videoDebounceTimer = setTimeout(() => video.play().catch(() => {}), 100);
+        clearTimeout(video._hoverTimer);
+        video._hoverTimer = setTimeout(() => video.play().catch(() => {}), 100);
       });
       video.addEventListener('mouseleave', () => {
-        clearTimeout(videoDebounceTimer);
-        videoDebounceTimer = setTimeout(() => { video.pause(); video.currentTime = 0; }, 50);
+        clearTimeout(video._hoverTimer);
+        video._hoverTimer = setTimeout(() => { video.pause(); video.currentTime = 0; }, 50);
       });
     });
   });
