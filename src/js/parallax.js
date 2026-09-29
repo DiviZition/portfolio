@@ -195,18 +195,24 @@ function buildInstances() {
 }
 
 function updateBackgroundInstances() {
-  for (const layer of backgroundLayers) {
-    if (!layer.image || !layer.animated) continue;
+    for (const layer of backgroundLayers) {
+        if (!layer.image || !layer.animated) continue;
 
-    const tileW = layer.image.width * layer.scaleX;
-    const neededCopies = Math.ceil(canvasW / tileW) + 2;
+        const tileW = layer.image.width * layer.scaleX;
+        const neededCopies = Math.ceil(canvasW / tileW) + 2;
 
-    // Ensure we have enough instances to cover the viewport
-    while (layer.instances.length < neededCopies) {
-      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-      layer.instances.push({ x: rightmost + tileW });
+        // Remove overlapping instances from resize scaling artifacts
+        layer.instances = layer.instances.filter((inst, i, arr) => {
+            if (i === 0) return true;
+            return Math.abs(inst.x - arr[i-1].x) > tileW * 0.5;
+        });
+
+        // Add missing instances on the right
+        while (layer.instances.length < neededCopies) {
+            const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+            layer.instances.push({ x: rightmost + tileW });
+        }
     }
-  }
 }
 
 function generateStars() {
@@ -325,16 +331,17 @@ function updateBackgroundLayers(dt) {
 
     let wrapped = false;
 
-    // Left wrap: instances past the left edge go to the right
+    // Left wrap: instances past the left edge go to the right, preserving their relative offset
     const leftmost = Math.min(...layer.instances.map(inst => inst.x));
     if (leftmost + tileW < 0) {
-      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-      for (const inst of layer.instances) {
-        if (inst.x + tileW < 0) {
-          inst.x = rightmost + tileW;
-          wrapped = true;
+        const rightmost = Math.max(...layer.instances.map(inst => inst.x));
+        for (const inst of layer.instances) {
+            if (inst.x + tileW < 0) {
+                const offset = inst.x - leftmost;
+                inst.x = rightmost + tileW + offset;
+                wrapped = true;
+            }
         }
-      }
     }
 
     // Right wrap: only if nothing was left-wrapped in this frame
