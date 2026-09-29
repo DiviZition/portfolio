@@ -44,8 +44,9 @@ function createCanvases() {
   bgCtx = bgCanvas.getContext('2d');
 }
 
-function resize() {
+function handleResize() {
   const prevCanvasW = canvasW;
+  const prevCanvasH = canvasH;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   starsCanvas.width = canvasW;
@@ -67,30 +68,13 @@ function resize() {
   updateBackgroundInstances();
 }
 
+function resize() {
+  handleResize();
+}
+
 function debouncedResize() {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    const prevCanvasW = canvasW;
-    canvasW = window.innerWidth;
-    canvasH = window.innerHeight;
-    starsCanvas.width = canvasW;
-    starsCanvas.height = canvasH;
-    bgCanvas.width = canvasW;
-    bgCanvas.height = canvasH;
-
-    // Scale instance positions proportionally so tiles stay at same screen locations
-    for (const layer of backgroundLayers) {
-      if (!layer.image || !layer.animated) continue;
-      const ratio = prevCanvasW > 0 ? canvasW / prevCanvasW : 1;
-      for (const inst of layer.instances) {
-        inst.x *= ratio;
-      }
-    }
-
-    generateStars();
-    computeScales();
-    updateBackgroundInstances();
-  }, 200);
+  resizeTimer = setTimeout(handleResize, 200);
 }
 
 function computeScales() {

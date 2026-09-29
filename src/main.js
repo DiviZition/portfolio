@@ -714,6 +714,16 @@ function setupLightboxNavigation() {
   });
 }
 
+function setupModalClose(modalEl, closeFn) {
+  if (!modalEl || !closeFn) return;
+  
+  modalEl.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
+      closeFn();
+    }
+  });
+}
+
 function closeModal() {
   const modal = document.getElementById('project-modal');
   modal.classList.add('hidden');
@@ -819,55 +829,35 @@ async function init() {
   renderProfile(profileConfig);
   renderRoadmap(projectsConfig);
   
-  document.getElementById('project-modal').addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
-      closeModal();
-    }
-  });
+  setupModalClose(document.getElementById('project-modal'), closeModal);
+  setupModalClose(document.getElementById('skills-modal'), closeSkillsModal);
+  setupModalClose(document.getElementById('cv-confirm-modal'), closeCVConfirmModal);
+  setupModalClose(document.getElementById('media-lightbox'), closeLightbox);
 
-  const skillsModal = document.getElementById('skills-modal');
-  if (skillsModal) {
-    skillsModal.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
-        closeSkillsModal();
-      }
+  const cvConfirmBtn = document.getElementById('cv-confirm-btn');
+  if (cvConfirmBtn) {
+    cvConfirmBtn.addEventListener('click', () => {
+      const path = document.getElementById('cv-confirm-modal').dataset.cvPath;
+      if (path) downloadCV(path);
+      closeCVConfirmModal();
     });
   }
 
-  const cvConfirmModal = document.getElementById('cv-confirm-modal');
-  if (cvConfirmModal) {
-    cvConfirmModal.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
-        closeCVConfirmModal();
-      }
-    });
-
-    const cvConfirmBtn = document.getElementById('cv-confirm-btn');
-    if (cvConfirmBtn) {
-      cvConfirmBtn.addEventListener('click', () => {
-        const path = cvConfirmModal.dataset.cvPath;
-        if (path) downloadCV(path);
-        closeCVConfirmModal();
-      });
-    }
-  }
-
-  document.getElementById('media-lightbox').addEventListener('click', (e) => {
-    if (e.target.classList.contains('lightbox-overlay')) {
-      closeLightbox();
-    }
-  });
+  const modalCloseMap = new Map([
+    ['media-lightbox', closeLightbox],
+    ['cv-confirm-modal', closeCVConfirmModal],
+    ['skills-modal', closeSkillsModal],
+    ['project-modal', closeModal],
+  ]);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (!document.getElementById('media-lightbox').classList.contains('hidden')) {
-        closeLightbox();
-      } else if (!document.getElementById('cv-confirm-modal').classList.contains('hidden')) {
-        closeCVConfirmModal();
-      } else if (!document.getElementById('skills-modal').classList.contains('hidden')) {
-        closeSkillsModal();
-      } else if (!document.getElementById('project-modal').classList.contains('hidden')) {
-        closeModal();
+    if (e.key !== 'Escape') return;
+    
+    for (const [modalId, closeFn] of modalCloseMap) {
+      const modal = document.getElementById(modalId);
+      if (modal && !modal.classList.contains('hidden')) {
+        closeFn();
+        break;
       }
     }
   });
