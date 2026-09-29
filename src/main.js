@@ -544,7 +544,6 @@ function closeLightbox() {
   
   lightbox.classList.add('hidden');
   content.innerHTML = '';
-  document.body.style.overflow = '';
 }
 
 async function navigateLightbox(direction) {
