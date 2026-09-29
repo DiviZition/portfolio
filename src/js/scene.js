@@ -42,15 +42,22 @@ function createCanvas() {
 }
 
 function resize() {
+  const prevCanvasW = canvasW;
   const prevCanvasH = canvasH;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   sceneCanvas.width = canvasW;
   sceneCanvas.height = canvasH;
 
-  // Scale character positions proportionally so they stay on their tracks
+  // Scale character sizes, Y and X positions proportionally so they stay locked to the background
   for (const char of characters) {
-    char.y *= canvasH / prevCanvasH;
+    const scaleX = canvasW / prevCanvasW;
+    const scaleY = canvasH / prevCanvasH;
+    char.x *= scaleX;
+    char.y *= scaleY;
+    char.size *= scaleY;
+    char.shadow.width *= scaleX;
+    char.shadow.height *= scaleY;
   }
 }
 
@@ -127,22 +134,22 @@ function spawnCharacter() {
     emoji: charConfig.emoji,
     messageBGColor: charConfig.messageBGColor,
     moveSpeed: charConfig.moveSpeed,
-    size: charConfig.size,
+    size: charConfig.size * canvasH,
     shadow: {
-      width: charConfig.shadow?.width ?? (charConfig.size * 0.6),
-      height: charConfig.shadow?.height ?? (charConfig.size * 0.15),
-      opacity: charConfig.shadow?.opacity ?? 0.25,
-      yOffset: charConfig.shadow?.yOffset ?? 0
+      width: charConfig.shadow.width * canvasW,
+      height: charConfig.shadow.height * canvasH,
+      opacity: charConfig.shadow.opacity ?? 0.25,
+      yOffset: charConfig.shadow.yOffset ?? 0
     },
     replyTo: charConfig.replyTo,
-    x: fromLeft ? -charConfig.size : canvasW + charConfig.size,
+    x: fromLeft ? -charConfig.size * canvasH : canvasW + charConfig.size * canvasH,
     y: roadY,
     direction: fromLeft ? 1 : -1,
-    lastFrameX: fromLeft ? -charConfig.size : canvasW + charConfig.size,
+    lastFrameX: fromLeft ? -charConfig.size * canvasH : canvasW + charConfig.size * canvasH,
     trackIndex: trackIndex,
     image: charConfig.spriteSheet ? spriteImages.get(charConfig.spriteSheet) : null,
-    frameWidth: charConfig.frameWidth || charConfig.size,
-    frameHeight: charConfig.frameHeight || charConfig.size,
+    frameWidth: charConfig.frameWidth || charConfig.size * canvasH,
+    frameHeight: charConfig.frameHeight || charConfig.size * canvasH,
     framesX: charConfig.framesX || 1,
     fps: charConfig.fps || 0,
     currentFrame: 0,
@@ -303,34 +310,25 @@ function drawMessageBubble(ctx, msg, x, y, alpha, scale) {
 }
 
 function drawCharacter(ctx, char) {
-  if (char.image && char.framesX > 1) {
-    const col = char.currentFrame % char.framesX;
+  const col = char.currentFrame % char.framesX;
 
-    ctx.save();
-    if (char.direction > 0) {
-      ctx.translate(char.x, char.y);
-      ctx.scale(-1, 1);
-      ctx.drawImage(
-        char.image,
-        col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
-        -char.size / 2, -char.size, char.size, char.size
-      );
-    } else {
-      ctx.drawImage(
-        char.image,
-        col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
-        char.x - char.size / 2, char.y - char.size, char.size, char.size
-      );
-    }
-    ctx.restore();
+  ctx.save();
+  if (char.direction > 0) {
+    ctx.translate(char.x, char.y);
+    ctx.scale(-1, 1);
+    ctx.drawImage(
+      char.image,
+      col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
+      -char.size / 2, -char.size, char.size, char.size
+    );
   } else {
-    ctx.save();
-    ctx.font = `${char.size}px 'Segoe UI Emoji', 'Segoe UI', system-ui, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(char.emoji, char.x, char.y);
-    ctx.restore();
+    ctx.drawImage(
+      char.image,
+      col * char.frameWidth, 0, char.frameWidth, char.frameHeight,
+      char.x - char.size / 2, char.y - char.size, char.size, char.size
+    );
   }
+  ctx.restore();
 }
 
 function updateCharacters(dt) {
