@@ -459,6 +459,13 @@ function openProjectModal(projectId) {
   resizeMediaGalleryItems();
 }
 
+function getMediaDimensions(mediaEl) {
+  if (mediaEl.tagName === 'VIDEO') {
+    return { width: mediaEl.videoWidth || 16, height: mediaEl.videoHeight || 9 };
+  }
+  return { width: mediaEl.naturalWidth || 16, height: mediaEl.naturalHeight || 9 };
+}
+
 function resizeMediaGalleryItems() {
   const galleryItems = document.querySelectorAll('.media-gallery-item');
   
@@ -469,17 +476,8 @@ function resizeMediaGalleryItems() {
     const targetHeight = 200;
     
     function applySize() {
-      let naturalWidth, naturalHeight;
-      
-      if (mediaEl.tagName === 'VIDEO') {
-        naturalWidth = mediaEl.videoWidth || 16;
-        naturalHeight = mediaEl.videoHeight || 9;
-      } else {
-        naturalWidth = mediaEl.naturalWidth || 16;
-        naturalHeight = mediaEl.naturalHeight || 9;
-      }
-      
-      const aspectRatio = naturalWidth / naturalHeight;
+      const { width, height } = getMediaDimensions(mediaEl);
+      const aspectRatio = width / height;
       item.style.width = (targetHeight * aspectRatio) + 'px';
     }
     
@@ -584,31 +582,22 @@ function renderLightboxContent(mediaItem) {
   const mediaEl = content.querySelector('img, video');
   if (mediaEl) {
     function applySize() {
-      let naturalWidth, naturalHeight;
-      
-      if (mediaEl.tagName === 'VIDEO') {
-        naturalWidth = mediaEl.videoWidth || 16;
-        naturalHeight = mediaEl.videoHeight || 9;
-      } else {
-        naturalWidth = mediaEl.naturalWidth || 16;
-        naturalHeight = mediaEl.naturalHeight || 9;
-      }
-      
-      const aspectRatio = naturalWidth / naturalHeight;
+      const { width, height } = getMediaDimensions(mediaEl);
+      const aspectRatio = width / height;
       const vw = window.innerWidth * 0.75;
       const vh = window.innerHeight * 0.75;
       
-      let width, height;
+      let boxWidth, boxHeight;
       if (vw / vh > aspectRatio) {
-        height = vh;
-        width = vh * aspectRatio;
+        boxHeight = vh;
+        boxWidth = vh * aspectRatio;
       } else {
-        width = vw;
-        height = vw / aspectRatio;
+        boxWidth = vw;
+        boxHeight = vw / aspectRatio;
       }
       
-      mediaEl.style.width = width + 'px';
-      mediaEl.style.height = height + 'px';
+      mediaEl.style.width = boxWidth + 'px';
+      mediaEl.style.height = boxHeight + 'px';
     }
     
     if (mediaEl.complete && mediaEl.naturalWidth) {
@@ -907,6 +896,8 @@ async function init() {
   let scrollThrottleTimer = null;
   const SCROLL_THROTTLE_MS = 100;
 
+  const backToTopBtn = document.getElementById('back-to-top');
+
   window.addEventListener('scroll', () => {
     if (scrollThrottleTimer) return;
     scrollThrottleTimer = setTimeout(() => {
@@ -932,23 +923,18 @@ async function init() {
         scrollThresholds.add(100);
         trackEvent('scroll_bottom');
       }
+      
+      if (backToTopBtn) {
+        if (scrollPercent >= 50) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      }
     }, SCROLL_THROTTLE_MS);
   });
 
-  const backToTopBtn = document.getElementById('back-to-top');
   if (backToTopBtn) {
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      
-      if (scrollPercent >= 50) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    });
-    
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
