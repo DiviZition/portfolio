@@ -350,16 +350,9 @@ function renderMediaLinks(media, isInModal) {
   for (let i = 0; i < media.length; i++) {
     const item = media[i];
     const src = escapeHtml(item.src);
-    
-    if (item.type === 'video') {
-      html += `<div class="media-link-item" data-media-index="${i}" data-gallery-type="${isInModal ? 'modal' : 'card'}">
-        <img src="${src}" alt="Media preview" />
-      </div>`;
-    } else {
-      html += `<div class="media-link-item" data-media-index="${i}" data-gallery-type="${isInModal ? 'modal' : 'card'}">
-        <img src="${src}" alt="Media preview" />
-      </div>`;
-    }
+    html += `<div class="media-link-item" data-media-index="${i}" data-gallery-type="${isInModal ? 'modal' : 'card'}">
+      <img src="${src}" alt="Media preview" />
+    </div>`;
   }
   return html;
 }
@@ -523,11 +516,6 @@ function renderMediaGallery(media, isInModal) {
         <div class="media-loader"></div>
         <video src="${src}" muted loop></video>
         <div class="video-play-overlay">&#9654;</div>
-      </div>`;
-    } else if (item.type === 'gif') {
-      html += `<div class="media-gallery-item" data-media-index="${i}">
-        <div class="media-loader"></div>
-        <img src="${src}" alt="Media" />
       </div>`;
     } else {
       html += `<div class="media-gallery-item" data-media-index="${i}">
