@@ -481,14 +481,10 @@ function resizeMediaGalleryItems() {
     }
     
     function markLoaded() {
-      // TODO: remove delay after testing
-      const delay = 200 + Math.random() * 800;
-      setTimeout(() => {
-        applySize();
-        item.classList.add('loaded');
-        const loader = item.querySelector('.media-loader');
-        if (loader) loader.remove();
-      }, delay);
+      applySize();
+      item.classList.add('loaded');
+      const loader = item.querySelector('.media-loader');
+      if (loader) loader.remove();
     }
     
     if (mediaEl.complete && mediaEl.naturalWidth) {

@@ -74,7 +74,7 @@ function resize() {
 
 function debouncedResize() {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(handleResize, 200);
+  resizeTimer = setTimeout(handleResize, 100);
 }
 
 function computeScales() {
