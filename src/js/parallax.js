@@ -17,6 +17,7 @@ const CONFIG = {
 let starsCanvas, starsCtx;
 let bgCanvas, bgCtx;
 let canvasW, canvasH;
+let prevCanvasW = 0;
 let starsByColor = [[], [], [], []];
 let backgroundLayers = [];
 let imagesLoaded = false;
@@ -45,8 +46,7 @@ function createCanvases() {
 }
 
 function handleResize() {
-  const prevCanvasW = canvasW;
-  const prevCanvasH = canvasH;
+  const prevW = canvasW;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   starsCanvas.width = canvasW;
@@ -54,22 +54,8 @@ function handleResize() {
   bgCanvas.width = canvasW;
   bgCanvas.height = canvasH;
 
-  // Scale instance positions proportionally so tiles stay at same screen locations
-  for (const layer of backgroundLayers) {
-    if (!layer.image || !layer.animated) continue;
-    const ratio = prevCanvasW > 0 ? canvasW / prevCanvasW : 1;
-    for (const inst of layer.instances) {
-      inst.x *= ratio;
-    }
-  }
-
   generateStars();
-  computeScales();
-  updateBackgroundInstances();
-}
-
-function resize() {
-  handleResize();
+  computeScales(prevW);
 }
 
 function debouncedResize() {
@@ -77,11 +63,19 @@ function debouncedResize() {
   resizeTimer = setTimeout(handleResize, 100);
 }
 
-function computeScales() {
+function computeScales(prevCanvasW) {
   for (const layer of backgroundLayers) {
     if (!layer.image) continue;
+    const oldScaleX = layer.scaleX;
     layer.scaleX = canvasW / layer.image.width;
     layer.scaleY = canvasH / layer.image.height;
+
+    // Preserve scrollOffset phase so tiles stay aligned during resize.
+    // tileW scales proportionally to scaleX, so scrollOffset must scale the same way.
+    if (prevCanvasW > 0 && layer.animated) {
+      const ratio = canvasW / prevCanvasW;
+      layer.scrollOffset *= ratio;
+    }
   }
 }
 
@@ -122,17 +116,17 @@ function initBackgroundLayers() {
     _imagePath: layer.image,
     offsetFromBottom: layer.offsetFromBottom,
     animated: layer.animated,
-    speed: layer.speed,
+    speed: parseFloat(layer.speed) || 20,
     direction: layer.direction,
     image: null,
-    instances: []
+    scrollOffset: 0
   }));
 
   let loaded = 0;
   const totalImages = backgroundLayers.filter(l => l._imagePath).length;
 
   if (totalImages === 0) {
-    buildInstances();
+    computeScales(0);
     return;
   }
 
@@ -143,60 +137,19 @@ function initBackgroundLayers() {
         layer.image = img;
         loaded++;
         if (loaded === totalImages) {
-          computeScales();
-          buildInstances();
+          computeScales(0);
         }
       };
       img.onerror = () => {
         layer.image = null;
         loaded++;
         if (loaded === totalImages) {
-          computeScales();
-          buildInstances();
+          computeScales(0);
         }
       };
       img.src = layer._imagePath;
     }
   }
-}
-
-function buildInstances() {
-  for (const layer of backgroundLayers) {
-    if (!layer.image) continue;
-
-    const tileW = layer.image.width * layer.scaleX;
-
-    if (layer.animated) {
-      const numCopies = Math.ceil(canvasW / tileW) + 2;
-      layer.instances = [];
-      for (let i = 0; i < numCopies; i++) {
-        layer.instances.push({ x: i * tileW });
-      }
-    } else {
-      layer.instances = [{ x: 0 }];
-    }
-  }
-}
-
-function updateBackgroundInstances() {
-    for (const layer of backgroundLayers) {
-        if (!layer.image || !layer.animated) continue;
-
-        const tileW = layer.image.width * layer.scaleX;
-        const neededCopies = Math.ceil(canvasW / tileW) + 2;
-
-        // Remove overlapping instances from resize scaling artifacts
-        layer.instances = layer.instances.filter((inst, i, arr) => {
-            if (i === 0) return true;
-            return Math.abs(inst.x - arr[i-1].x) > tileW * 0.5;
-        });
-
-        // Add missing instances on the right
-        while (layer.instances.length < neededCopies) {
-            const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-            layer.instances.push({ x: rightmost + tileW });
-        }
-    }
 }
 
 function generateStars() {
@@ -306,39 +259,18 @@ function updateBackgroundLayers(dt) {
     if (!layer.image || !layer.animated) continue;
 
     const tileW = layer.image.width * layer.scaleX;
-    const speedPxPerSec = (layer.speed || 20) * layer.scaleX;
+    const speedPxPerSec = layer.speed * layer.scaleX;
     const moveAmount = speedPxPerSec * (dt / 1000) * (layer.direction || -1);
 
-    for (const inst of layer.instances) {
-      inst.x += moveAmount;
-    }
+    layer.scrollOffset += moveAmount;
 
-    let wrapped = false;
-
-    // Left wrap: instances past the left edge go to the right, preserving their relative offset
-    const leftmost = Math.min(...layer.instances.map(inst => inst.x));
-    if (leftmost + tileW < 0) {
-        const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-        for (const inst of layer.instances) {
-            if (inst.x + tileW < 0) {
-                const offset = inst.x - leftmost;
-                inst.x = rightmost + tileW + offset;
-                wrapped = true;
-            }
-        }
-    }
-
-    // Right wrap: only if nothing was left-wrapped in this frame
-    if (!wrapped) {
-      const rightmost = Math.max(...layer.instances.map(inst => inst.x));
-      if (rightmost > canvasW) {
-        const leftmost2 = Math.min(...layer.instances.map(inst => inst.x));
-        for (const inst of layer.instances) {
-          if (inst.x > canvasW + tileW) {
-            inst.x = leftmost2 - tileW;
-          }
-        }
-      }
+    // Keep scrollOffset bounded to [0, tileW) to prevent floating-point drift.
+    // The scene repeats every tileW pixels so wrapping maintains visual continuity.
+    // Handle large jumps from tab wake-up by wrapping multiple tile widths at once.
+    if (layer.scrollOffset >= tileW) {
+      layer.scrollOffset -= Math.floor(layer.scrollOffset / tileW) * tileW;
+    } else if (layer.scrollOffset < 0) {
+      layer.scrollOffset += (Math.ceil(-layer.scrollOffset / tileW)) * tileW;
     }
   }
 }
@@ -346,7 +278,6 @@ function updateBackgroundLayers(dt) {
 function drawBackgroundLayers(ctx, dt) {
   updateBackgroundLayers(dt);
 
-  // Draw custom image layers on top
   for (const layer of backgroundLayers) {
     if (!layer.image) continue;
 
@@ -356,12 +287,17 @@ function drawBackgroundLayers(ctx, dt) {
     const y = canvasH - yOffset - tileH;
 
     if (layer.animated) {
-      // Animated layers: tile/wrap from left edge
-      for (const inst of layer.instances) {
+      // Draw only tiles whose drawn position overlaps the visible viewport [0, canvasW].
+      // Tile i is drawn at x = i * tileW + scrollOffset.
+      // Overlap condition: i * tileW + scrollOffset < canvasW AND (i+1) * tileW + scrollOffset > 0
+      const startIdx = Math.floor((-layer.scrollOffset - tileW) / tileW) + 1;
+      const endIdx = Math.ceil((canvasW - layer.scrollOffset) / tileW) - 1;
+
+      for (let i = startIdx; i <= endIdx; i++) {
         ctx.drawImage(
           layer.image,
           0, 0, layer.image.width, layer.image.height,
-          Math.floor(inst.x), Math.floor(y), Math.floor(tileW), Math.floor(tileH)
+          Math.floor(i * tileW + layer.scrollOffset), Math.floor(y), Math.floor(tileW), Math.floor(tileH)
         );
       }
     } else {
@@ -403,7 +339,6 @@ function animate(time) {
 function start() {
   createCanvases();
   resizeTimer = null;
-  const prevCanvasW = canvasW;
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
   starsCanvas.width = canvasW;
