@@ -22,7 +22,7 @@
       "height": 1080,
       "offsetFromBottom": -0.1,
       "animated": true,
-      "speed": "90",
+      "speed": "50",
       "direction": -1
     },
     {
@@ -47,20 +47,20 @@
       "animated": false
     },
     {
-      "image": "assets/bg/portfolio-bg-hand.webp",
-      "width": 1920,
-      "height": 1080,
-      "offsetFromBottom": 0,
-      "animated": false
-    },
-    {
       "image": "assets/bg/portfolio-bg-smogClose.webp",
       "width": 1920,
       "height": 1080,
       "offsetFromBottom": 0,
       "animated": true,
-      "speed": "20",
+      "speed": "40",
       "direction": 1
+    },
+    {
+      "image": "assets/bg/portfolio-bg-hand.webp",
+      "width": 1920,
+      "height": 1080,
+      "offsetFromBottom": 0,
+      "animated": false
     }
   ]
 }
