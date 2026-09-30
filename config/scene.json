@@ -1,7 +1,7 @@
 {
   "spawn": {
-    "minIntervalMs": 5000,
-    "maxIntervalMs": 10000
+    "minIntervalMs": 6000,
+    "maxIntervalMs": 11000
   },
   "tracks": [
     {"yOffsetFromBottom": 0.04},
@@ -9,7 +9,7 @@
     {"yOffsetFromBottom": 0.025},
     {"yOffsetFromBottom": 0.02}
   ],
-  "replyCooldownMs": 5000,
+  "replyCooldownMs": 10000,
   "interactionWindow": 100,
   "chainConfig": {
     "messageGap": 6,
@@ -42,29 +42,9 @@
         "opacity": 0.25
       },
       "replyTo": {
-        "any": ["Umm, hello?", "Good evening", "Hello stranger"],
-        "klass": ["No way!", "You are - me?", "Am I - you?", "Are we the same man?", "Damn, that's a strange place..."],
-        "shadow": ["You seems calm here?", "We could have been friends 😅", "I'm sorry...", "Do you bite?", "I'd take you with me if I could...", "You'll have a chance too"]
-      }
-    },
-    {
-      "id": "pepe",
-      "spriteSheet": "assets/npc/pepe.png",
-      "frameWidth": 256,
-      "frameHeight": 256,
-      "framesX": 4,
-      "fps": 5,
-      "messageBGColor": "#a78bfa",
-      "moveSpeed": 1.7,
-      "size": 0.18,
-      "shadow": {
-        "width": 0.05,
-        "height": 0.012,
-        "opacity": 0.25
-      },
-      "replyTo": {
-        "any": ["Oh hey!", "Hola!", "Hey-hey!"],
-        "pepe": ["Ha-ha fella!", "Wonna fight?"]
+        "any": ["Umm, hello?", "Good evening", "Hello stranger", "Where am I?", "I need to go", "It's getting late...", "Avoid the walking shadow"],
+        "klass": ["No way!", "You are - me?", "Am I - you?", "Are we the same man?", "Damn, that's a strange place...", "How is the master doing?"],
+        "shadow": ["You look calm here...", "We could have been friends 😅", "I'm sorry...", "Do you bite?", "I'd take you with me if I could...", "You'll have a chance too"]
       }
     },
     {
@@ -83,8 +63,29 @@
         "opacity": 0.25
       },
       "replyTo": {
-        "klass": ["!!!", "Grrr", "🥲"],
+        "any": ["..."],
+        "klass": ["!!!", "Grrr", "🥲", "?", "😒", "...", "*stare*", "!", "!!", "我们为你感到高兴"],
         "shadow": ["...", "?", "!", "🥲"]
+      }
+    },
+    {
+      "id": "pepe",
+      "spriteSheet": "assets/npc/pepe.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "framesX": 4,
+      "fps": 5,
+      "messageBGColor": "#a78bfa",
+      "moveSpeed": 1.7,
+      "size": 0.15,
+      "shadow": {
+        "width": 0.05,
+        "height": 0.012,
+        "opacity": 0.25
+      },
+      "replyTo": {
+        "any": ["Oh hey!", "Hola!", "Hey-hey!", "Is it wednesday my dude?", "Shake my hand boy!", "Where are u going?"],
+        "pepe": ["Ha-ha fella!", "Wonna fight?", "Oh, I know you!", "Nah, I'd have won that fight...", "Hahaha", "You are the best!", "Good to know you"]
       }
     }
   ]
