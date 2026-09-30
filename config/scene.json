@@ -28,7 +28,7 @@
   "characters": [
     {
       "id": "klass",
-      "spriteSheet": "assets/npc/klass.png",
+      "spriteSheet": "assets/npc/klass.webp",
       "frameWidth": 256,
       "frameHeight": 256,
       "framesX": 4,
@@ -49,11 +49,11 @@
     },
     {
       "id": "shadow",
-      "spriteSheet": "assets/npc/shadow.png",
+      "spriteSheet": "assets/npc/shadow.webp",
       "frameWidth": 256,
       "frameHeight": 256,
-      "framesX": 5,
-      "fps": 6,
+      "framesX": 4,
+      "fps": 5,
       "messageBGColor": "#3a373a",
       "moveSpeed": 1.2,
       "size": 0.22,
@@ -70,7 +70,7 @@
     },
     {
       "id": "pepe",
-      "spriteSheet": "assets/npc/pepe.png",
+      "spriteSheet": "assets/npc/pepe.webp",
       "frameWidth": 256,
       "frameHeight": 256,
       "framesX": 4,
