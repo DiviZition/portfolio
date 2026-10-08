@@ -252,7 +252,7 @@
     "name": "Hidden Words Adventure",
     "shortDescription": "A spot-the-word puzzle game.",
     "image": "assets/projects/7_HiddenWords/HiddenWordsAdventure-ICon.png",
-    "date": "2022-10-1",
+    "date": "2022-09-1",
     "downloads": {
       "color": "#666685",
       "count": "~5k Downloads"
@@ -287,8 +287,8 @@
     "name": "Netflix Stories",
     "shortDescription": "A hub with a collection of 9 choice-driven narrative games based on popular Netflix series",
     "image": "assets/projects/8_Netflix-Stories/NetflixStories-Icon.jpg",
-    "date": "2023-07-1",
-    "endDate": "2025-02-1",
+    "date": "2023-08-1",
+    "endDate": "2025-01-1",
     "downloads": {
       "count": "1M+ Downloads",
       "color": "#e92751"
@@ -329,9 +329,9 @@
   {
     "id": "jungle-nest",
     "name": "Jungle Nest",
-    "shortDescription": "Jungle-themed casual property tycoon featuring Tamagotchi mechanics and home renovation, for mobile and web.",
-    "image": "assets/projects/9_JungleNest/NLT-Icon.jfif",
-    "date": "2025-01-1",
+    "shortDescription": "A Tamagotchi-style virtual pet game where players buy and care for pets, upgrade their homes, dress them, and earn money through mini-game quests.",
+    "image": "assets/projects/9_JungleNest/Jungle-Nest_Preview.webp",
+    "date": "2025-02-1",
     "endDate": "2026-03-1",
     "company": {
       "name": "NLTDev",
@@ -339,11 +339,24 @@
       "color": "#ffd83b"
     },
     "details": {
-      "fullDescription": "This game was created at the NLTDev client's request. \n_It's mostly under NDA, so there's no media..._ \n\n[#f46e00]That was my first leading experience![/color] \n\nAnd even though my team was small and the customer was loyal, it was hard. \nThere were many things I hadn’t known about, and I made a bunch of mistakes that I should have avoided. \n**[#ce42e5]Next time I’ll be more prepared[/color].**",
+      "fullDescription": "This game was created at the NLTDev client's request. \nA Tamagotchi-style virtual pet game where players buy and care for pets, upgrade their homes, dress them, and earn money through mini-game quests. \n[#e6a285]That was a platform available through iOS, Android and Web[/color] \n\n[#f46e00]That was my first leading experience![/color] \nAnd even though my team was small and the customer was loyal, it was hard. \nI liked leading the team, but my limited people management knowledge caused several mistakes in estimations, presentations, and collaboration. \n**[#ce42e5]Next time I’ll be more prepared[/color].**",
       "role": "Solo Developer",
       "techStack": ["Unity", "C#", "GitHub", "Zenject", "UniTask", "R3", "Feel", "Odin", "PrimeTween", "Unity Playables", "Cinemachiene", "Particle System VFX", "Shader Graph", "Tech Art", "Unity Nav Mesh", "Physics", "Addressables & Memory Management", "Unity UI (uGUI)", "Profiling & Optimization", "UnityWebRequest(REST API)", "Unity Test Framework", "Firebase Analytics", "Unity Level Play"],
-      "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "Web Front-End Dev", "Back-End Dev"],
-      "media": []
+      "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "QA", "Back-End & Web Front-End directions collaboration"],
+      "media": [
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Rhino.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Martha2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Quests.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-CatchRhino.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Martha.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-PetChose.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Fireplace.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Lion.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Flowers.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Match2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Rhino2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Basketball.webp" }
+      ]
     }
   },
 
@@ -354,8 +367,8 @@
     "image": "assets/projects/10_Voodoo-TestTask/GameIcon.jpg",
     "date": "2026-08-15",
     "downloads": {
-      "color": "#666685",
-      "count": "They liked my technical skills 😁"
+      "color": "#7b8aa7",
+      "count": "Nice example of the code I write"
     },
     "company": {
       "name": "Voodoo",
