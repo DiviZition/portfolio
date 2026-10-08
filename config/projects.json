@@ -48,7 +48,7 @@
       ]
     },
     "details": {
-      "fullDescription": "**Help the fish to escape.** \nTap to Jump, hold the touch to increase jump strength. \nAvoid falling platforms.",
+      "fullDescription": "**Help the fish escape.** \nTap to jump, hold to jump further. \nA very simple and fun game made in under 2 weeks.",
       "role": "Junior Unity Developer/Trainee",
       "techStack": ["Unity", "C#", "GitHub", "Unity UI (uGUI)", "Physics", "Trello/Kanban"],
       "team": ["Unity Junior Dev(Me)", "Unity Middle Dev", "3D Artist", "PM", "QA"],
@@ -84,7 +84,7 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original game description:_ \nAssemble a wide variety of toy sets in this relaxing and satisfying game. \nConnect diferent toy parts in the correct places. \n There are many toys to construct",
+      "fullDescription": "This game’s development was more about art creation than code. \nI also had to participate in the 3D modelling of two toys because of the artist’s overload.",
       "role": "Junior Unity Developer",
       "techStack": ["Unity", "C#", "GitHub", "Unity UI (uGUI)", "Physics", "Cinemachine", "Tech Art", "Firebase Analytics events setup", "Trello/Kanban"],
       "team": ["Unity Junior Dev / Second 3D artist(Me)", "Unity Middle Dev", "3D Artist", "PM", "QA"],
@@ -120,7 +120,7 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original game description:_ \nMerge Defense Adventure is an easy to learn, hard to master Tower Defense game. Simple controls, turn based gameplay, and tactical depth makes this game best time killer game for a daring mind.",
+      "fullDescription": "This game has a pretty complex architecture. \n[#647eff]The game design required very precise control over the board, towers, and enemies.[/color] \nWe had to support many different ways of affecting all those instances, as well as the ability to add new ones in the future. \n\n[#ff8f04]My job here was to develop new modifiers and content, work on the UI, optimize performance, and balance difficulty configs.[/color].",
       "role": "Junior Unity Developer",
       "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "UniTask", "Addressables", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Physics", "Firebase", "Jira/Scrum"],
       "team": ["Unity Junior Dev(Me)", "Unity Lead Dev", "Unity Middle Dev", "Dedicated GD", "3D Artist", "UI/UX Artist", "PM", "2 QA"],
@@ -157,7 +157,7 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original game description:_ \nAn addictive puzzle amusement that awakens the brain!\nBlock king is a sorting game where you have to manipulate simple shaped figures to win. \nComplete the mission with no time limit for all types of players! \nTry Brain puzzle with classic gameplay so it will help you relax in your free time. \nBlock puzzle king has several modes",
+      "fullDescription": "Classic mobile hyper-casual game with 2 trending game modes, some meta activity, and a tricky ads integration.",
       "role": "Middle Unity Developer",
       "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Jira/Scrum"],
       "team": ["Unity Middle Dev(Me)", "Unity Lead Dev", "GD", "2D Artist", "UI/UX Artist", "PM", "QA"],
@@ -196,10 +196,10 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original game description:_ \nSo, are you ready to meet them?\nTo conquest spiders you must deed their one softness: WEAPON. Or explosions, throwing shurikens, gettin’ smushed by stuff... pretty much anything, really. \nBut that doesn’t mean it’ll be easy - first you’ve gotta find the spiders. ",
+      "fullDescription": "This game was made in under a month. Simple mechanics, simple controls, complex level design, and zero replayability.",
       "role": "Middle Unity Developer",
-      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "Unity Nav Mesh", "Animation", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
-      "team": ["Unity Middle Dev(Me)", "3D Artist", "GD", "PM", "QA"],
+      "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "Unity Nav Mesh", "URP Decals", "Animation", "DOTween", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
+      "team": ["Unity Middle Dev(Me)", "3D Artist", "Level Designer", "PM", "QA"],
       "media": [
         { "type": "video", "src": "assets/projects/5_Arachnophobia/Arachnophobia-3LevelGameplay.mp4" },
         { "type": "image", "src": "assets/projects/5_Arachnophobia/Arachnophobia-Screenshot_1.png" },
@@ -214,7 +214,7 @@
   {
     "id": "card-match",
     "name": "Card Match",
-    "shortDescription": "A Solitaire TriPeaks + Mahjong puzzle game — a reworked version of an older Tatem Games title.",
+    "shortDescription": "A puzzle game based on Solitaire TriPeaks + Mahjong",
     "image": "assets/projects/6_CardMatch/CardMatch-Icon.webp",
     "date": "2022-09-1",
     "downloads": {
@@ -233,7 +233,7 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original game description:_ \nCard Match is a challenging and original matching game! Don't get scared away. It's very easy to learn how to play for everyone! \nSo get ready for a new, original and challenging Card-match game is a combination of the world's most popular games - TriPeaks Solitaire and Mahjong! \nFans and card game fans will love the games also known as Tri Towers, Triple Peaks, Solitaire Tri Peaks, Solitaire Blitz,Castle Solitaire-tripeaks, Solitaire Cube, Farm Adventure, Solitaire Cruise, Tiki Solitaire, harvest Solitaire or Three Peaks.Can you complete all 1000+ levels? Install Now!",
+      "fullDescription": "This game is a reworked version of an older Tatem Games title - mainly polish, UI and mechanics fixes, and new content.",
       "role": "Middle Unity Developer",
       "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "Addressables", "Unity Nav Mesh", "Animation", "DOTween", "Zenject", "Particle System VFX", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
       "team": ["Unity Middle Dev(Me)", "Unity Junior Dev", "2D Artist", "GD", "PM", "QA"],
@@ -252,7 +252,7 @@
     "name": "Hidden Words Adventure",
     "shortDescription": "A spot-the-word puzzle game.",
     "image": "assets/projects/7_HiddenWords/HiddenWordsAdventure-ICon.png",
-    "date": "2022-10-1",
+    "date": "2022-09-1",
     "downloads": {
       "color": "#666685",
       "count": "~5k Downloads"
@@ -269,7 +269,7 @@
       ]
     },
     "details": {
-      "fullDescription": "_Original(almost) game description:_ \nLearn new words and train your brain. \n🌷BEAUTIFUL ILLUSTRATIONS FOR EACH PUZZLE \n• There will be an awesome picture as a clue for each puzzle \n• Try to guess the correct words as many as possible \n🧩CREATIVE WORD SEARCH PUZZLES",
+      "fullDescription": "Little word-search puzzle made under 3 weeks",
       "role": "Middle Unity Developer",
       "techStack": ["Unity", "C#", "GitHub", "OOP", "SOLID", "R3", "DOTween", "Zenject", "Unity UI (uGUI)", "Firebase", "Trello/Kanban"],
       "team": ["Unity Middle Dev(Me)", "Unity Middle Dev", "GD", "PM", "QA"],
@@ -287,8 +287,8 @@
     "name": "Netflix Stories",
     "shortDescription": "A hub with a collection of 9 choice-driven narrative games based on popular Netflix series",
     "image": "assets/projects/8_Netflix-Stories/NetflixStories-Icon.jpg",
-    "date": "2023-07-1",
-    "endDate": "2025-02-1",
+    "date": "2023-08-1",
+    "endDate": "2025-01-1",
     "downloads": {
       "count": "1M+ Downloads",
       "color": "#e92751"
@@ -329,9 +329,9 @@
   {
     "id": "jungle-nest",
     "name": "Jungle Nest",
-    "shortDescription": "Jungle-themed casual property tycoon featuring Tamagotchi mechanics and home renovation, for mobile and web.",
-    "image": "assets/projects/9_JungleNest/NLT-Icon.jfif",
-    "date": "2025-01-1",
+    "shortDescription": "A Tamagotchi-style virtual pet game where players buy and care for pets, upgrade their homes, dress them, and earn money through mini-game quests.",
+    "image": "assets/projects/9_JungleNest/Jungle-Nest_Preview.webp",
+    "date": "2025-02-1",
     "endDate": "2026-03-1",
     "company": {
       "name": "NLTDev",
@@ -339,11 +339,24 @@
       "color": "#ffd83b"
     },
     "details": {
-      "fullDescription": "This game was created at the NLTDev client's request. \n_It's mostly under NDA, so there's no media..._ \n\n[#f46e00]That was my first leading experience![/color] \n\nAnd even though my team was small and the customer was loyal, it was hard. \nThere were many things I hadn’t known about, and I made a bunch of mistakes that I should have avoided. \n**[#ce42e5]Next time I’ll be more prepared[/color].**",
+      "fullDescription": "This game was created at the NLTDev client's request. \nA Tamagotchi-style virtual pet game where players buy and care for pets, upgrade their homes, dress them, and earn money through mini-game quests. \n[#e6a285]That was a platform available through iOS, Android and Web[/color] \n\n[#f46e00]That was my first leading experience![/color] \nAnd even though my team was small and the customer was loyal, it was hard. \nI liked leading the team, but my limited people management knowledge caused several mistakes in estimations, presentations, and collaboration. \n**[#ce42e5]Next time I’ll be more prepared[/color].**",
       "role": "Solo Developer",
       "techStack": ["Unity", "C#", "GitHub", "Zenject", "UniTask", "R3", "Feel", "Odin", "PrimeTween", "Unity Playables", "Cinemachiene", "Particle System VFX", "Shader Graph", "Tech Art", "Unity Nav Mesh", "Physics", "Addressables & Memory Management", "Unity UI (uGUI)", "Profiling & Optimization", "UnityWebRequest(REST API)", "Unity Test Framework", "Firebase Analytics", "Unity Level Play"],
-      "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "Web Front-End Dev", "Back-End Dev"],
-      "media": []
+      "team": ["Unity Lead Dev(Me)", "Unity Middle Dev", "3D Artist", "UI/UX Artist", "PM", "QA", "Back-End & Web Front-End directions collaboration"],
+      "media": [
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Rhino.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Martha2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Quests.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-CatchRhino.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Martha.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-PetChose.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Fireplace.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Lion.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Flowers.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Match2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Rhino2.webp" },
+        { "type": "image", "src": "assets/projects/9_JungleNest/Pic-Basketball.webp" }
+      ]
     }
   },
 
@@ -354,8 +367,8 @@
     "image": "assets/projects/10_Voodoo-TestTask/GameIcon.jpg",
     "date": "2026-08-15",
     "downloads": {
-      "color": "#666685",
-      "count": "They liked my technical skills 😁"
+      "color": "#7b8aa7",
+      "count": "Nice example of the code I write"
     },
     "company": {
       "name": "Voodoo",
