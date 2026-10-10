@@ -216,7 +216,7 @@
     "name": "Card Match",
     "shortDescription": "A puzzle game based on Solitaire TriPeaks + Mahjong",
     "image": "assets/projects/6_CardMatch/CardMatch-Icon.webp",
-    "date": "2022-09-1",
+    "date": "2022-09-10",
     "downloads": {
       "color": "#db9232",
       "count": "500k+ Downloads"
@@ -252,7 +252,7 @@
     "name": "Hidden Words Adventure",
     "shortDescription": "A spot-the-word puzzle game.",
     "image": "assets/projects/7_HiddenWords/HiddenWordsAdventure-ICon.png",
-    "date": "2022-09-1",
+    "date": "2022-09-30",
     "downloads": {
       "color": "#666685",
       "count": "~5k Downloads"
